@@ -9,7 +9,7 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
 import thai.model.Message;
-import thai.model.MessageRepository;
+import thai.repositories.MessageRepository;
 
 @Service
 public class MessageService {

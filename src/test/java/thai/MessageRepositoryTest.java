@@ -10,7 +10,7 @@ import org.springframework.boot.test.autoconfigure.orm.jpa.DataJpaTest;
 import org.springframework.test.context.junit4.SpringRunner;
 
 import thai.model.Message;
-import thai.model.MessageRepository;
+import thai.repositories.MessageRepository;
 
 @RunWith(SpringRunner.class)
 @DataJpaTest
