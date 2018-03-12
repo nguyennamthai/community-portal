@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head th:replace="common :: head(~{::title}, ~{::link})">
+<title>Add Message</title>
+</head>
+<body>
+    <div th:replace="common :: navbar"></div>
+    <div class="container-fluid">
+    <!-- TODO Add a Javascript visual editor - WYSIWYG -->
+        <div class="row">
+            <div class="col-lg-8 col-lg-offset-2">
+                <div class="panel panel-default">
+                    <div class="panel-heading">
+                        <div class="panel-title">Add a Message</div>
+                    </div>
+                    <div class="panel-body">
+                        <form th:object="${message}" method="post">
+                            <div th:if="${#fields.hasErrors('content')}" class="alert alert-danger">
+                                <p th:each="err : ${#fields.errors('content')}" th:text="${err}"></p>
+                            </div>
+                            <div class="form-group">
+                                <textarea name="text" rows="5" cols="100" th:field="*{content}"></textarea>
+                            </div>
+                            <input type="submit" name="submit" value="Add Message" />
+                        </form>
+                    </div>
+                </div>
+
+                <div class="panel panel-default">
+                    <div class="panel-heading">
+                        <div class="panel-title" th:if="${lastMsg != null}"
+                            th:text="${'Message updated on ' + #dates.format(lastMsg.modified, 'EEEE dd MMMM yy ''at'' HH:mm:ss')}"></div>
+                    </div>
+                    <div class="panel-body">
+                        <div th:if="${lastMsg != null}" th:text="${lastMsg.content}"></div>
+                    </div>
+                </div>
+
+            </div>
+        </div>
+    </div>
+
+    <div th:replace="common :: copy"></div>
+</body>
+</html>

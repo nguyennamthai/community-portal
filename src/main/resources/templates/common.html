@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head th:fragment="head(title, links)">
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+<title th:replace="${title} ?: _">Common Title</title>
+<link rel="stylesheet" href="bootstrap-3.3.7.min.css">
+<link rel="stylesheet" href="custom.css">
+<!--/* Placeholder for additional links */-->
+<th:block th:replace="${links} ?: _" />
+<script src="jquery-3.2.1.min.js"></script>
+<script src="bootstrap-3.3.7.min.js"></script>
+</head>
+
+<body>
+    <div th:fragment="navbar">
+        <nav class="navbar navbar-default navbar-static-top">
+            <div id="navbar" class="collapse navbar-collapse">
+                <ul class="nav navbar-nav">
+                    <li><a href="/">Home</a></li>
+                    <li><a href="/about">About</a></li>
+                </ul>
+                <ul class="nav navbar-nav navbar-right">
+                    <li><a href="/add">Add</a></li>
+                    <li><a href="/view">View &nbsp;</a></li>
+                </ul>
+            </div>
+        </nav>
+    </div>
+    
+    <div th:fragment="copy">&copy; Thai 2018</div>
+</body>
+</html>

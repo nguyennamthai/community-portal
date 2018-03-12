@@ -1,0 +1,17 @@
+.navbar {
+	background-color: lightyellow
+}
+
+.error_msgs {
+	color: red
+}
+
+.homepage-status {
+	text-align: center;
+	margin-top: 30px;
+	font-size: larger
+}
+
+.edit-link {
+	margin-top: 0px
+}

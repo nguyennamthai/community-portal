@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head th:replace="common :: head(~{::title}, ~{::link})">
+<title>View Message</title>
+</head>
+<body>
+    <div th:replace="common :: navbar"></div>
+    <div class="container-fluid">
+        <div class="row">
+            <div class="col-lg-8 col-lg-offset-2">
+            <div th:if="${page.totalPages > 1}">
+                <!-- Specify the size for a page instead of hard-code -->
+                <span th:switch="${page.first}">
+                    <span th:case="${true}">Previous</span>
+                    <a th:case="${false}" th:href="@{${url}(p=${page.number})}">Previous</a>
+                </span>
+                <div class="pagination" th:each="index : ${#numbers.sequence(1, page.totalPages)}">
+                    <span th:text="${'|'}"></span>
+                    <span th:switch="${index}"> 
+                        <span th:case="${page.number + 1}"> 
+                            <strong th:text="${index}"></strong>
+                        </span>
+                        <span th:case="*"> 
+                            <a th:href="@{${url}(p=${index})}" th:text="${index}"></a>
+                        </span>
+                    </span> 
+                </div>
+                <span th:text="${'|'}"></span>
+                <span th:switch="${page.last}"> 
+                    <span th:case="${true}">Next</span>
+                    <a th:case="${false}" th:href="@{${url}(p=${page.number+2})}">Next</a>
+                </span>
+                </div>
+                <table>
+                    <tr>
+                        <th>Modified</th>
+                        <th>Message</th>
+                        <th>Action</th>
+                    </tr>
+                    <tr th:each="message : ${page.content}">
+                        <td th:text="${#dates.format(message.modified, 'EEEE dd MMMM yy ''at'' HH:mm:ss')}"></td>
+                        <td th:text="${message.content}"></td>
+                        <td>
+                            <span class="edit-link pull-right">
+                                <a th:href="@{/edit(id=${message.id})}">Edit</a>
+                                <a onclick="return confirm('Sure?')" th:href="@{/delele(id=${message.id})}">Delete</a>
+                            </span>
+                        </td>
+                    </tr>
+                    
+                </table>
+            </div>
+        </div>
+    </div>
+
+    <div th:replace="common :: copy"></div>
+</body>
+</html>

@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head th:replace="common :: head(~{::title}, ~{::link})">
+<title>Edit Message</title>
+</head>
+<body>
+    <div th:replace="common :: navbar"></div>
+    <div class="container-fluid">
+        <div class="row">
+            <div class="col-lg-8 col-lg-offset-2">
+                <div class="panel panel-default">
+                    <div class="panel-heading">
+                        <div class="panel-title">Edit Message</div>
+                    </div>
+                    <div class="panel-body">
+                        <form th:object="${message}" method="post">
+                            <input type="hidden" th:field="*{id}"/>
+                            
+                            <div th:if="${#fields.hasErrors('content')}" class="alert alert-danger">
+                                <p th:each="err : ${#fields.errors('content')}" th:text="${err}"></p>
+                            </div>
+                            <div class="form-group">
+                                <textarea name="text" rows="4" cols="100" th:field="*{content}"></textarea>
+                            </div>
+                            <input type="submit" name="submit" value="Save" />
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div th:replace="common :: copy"></div>
+</body>
+</html>
