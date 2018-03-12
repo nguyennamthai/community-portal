@@ -91,4 +91,9 @@ public class UberController {
         model.addAttribute("lastMsg", lastMsg);
         return new ModelAndView("add", model);
     }
+
+    @GetMapping("login")
+    public String admin() {
+        return "login";
+    }
 }

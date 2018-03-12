@@ -1,15 +1,15 @@
 <!DOCTYPE html>
-<html xmlns:th="http://www.thymeleaf.org">
+<html xmlns:th="http://www.thymeleaf.org" xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
 <head th:fragment="head(title, links)">
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
 <title th:replace="${title} ?: _">Common Title</title>
-<link rel="stylesheet" href="bootstrap-3.3.7.min.css">
-<link rel="stylesheet" href="custom.css">
+<link rel="stylesheet" href="css/bootstrap-3.3.7.min.css">
+<link rel="stylesheet" href="css/custom.css">
 <!--/* Placeholder for additional links */-->
 <th:block th:replace="${links} ?: _" />
-<script src="jquery-3.2.1.min.js"></script>
-<script src="bootstrap-3.3.7.min.js"></script>
+<script src="js/jquery-3.2.1.min.js"></script>
+<script src="js/bootstrap-3.3.7.min.js"></script>
 </head>
 
 <body>
@@ -20,14 +20,19 @@
                     <li><a href="/">Home</a></li>
                     <li><a href="/about">About</a></li>
                 </ul>
+                <div sec:authorize="isAuthenticated()">
+                <!-- Add a login link -->
                 <ul class="nav navbar-nav navbar-right">
                     <li><a href="/add">Add</a></li>
-                    <li><a href="/view">View &nbsp;</a></li>
+                    <li><a href="/view">View</a></li>
+                    <li><a href="javascript:document.logoutForm.submit();">Log out &nbsp;</a></li>
                 </ul>
+                </div>
             </div>
         </nav>
+        <form name="logoutForm" th:action="@{/logout}" method="post" th:hidden="true"></form> 
     </div>
-    
+ 
     <div th:fragment="copy">&copy; Thai 2018</div>
 </body>
 </html>
