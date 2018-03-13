@@ -20,9 +20,10 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
     private MemberService memberService;
 
     @Override
-    public void configure(HttpSecurity http) throws Exception {
-        http.authorizeRequests().antMatchers("/", "/about", "/register", "/css/*", "/js/*").permitAll().anyRequest().authenticated().and().formLogin().loginPage("/login")
-                .defaultSuccessUrl("/").permitAll().and().logout().logoutSuccessUrl("/login");
+    public void configure(HttpSecurity http) throws Exception { // FIXME: Change hasRole to hasAnyAuthority to remove the ROLE_ prefix
+        http.authorizeRequests().antMatchers("/", "/about", "/register", "/css/*", "/js/*").permitAll().antMatchers("/notification").hasRole("ADMIN")
+                .anyRequest().authenticated().and().formLogin().loginPage("/login").defaultSuccessUrl("/").permitAll().and().logout()
+                .logoutSuccessUrl("/login");
     }
 
     @Override
@@ -34,7 +35,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
     public SpringSecurityDialect springSecurityDialect() {
         return new SpringSecurityDialect();
     }
-    
+
     @Bean
     public PasswordEncoder getEncoder() {
         return new BCryptPasswordEncoder();

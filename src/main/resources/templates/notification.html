@@ -1,0 +1,15 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head th:replace="common :: head(~{::title}, ~{::link})">
+<title>Home Page</title>
+</head>
+<body>
+    <div th:replace="common :: navbar"></div>
+    <div class="col-md-6 col-md-offset-3 col-sm-8 col-sm-offset-2">
+        <div class="panel panel-default">
+            A fake notification - will improve later
+        </div>
+    </div>
+    <div th:replace="common :: copy"></div>
+</body>
+</html>
