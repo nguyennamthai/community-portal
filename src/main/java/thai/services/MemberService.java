@@ -9,6 +9,7 @@ import org.springframework.security.core.userdetails.User;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import thai.model.Member;
@@ -19,7 +20,11 @@ public class MemberService implements UserDetailsService {
     @Autowired
     private MemberRepository memberRepository;
 
+    @Autowired
+    private PasswordEncoder passwordEncoder;
+
     public void save(Member member) {
+        member.setPassword(passwordEncoder.encode(member.getPassword()));
         memberRepository.save(member);
     }
 
@@ -31,7 +36,7 @@ public class MemberService implements UserDetailsService {
         }
 
         List<GrantedAuthority> roles = AuthorityUtils.createAuthorityList("ROLE_USER");
-        String password = "{noop}" + member.getPassword(); // FIXME Get rid of no-op
+        String password = member.getPassword();
         return new User(email, password, roles);
     }
 }
