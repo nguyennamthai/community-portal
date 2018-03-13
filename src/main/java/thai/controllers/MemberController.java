@@ -3,6 +3,7 @@ package thai.controllers;
 import javax.validation.Valid;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.ui.ModelMap;
 import org.springframework.validation.BindingResult;
@@ -13,6 +14,7 @@ import org.springframework.web.servlet.ModelAndView;
 import thai.model.Member;
 import thai.services.MemberService;
 
+@Controller
 public class MemberController {
 
     @Autowired
@@ -26,7 +28,7 @@ public class MemberController {
     @GetMapping("register")
     public String register(Model model) {
         Member member = new Member();
-        model.addAttribute("member", member);
+        model.addAttribute("member", member); System.out.println("========");
         return "register";
     }
 

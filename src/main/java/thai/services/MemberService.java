@@ -25,6 +25,7 @@ public class MemberService implements UserDetailsService {
 
     public void save(Member member) {
         member.setPassword(passwordEncoder.encode(member.getPassword()));
+        member.setRole("ROLE_MEMBER");
         memberRepository.save(member);
     }
 
@@ -35,7 +36,7 @@ public class MemberService implements UserDetailsService {
             throw new UsernameNotFoundException("User " + email + " isn't found");
         }
 
-        List<GrantedAuthority> roles = AuthorityUtils.createAuthorityList("ROLE_USER");
+        List<GrantedAuthority> roles = AuthorityUtils.createAuthorityList(member.getRole());
         String password = member.getPassword();
         return new User(email, password, roles);
     }
