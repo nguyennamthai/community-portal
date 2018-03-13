@@ -15,13 +15,18 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.ModelAndView;
 
+import thai.model.Member;
 import thai.model.Message;
+import thai.services.MemberService;
 import thai.services.MessageService;
 
 @Controller
 public class UberController {
     @Autowired
     private MessageService messageService;
+    
+    @Autowired
+    private MemberService memberService;
 
     @GetMapping("/")
     public String home(Model model) {
@@ -95,5 +100,21 @@ public class UberController {
     @GetMapping("login")
     public String admin() {
         return "login";
+    }
+    
+    @GetMapping("register")
+    public String register(Model model) {
+        Member member = new Member();
+        model.addAttribute("member", member);
+        return "register";
+    }
+    
+    @PostMapping("register")
+    public ModelAndView register(ModelMap model, @Valid Member member, BindingResult bindingResult) {
+        if (!bindingResult.hasErrors()) {
+            memberService.save(member);
+            return new ModelAndView("redirect:/", model);
+        }
+        return new ModelAndView("register", model);
     }
 }
