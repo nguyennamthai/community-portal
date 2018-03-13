@@ -5,32 +5,33 @@ import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.AuthorityUtils;
+import org.springframework.security.core.userdetails.User;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Service;
 
-import thai.model.User;
-import thai.repositories.UserRepository;
+import thai.model.Member;
+import thai.repositories.MemberRepository;
 
 @Service
-public class UserService implements UserDetailsService {
+public class MemberService implements UserDetailsService {
     @Autowired
-    private UserRepository userRepository;
+    private MemberRepository memberRepository;
 
-    public void save(User user) {
-        userRepository.save(user);
+    public void save(Member member) {
+        memberRepository.save(member);
     }
 
     @Override
     public UserDetails loadUserByUsername(String email) throws UsernameNotFoundException {
-        User user = userRepository.findByEmail(email);
-        if (user == null) {
+        Member member = memberRepository.findByEmail(email);
+        if (member == null) {
             throw new UsernameNotFoundException("User " + email + " isn't found");
         }
 
         List<GrantedAuthority> roles = AuthorityUtils.createAuthorityList("ROLE_USER");
-        String password = "{noop}" + user.getPassword(); // FIXME Get rid of no-op
-        return new org.springframework.security.core.userdetails.User(email, password, roles);
+        String password = "{noop}" + member.getPassword(); // FIXME Get rid of no-op
+        return new User(email, password, roles);
     }
 }

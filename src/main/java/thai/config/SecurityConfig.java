@@ -9,13 +9,13 @@ import org.springframework.security.config.annotation.web.configuration.EnableWe
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
 import org.thymeleaf.extras.springsecurity4.dialect.SpringSecurityDialect;
 
-import thai.services.UserService;
+import thai.services.MemberService;
 
 @Configuration
 @EnableWebSecurity
 public class SecurityConfig extends WebSecurityConfigurerAdapter {
     @Autowired
-    private UserService userService;
+    private MemberService memberService;
 
     @Override
     public void configure(HttpSecurity http) throws Exception {
@@ -26,7 +26,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
     @Override
     public void configure(AuthenticationManagerBuilder auth) throws Exception {
         // auth.inMemoryAuthentication().withUser("user").password("{noop}pass").roles("USER");
-        auth.userDetailsService(userService);
+        auth.userDetailsService(memberService);
     }
 
     @Bean

@@ -6,7 +6,7 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
 
 @Entity
-public class User {
+public class Member {
     @Id
     @GeneratedValue
     private Long id;
@@ -38,5 +38,4 @@ public class User {
     public void setPassword(String password) {
         this.password = password;
     }
-
 }
