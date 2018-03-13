@@ -4,6 +4,7 @@ import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
+import javax.validation.constraints.Email;
 
 @Entity
 public class Member {
@@ -12,7 +13,10 @@ public class Member {
     private Long id;
 
     @Column(unique = true)
+    @Email(message = "Invalid email address") // FIXME Replace with a custom validator
     private String email;
+    // TODO Enforce a validation rule for passwords, keep in mind that the persisted values are encrypted
+    // TODO Use a custom validator to verify the repeated password
     private String password;
     private String role; // TODO Change this to a one-to-many relationship
 

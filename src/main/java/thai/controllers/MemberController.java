@@ -28,7 +28,7 @@ public class MemberController {
     @GetMapping("register")
     public String register(Model model) {
         Member member = new Member();
-        model.addAttribute("member", member); System.out.println("========");
+        model.addAttribute("member", member);
         return "register";
     }
 
