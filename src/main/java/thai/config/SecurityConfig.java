@@ -22,8 +22,8 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
     @Override
     public void configure(HttpSecurity http) throws Exception { // FIXME: Change hasRole to hasAnyAuthority to remove the ROLE_ prefix
         http.authorizeRequests().antMatchers("/", "/about", "/register", "/css/*", "/js/*").permitAll().antMatchers("/notification").hasRole("ADMIN")
-                .anyRequest().authenticated().and().formLogin().loginPage("/login").defaultSuccessUrl("/").permitAll().and().logout()
-                .logoutSuccessUrl("/login");
+                .anyRequest().authenticated().and().formLogin().loginPage("/login").defaultSuccessUrl("/").permitAll().and().logout().logoutSuccessUrl("/login")
+                .and().exceptionHandling().accessDeniedPage("/403");
     }
 
     @Override
@@ -37,7 +37,8 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
     }
 
     @Bean
-    public PasswordEncoder getEncoder() {
+    public PasswordEncoder getPasswordEncoder() {
         return new BCryptPasswordEncoder();
     }
+
 }
