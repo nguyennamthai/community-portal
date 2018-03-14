@@ -8,17 +8,18 @@ import javax.validation.constraints.Email;
 
 @Entity
 public class Member {
+    // TODO Add a many-to-many relationship with Message
     @Id
     @GeneratedValue
     private Long id;
 
     @Column(unique = true)
-    @Email(message = "Invalid email address") // FIXME Replace with a custom validator
+    @Email(message = "Invalid email address")
     private String email;
     // TODO Enforce a validation rule for passwords, keep in mind that the persisted values are encrypted
     // TODO Use a custom validator to verify the repeated password
     private String password;
-    private String role; // TODO Change this to a one-to-many relationship
+    private String role; // FIXME Change to enum type Role
 
     public Long getId() {
         return id;
@@ -50,5 +51,9 @@ public class Member {
 
     public void setRole(String role) {
         this.role = role;
+    }
+
+    public enum Role {
+        ADMIN, USER
     }
 }

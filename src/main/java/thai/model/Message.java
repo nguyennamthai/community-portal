@@ -14,6 +14,7 @@ import javax.validation.constraints.Size;
 @Entity
 @Table(name = "MESSAGE")
 public class Message {
+    // TODO Add a many-to-many relationship with Member
     @Id
     @GeneratedValue
     private Long id;
