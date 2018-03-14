@@ -2,47 +2,50 @@
 <html xmlns:th="http://www.thymeleaf.org" xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
 <head th:fragment="head(title, links)">
 <meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+<meta name="viewport" content="width=device-width, initial-scale=1">
 <title th:replace="${title} ?: _">Common Title</title>
-<link rel="stylesheet" href="css/bootstrap-3.3.7.min.css">
+<link rel="stylesheet" href="css/bootstrap-4.0.0.min.css">
 <link rel="stylesheet" href="css/custom.css">
 <!--/* Placeholder for additional links */-->
 <th:block th:replace="${links} ?: _" />
 <script src="js/jquery-3.2.1.min.js"></script>
-<script src="js/bootstrap-3.3.7.min.js"></script>
+<script src="js/popper-1.12.9.min.js"></script>
+<script src="js/bootstrap-4.0.0.min.js"></script>
 </head>
 
 <body>
     <div th:fragment="navbar">
-        <nav class="navbar navbar-default navbar-static-top">
-            <div id="navbar" class="collapse navbar-collapse">
-                <ul class="nav navbar-nav">
-                    <li><a href="/">Home</a></li>
-                    <li><a href="/about">About</a></li>
+        <nav class="navbar navbar-expand-sm bg-light">
+            <ul class="navbar-nav mr-auto">
+                <li class="nav-item"><a href="/" class="nav-link">Home</a></li>
+                <li class="nav-item"><a href="/about" class="nav-link">About</a></li>
+            </ul>
+            <div sec:authorize="!isAuthenticated()">
+                <ul class="navbar-nav">
+                    <li class="nav-item"><a href="/login" class="nav-link">Log in</a></li>
+                    <li class="nav-item"><a href="/register" class="nav-link">Sign up</a></li>
                 </ul>
-                <div sec:authorize="!isAuthenticated()">
-                <ul class="nav navbar-nav navbar-right">
-                    <li><a href="/login">Log in</a></li>
-                    <li><a href="/register">Sign up &nbsp;</a></li>
+            </div>
+            <div sec:authorize="hasRole('ROLE_ADMIN')">
+                <ul class="navbar-nav">
+                    <li class="nav-item"><a href="/notification" class="nav-link">Notification</a></li>
                 </ul>
-                </div>
-                <div sec:authorize="hasRole('ROLE_ADMIN')">
-                <ul class="nav navbar-nav navbar-right">
-                    <li><a href="/notification">Notification</a></li>
-                </ul>
-                </div>
-                <div sec:authorize="isAuthenticated()">
-                <ul class="nav navbar-nav navbar-right">
-                    <li><a href="/add">Add</a></li>
-                    <li><a href="/view">View</a></li>
-                    <li><a href="javascript:document.logoutForm.submit();">Log out &nbsp;</a></li>
-                </ul>
+            </div>
+            <div sec:authorize="isAuthenticated()" class="dropdown">
+                <button type="button" class="btn btn-primary dropdown-toggle" data-toggle="dropdown">Action</button>
+                <div class="dropdown-menu">
+                    <a class="dropdown-item" href="/add">Add</a> <a class="dropdown-item" href="/view">View</a> <a
+                        class="dropdown-item" href="javascript:document.logoutForm.submit();">Log out</a>
                 </div>
             </div>
         </nav>
-        <form name="logoutForm" th:action="@{/logout}" method="post" th:hidden="true"></form> 
+        <form name="logoutForm" th:action="@{/logout}" method="post" th:hidden="true"></form>
     </div>
- 
-    <div th:fragment="copy">&copy; Thai 2018</div>
+
+    <div th:fragment="copy">
+        <div class=".container-fluid">
+            <div class="row justify-content-center">&copy; Thai 2018</div>
+        </div>
+    </div>
 </body>
 </html>
