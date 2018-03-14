@@ -1,10 +1,10 @@
 <!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org">
-<head th:replace="common :: head(~{::title}, ~{::link})">
+<head th:replace="layout/default :: head(~{::title}, ~{::link})">
 <title>Add Message</title>
 </head>
 <body>
-    <div th:replace="common :: navbar"></div>
+    <div th:replace="layout/default :: navbar"></div>
     <div class="container-fluid">
     <!-- TODO Add a Javascript visual editor - WYSIWYG -->
         <div class="row">
@@ -40,6 +40,6 @@
         </div>
     </div>
 
-    <div th:replace="common :: copy"></div>
+    <div th:replace="layout/default :: copy"></div>
 </body>
 </html>

@@ -1,10 +1,10 @@
 <!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org">
-<head th:replace="common :: head(~{::title}, ~{::link})">
+<head th:replace="layout/default :: head(~{::title}, ~{::link})">
 <title>Home Page</title>
 </head>
 <body>
-    <div th:replace="common :: navbar"></div>
+    <div th:replace="layout/default :: navbar"></div>
     <div class="col-md-6 col-md-offset-3 col-sm-8 col-sm-offset-2">
         <div class="panel panel-default">
             <div class="panel-heading">
@@ -27,6 +27,6 @@
             </div>
         </div>
     </div>
-    <div th:replace="common :: copy"></div>
+    <div th:replace="layout/default :: copy"></div>
 </body>
 </html>
