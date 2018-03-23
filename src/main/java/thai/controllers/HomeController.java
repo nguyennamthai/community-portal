@@ -10,6 +10,7 @@ import thai.services.MessageService;
 
 @Controller
 public class HomeController {
+    // TODO handle error 500 and create error page
     @Autowired
     private MessageService messageService;
 
