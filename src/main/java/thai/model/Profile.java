@@ -6,6 +6,7 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.OneToOne;
+import javax.validation.constraints.Size;
 
 @Entity
 public class Profile {
@@ -18,6 +19,7 @@ public class Profile {
     private Member member;
 
     @Column(length = 1000)
+    @Size(max = 1000, message = "The information is too long")
     private String info;
 
     public Long getId() {

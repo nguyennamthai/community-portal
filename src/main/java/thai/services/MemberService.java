@@ -28,6 +28,10 @@ public class MemberService implements UserDetailsService {
         member.setRole("ROLE_MEMBER");
         memberRepository.save(member);
     }
+    
+    public Member getMember(String email) {
+        return memberRepository.findByEmail(email);
+    }
 
     @Override
     public UserDetails loadUserByUsername(String email) throws UsernameNotFoundException {

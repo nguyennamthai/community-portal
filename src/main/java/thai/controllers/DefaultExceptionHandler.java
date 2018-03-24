@@ -12,7 +12,7 @@ public class DefaultExceptionHandler {
     @ExceptionHandler
     public String globalHandler(Model model, HttpServletRequest request, Exception exception) {
         model.addAttribute("url", request.getRequestURL());
-        model.addAttribute("exception", exception.getMessage());
+        model.addAttribute("exception", exception);
         return "exception";
     }
     
