@@ -10,7 +10,7 @@
             <img src="img/placeholder.png" />
         </div>
         <div>
-            <p th:if="${profile != null}" th:text="${'Your profile description'}"></p>
+            <p th:if="${profile != null && profile.info == null}" th:text="${'Enter your profile info'}"></p>
         </div>
         <div class="profile-edit">
             <a href="/editprofile">Edit</a>
