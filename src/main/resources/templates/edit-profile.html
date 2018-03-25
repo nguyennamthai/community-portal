@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org">
 <head th:replace="layout/default :: head(~{::title}, ~{::link})">
-<title>Edit Message</title>
+<title>Edit Profile</title>
 </head>
 <body>
     <div th:replace="layout/default :: navbar"></div>
@@ -12,6 +12,9 @@
                     <div class="panel-heading">
                         <div class="panel-title">Edit Profile</div>
                     </div>
+
+                    <!-- FIXME Move this to the profile template -->
+
                     <div class="panel-body">
                         <form th:object="${profile}" method="post">
                             <input type="hidden" th:name="${_csrf.parameterName}" th:value="${_csrf.token}" />
