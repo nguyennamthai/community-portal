@@ -21,6 +21,9 @@ public class Profile {
     @Column(length = 1000)
     @Size(max = 1000, message = "The information is too long")
     private String info;
+    
+    @Size(max = 255, message = "The file name is too long")
+    private String photoPath;
 
     public Long getId() {
         return id;
@@ -44,5 +47,13 @@ public class Profile {
 
     public void setInfo(String info) {
         this.info = info;
+    }
+
+    public String getPhotoPath() {
+        return photoPath;
+    }
+
+    public void setPhotoPath(String photoPath) {
+        this.photoPath = photoPath;
     }
 }

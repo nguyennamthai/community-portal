@@ -6,7 +6,6 @@ import java.io.InputStream;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
-import java.nio.file.StandardCopyOption;
 import java.security.Principal;
 
 import javax.imageio.ImageIO;
@@ -14,6 +13,8 @@ import javax.validation.Valid;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
@@ -88,14 +89,23 @@ public class ProfileController {
     }
 
     @PostMapping("upload-profile-photo")
-    public String savePhotos(@RequestParam("file") MultipartFile file) {
-        Path path = Paths.get(photoDirectory, file.getOriginalFilename());
+    public String savePhoto(@RequestParam("file") MultipartFile file) {
+        // FIXME Combile this method with saveProfile to validate photoPath
+        Authentication auth = SecurityContextHolder.getContext().getAuthentication();
+        Member member = memberService.getMember(auth.getName());
+        Profile profile = profileService.getProfile(member);
+
+        String prefix = System.nanoTime() + "-";
+        Path path = Paths.get(photoDirectory, prefix + file.getOriginalFilename());
         try {
             InputStream inputFile = file.getInputStream();
+            // TODO Check the file extension first
             BufferedImage image = ImageIO.read(inputFile);
             if (image == null)
                 throw new InvalidImageException();
-            Files.copy(inputFile, path, StandardCopyOption.REPLACE_EXISTING);
+            Files.copy(inputFile, path);
+            profile.setPhotoPath(path.toString());
+            profileService.save(profile);
         } catch (IOException e1) {
             // TODO Log the exception
             e1.printStackTrace();
