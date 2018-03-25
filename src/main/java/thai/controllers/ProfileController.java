@@ -1,12 +1,15 @@
 package thai.controllers;
 
+import java.awt.image.BufferedImage;
 import java.io.IOException;
+import java.io.InputStream;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.nio.file.StandardCopyOption;
 import java.security.Principal;
 
+import javax.imageio.ImageIO;
 import javax.validation.Valid;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -19,6 +22,7 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.multipart.MultipartFile;
 
+import thai.exceptions.InvalidImageException;
 import thai.model.Member;
 import thai.model.Profile;
 import thai.services.MemberService;
@@ -87,10 +91,14 @@ public class ProfileController {
     public String savePhotos(@RequestParam("file") MultipartFile file) {
         Path path = Paths.get(photoDirectory, file.getOriginalFilename());
         try {
-            Files.copy(file.getInputStream(), path, StandardCopyOption.REPLACE_EXISTING);
-        } catch (IOException e) {
+            InputStream inputFile = file.getInputStream();
+            BufferedImage image = ImageIO.read(inputFile);
+            if (image == null)
+                throw new InvalidImageException();
+            Files.copy(inputFile, path, StandardCopyOption.REPLACE_EXISTING);
+        } catch (IOException e1) {
             // TODO Log the exception
-            e.printStackTrace();
+            e1.printStackTrace();
         }
         return "redirect:profile";
     }
