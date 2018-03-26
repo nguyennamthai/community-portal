@@ -25,7 +25,7 @@ public class MemberService implements UserDetailsService {
 
     public void save(Member member) {
         member.setPassword(passwordEncoder.encode(member.getPassword()));
-        member.setRole("ROLE_MEMBER");
+        member.setRole("MEMBER");
         memberRepository.save(member);
     }
     

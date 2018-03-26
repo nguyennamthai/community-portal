@@ -18,6 +18,7 @@ public class Member {
     private String email;
     // TODO Enforce a validation rule for passwords, keep in mind that the persisted values are encrypted
     // TODO Use a custom validator to verify the repeated password
+    // TODO Add a separate username column to be used in the url
     private String password;
     private String role; // FIXME Change to enum type Role
 
@@ -54,6 +55,6 @@ public class Member {
     }
 
     public enum Role {
-        ADMIN, USER
+        ADMIN, MEMBER
     }
 }

@@ -6,13 +6,11 @@ import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
 import javax.persistence.PrePersist;
-import javax.persistence.Table;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
 import javax.validation.constraints.Size;
 
 @Entity
-@Table(name = "MESSAGE")
 public class Message {
     // TODO Add a many-to-many relationship with Member
     @Id
