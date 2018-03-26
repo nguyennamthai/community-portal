@@ -116,7 +116,7 @@ public class ProfileController {
 
     @GetMapping("profile-photo/{memId}")
     public ResponseEntity<InputStreamResource> viewProfilePhoto(@PathVariable long memId) throws IOException {
-        String photoPath = "static/img/placeholder.png";
+        String photoPath = "static/img/portal.png";
         Member member = memberService.getMemberbyId(memId);
         Profile profile = profileService.getProfile(member);
 
