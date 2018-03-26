@@ -19,4 +19,8 @@ public class ProfileService {
     public Profile getProfile(Member member) {
         return profileRepository.findByMember(member);
     }
+    
+    public Profile getById(long id) {
+        return profileRepository.findById(id).get();
+    }
 }

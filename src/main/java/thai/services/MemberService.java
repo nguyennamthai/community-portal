@@ -32,6 +32,10 @@ public class MemberService implements UserDetailsService {
     public Member getMember(String email) {
         return memberRepository.findByEmail(email);
     }
+    
+    public Member getMemberbyId(long id) {
+        return memberRepository.findById(id).get();
+    }
 
     @Override
     public UserDetails loadUserByUsername(String email) throws UsernameNotFoundException {

@@ -26,6 +26,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.multipart.MultipartFile;
@@ -51,10 +52,24 @@ public class ProfileController {
     @Value("${photo.directory}")
     private String photoDirectory;
 
+    // Change method names to match REST conventions
+    // Merge the two showProfile methods
     @GetMapping("profile")
     public String showProfile(Principal principal, Model model) {
         String email = principal.getName();
         Member member = memberService.getMember(email);
+        viewProfile(member, model);
+        return "profile";
+    }
+
+    @GetMapping("profile/{id}")
+    public String showProfile(@PathVariable long id, Model model) {
+        Member member = memberService.getMemberbyId(id);
+        viewProfile(member, model);
+        return "profile";
+    }
+
+    private void viewProfile(Member member, Model model) {
         Profile profile = profileService.getProfile(member);
 
         if (profile == null) {
@@ -66,8 +81,8 @@ public class ProfileController {
         Profile viewProfile = new Profile();
         viewProfile.setInfo(profile.getInfo());
 
+        model.addAttribute("memId", member.getId());
         model.addAttribute("profile", viewProfile);
-        return "profile";
     }
 
     @GetMapping("edit-profile")
@@ -99,11 +114,10 @@ public class ProfileController {
         return "edit-profile";
     }
 
-    @GetMapping("profile-photo")
-    public ResponseEntity<InputStreamResource> viewProfilePhoto() throws IOException {
+    @GetMapping("profile-photo/{memId}")
+    public ResponseEntity<InputStreamResource> viewProfilePhoto(@PathVariable long memId) throws IOException {
         String photoPath = "static/img/placeholder.png";
-        Authentication auth = SecurityContextHolder.getContext().getAuthentication();
-        Member member = memberService.getMember(auth.getName());
+        Member member = memberService.getMemberbyId(memId);
         Profile profile = profileService.getProfile(member);
 
         InputStream is = null;
