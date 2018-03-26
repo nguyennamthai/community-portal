@@ -11,7 +11,7 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.servlet.ModelAndView;
 
-import thai.model.Member;
+import thai.model.PortalUser;
 import thai.services.MemberService;
 
 @Controller
@@ -27,15 +27,15 @@ public class MemberController {
 
     @GetMapping("register")
     public String register(Model model) {
-        Member member = new Member();
-        model.addAttribute("member", member);
+        PortalUser portalUser = new PortalUser();
+        model.addAttribute("member", portalUser);
         return "register";
     }
 
     @PostMapping("register")
-    public ModelAndView register(ModelMap model, @Valid Member member, BindingResult bindingResult) {
+    public ModelAndView register(ModelMap model, @Valid PortalUser portalUser, BindingResult bindingResult) {
         if (!bindingResult.hasErrors()) {
-            memberService.save(member);
+            memberService.save(portalUser);
             return new ModelAndView("redirect:/", model);
         }
         return new ModelAndView("register", model);

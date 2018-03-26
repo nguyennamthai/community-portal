@@ -7,7 +7,7 @@ import javax.persistence.Id;
 import javax.validation.constraints.Email;
 
 @Entity
-public class Member {
+public class PortalUser {
     // TODO Add a many-to-many relationship with Message
     @Id
     @GeneratedValue

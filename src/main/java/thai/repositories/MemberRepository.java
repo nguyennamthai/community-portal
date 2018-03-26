@@ -2,8 +2,8 @@ package thai.repositories;
 
 import org.springframework.data.repository.CrudRepository;
 
-import thai.model.Member;
+import thai.model.PortalUser;
 
-public interface MemberRepository extends CrudRepository<Member, Long> {
-    Member findByEmail(String email);
+public interface MemberRepository extends CrudRepository<PortalUser, Long> {
+    PortalUser findByEmail(String email);
 }

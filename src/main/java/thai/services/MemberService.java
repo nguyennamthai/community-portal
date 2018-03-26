@@ -12,7 +12,7 @@ import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
-import thai.model.Member;
+import thai.model.PortalUser;
 import thai.repositories.MemberRepository;
 
 @Service
@@ -23,29 +23,29 @@ public class MemberService implements UserDetailsService {
     @Autowired
     private PasswordEncoder passwordEncoder;
 
-    public void save(Member member) {
-        member.setPassword(passwordEncoder.encode(member.getPassword()));
-        member.setRole("MEMBER");
-        memberRepository.save(member);
+    public void save(PortalUser portalUser) {
+        portalUser.setPassword(passwordEncoder.encode(portalUser.getPassword()));
+        portalUser.setRole("MEMBER");
+        memberRepository.save(portalUser);
     }
     
-    public Member getMember(String email) {
+    public PortalUser getMember(String email) {
         return memberRepository.findByEmail(email);
     }
     
-    public Member getMemberbyId(long id) {
+    public PortalUser getMemberbyId(long id) {
         return memberRepository.findById(id).get();
     }
 
     @Override
     public UserDetails loadUserByUsername(String email) throws UsernameNotFoundException {
-        Member member = memberRepository.findByEmail(email);
-        if (member == null) {
+        PortalUser portalUser = memberRepository.findByEmail(email);
+        if (portalUser == null) {
             throw new UsernameNotFoundException("User " + email + " isn't found");
         }
 
-        List<GrantedAuthority> roles = AuthorityUtils.createAuthorityList(member.getRole());
-        String password = member.getPassword();
+        List<GrantedAuthority> roles = AuthorityUtils.createAuthorityList(portalUser.getRole());
+        String password = portalUser.getPassword();
         return new User(email, password, roles);
     }
 }

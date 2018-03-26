@@ -12,7 +12,7 @@ import javax.validation.constraints.Size;
 
 @Entity
 public class Message {
-    // TODO Add a many-to-many relationship with Member
+    // TODO Add a many-to-many relationship with PortalUser
     @Id
     @GeneratedValue
     private Long id;

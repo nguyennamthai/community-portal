@@ -19,7 +19,7 @@ public class Profile {
 
     @OneToOne
     @JoinColumn(nullable = false)
-    private Member member;
+    private PortalUser portalUser;
 
     @Column(length = 1000)
     @Size(max = 1000, message = "The information is too long")
@@ -36,12 +36,12 @@ public class Profile {
         this.id = id;
     }
 
-    public Member getMember() {
-        return member;
+    public PortalUser getMember() {
+        return portalUser;
     }
 
-    public void setMember(Member member) {
-        this.member = member;
+    public void setMember(PortalUser portalUser) {
+        this.portalUser = portalUser;
     }
 
     public String getInfo() {
