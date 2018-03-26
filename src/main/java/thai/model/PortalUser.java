@@ -2,6 +2,8 @@ package thai.model;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.EnumType;
+import javax.persistence.Enumerated;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
 import javax.validation.constraints.Email;
@@ -20,7 +22,8 @@ public class PortalUser {
     // TODO Use a custom validator to verify the repeated password
     // TODO Add a separate username column to be used in the url
     private String password;
-    private String role; // FIXME Change to enum type Role
+    @Enumerated(EnumType.STRING)
+    private Role role;
 
     public Long getId() {
         return id;
@@ -46,11 +49,11 @@ public class PortalUser {
         this.password = password;
     }
 
-    public String getRole() {
+    public Role getRole() {
         return role;
     }
 
-    public void setRole(String role) {
+    public void setRole(Role role) {
         this.role = role;
     }
 

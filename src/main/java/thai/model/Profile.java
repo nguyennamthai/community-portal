@@ -1,8 +1,5 @@
 package thai.model;
 
-import java.nio.file.Path;
-import java.nio.file.Paths;
-
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;

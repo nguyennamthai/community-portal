@@ -13,6 +13,7 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import thai.model.PortalUser;
+import thai.model.PortalUser.Role;
 import thai.repositories.MemberRepository;
 
 @Service
@@ -25,7 +26,7 @@ public class MemberService implements UserDetailsService {
 
     public void save(PortalUser portalUser) {
         portalUser.setPassword(passwordEncoder.encode(portalUser.getPassword()));
-        portalUser.setRole("MEMBER");
+        portalUser.setRole(Role.MEMBER);
         memberRepository.save(portalUser);
     }
     
@@ -44,7 +45,7 @@ public class MemberService implements UserDetailsService {
             throw new UsernameNotFoundException("User " + email + " isn't found");
         }
 
-        List<GrantedAuthority> roles = AuthorityUtils.createAuthorityList(portalUser.getRole());
+        List<GrantedAuthority> roles = AuthorityUtils.createAuthorityList(portalUser.getRole().name());
         String password = portalUser.getPassword();
         return new User(email, password, roles);
     }
