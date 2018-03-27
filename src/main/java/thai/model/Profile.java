@@ -8,6 +8,9 @@ import javax.persistence.JoinColumn;
 import javax.persistence.OneToOne;
 import javax.validation.constraints.Size;
 
+import lombok.Data;
+
+@Data
 @Entity
 public class Profile {
     @Id
@@ -24,36 +27,4 @@ public class Profile {
     
     @Size(max = 255, message = "The file name is too long")
     private String photoPath;
-
-    public Long getId() {
-        return id;
-    }
-
-    public void setId(Long id) {
-        this.id = id;
-    }
-
-    public PortalUser getMember() {
-        return portalUser;
-    }
-
-    public void setMember(PortalUser portalUser) {
-        this.portalUser = portalUser;
-    }
-
-    public String getInfo() {
-        return info;
-    }
-
-    public void setInfo(String info) {
-        this.info = info;
-    }
-
-    public String getPhotoPath() {
-        return photoPath;
-    }
-
-    public void setPhotoPath(String photoPath) {
-        this.photoPath = photoPath;
-    }
 }

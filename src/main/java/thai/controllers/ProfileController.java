@@ -74,7 +74,7 @@ public class ProfileController {
 
         if (profile == null) {
             profile = new Profile();
-            profile.setMember(portalUser);
+            profile.setPortalUser(portalUser);
             profileService.save(profile);
         }
 
