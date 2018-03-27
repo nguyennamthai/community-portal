@@ -18,10 +18,10 @@ public class PortalUser {
     @Column(unique = true)
     @Email(message = "Invalid email address")
     private String email;
-    // TODO Enforce a validation rule for passwords, keep in mind that the persisted values are encrypted
     // TODO Use a custom validator to verify the repeated password
     // TODO Add a separate username column to be used in the url
     private String password;
+
     @Enumerated(EnumType.STRING)
     private Role role;
 
