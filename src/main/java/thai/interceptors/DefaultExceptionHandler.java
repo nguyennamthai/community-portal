@@ -1,4 +1,4 @@
-package thai.controllers;
+package thai.interceptors;
 
 import javax.servlet.http.HttpServletRequest;
 

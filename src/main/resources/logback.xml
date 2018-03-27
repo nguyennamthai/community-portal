@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE xml>
+<configuration>
+    <appender name="DB" class="ch.qos.logback.core.rolling.RollingFileAppender">
+        <!-- The primary log file before rollover at midnight -->
+        <file>logs${file.separator}info.csv</file>
+        <rollingPolicy class="ch.qos.logback.core.rolling.TimeBasedRollingPolicy">
+            <!-- Daily rollover -->
+            <fileNamePattern>logs${file.separator}archive${file.separator}info-%d{yyyy-MM-dd}.csv</fileNamePattern>
+            <!-- Keeps 365 days' worth of history capped at 3GB total size -->
+            <maxHistory>365</maxHistory>
+            <totalSizeCap>3GB</totalSizeCap>
+        </rollingPolicy>
+        <filter class="ch.qos.logback.classic.filter.ThresholdFilter">
+            <level>INFO</level>
+        </filter>
+        <encoder>
+            <pattern>
+                %d{HH:mm:ss} %-5level %logger{30} - %msg%n
+            </pattern>
+        </encoder>
+    </appender>
+
+    <appender name="STDOUT" class="ch.qos.logback.core.ConsoleAppender">
+        <filter class="ch.qos.logback.classic.filter.ThresholdFilter">
+            <level>WARN</level>
+        </filter>
+        <encoder>
+            <pattern>
+                %d{HH:mm:ss} %-5level %logger{30} - %msg%n
+            </pattern>
+        </encoder>
+    </appender>
+
+    <root level="INFO">
+        <appender-ref ref="STDOUT" />
+        <appender-ref ref="DB" />
+    </root>
+</configuration>
