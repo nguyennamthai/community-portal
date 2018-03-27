@@ -15,6 +15,7 @@
                     </div>
                     <div class="panel-body">
                         <form th:object="${message}" method="post">
+                            <input type="hidden" th:name="${_csrf.parameterName}" th:value="${_csrf.token}" />
                             <div th:if="${#fields.hasErrors('content')}" class="alert alert-danger">
                                 <p th:each="err : ${#fields.errors('content')}" th:text="${err}"></p>
                             </div>

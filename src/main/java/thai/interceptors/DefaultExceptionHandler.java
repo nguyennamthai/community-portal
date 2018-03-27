@@ -14,7 +14,7 @@ public class DefaultExceptionHandler {
         model.addAttribute("url", request.getRequestURL());
         model.addAttribute("exception", exception);
         exception.printStackTrace();
-        // FIXME Change the following to a log
+        // FIXME Change the following to a log and send an email to admins
         return "exception";
     }
     
