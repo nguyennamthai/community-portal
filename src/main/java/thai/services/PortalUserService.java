@@ -14,12 +14,12 @@ import org.springframework.stereotype.Service;
 
 import thai.model.PortalUser;
 import thai.model.PortalUser.Role;
-import thai.repositories.MemberRepository;
+import thai.repositories.PortalUserRepository;
 
 @Service
-public class MemberService implements UserDetailsService {
+public class PortalUserService implements UserDetailsService {
     @Autowired
-    private MemberRepository memberRepository;
+    private PortalUserRepository portalUserRepository;
 
     @Autowired
     private PasswordEncoder passwordEncoder;
@@ -27,20 +27,20 @@ public class MemberService implements UserDetailsService {
     public void save(PortalUser portalUser) {
         portalUser.setPassword(passwordEncoder.encode(portalUser.getPassword()));
         portalUser.setRole(Role.MEMBER);
-        memberRepository.save(portalUser);
+        portalUserRepository.save(portalUser);
     }
     
     public PortalUser getMember(String email) {
-        return memberRepository.findByEmail(email);
+        return portalUserRepository.findByEmail(email);
     }
     
     public PortalUser getMemberbyId(long id) {
-        return memberRepository.findById(id).get();
+        return portalUserRepository.findById(id).get();
     }
 
     @Override
     public UserDetails loadUserByUsername(String email) throws UsernameNotFoundException {
-        PortalUser portalUser = memberRepository.findByEmail(email);
+        PortalUser portalUser = portalUserRepository.findByEmail(email);
         if (portalUser == null) {
             throw new UsernameNotFoundException("User " + email + " isn't found");
         }

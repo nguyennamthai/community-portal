@@ -35,7 +35,7 @@ import net.coobird.thumbnailator.Thumbnails;
 import thai.exceptions.InvalidImageException;
 import thai.model.PortalUser;
 import thai.model.Profile;
-import thai.services.MemberService;
+import thai.services.PortalUserService;
 import thai.services.ProfileService;
 
 @Controller
@@ -44,7 +44,7 @@ public class ProfileController {
     private final int HEIGHT = 200;
 
     @Autowired
-    private MemberService memberService;
+    private PortalUserService portalUserService;
 
     @Autowired
     private ProfileService profileService;
@@ -57,14 +57,14 @@ public class ProfileController {
     @GetMapping("profile")
     public String showProfile(Principal principal, Model model) {
         String email = principal.getName();
-        PortalUser portalUser = memberService.getMember(email);
+        PortalUser portalUser = portalUserService.getMember(email);
         viewProfile(portalUser, model);
         return "profile";
     }
 
     @GetMapping("profile/{id}")
     public String showProfile(@PathVariable long id, Model model) {
-        PortalUser portalUser = memberService.getMemberbyId(id);
+        PortalUser portalUser = portalUserService.getMemberbyId(id);
         viewProfile(portalUser, model);
         return "profile";
     }
@@ -89,7 +89,7 @@ public class ProfileController {
     public String editProfile(Principal principal, Model model) {
         // FIXME the following code snippet is the same as in showProfile
         String email = principal.getName();
-        PortalUser portalUser = memberService.getMember(email);
+        PortalUser portalUser = portalUserService.getMember(email);
         Profile profile = profileService.getProfile(portalUser);
 
         Profile viewProfile = new Profile();
@@ -102,7 +102,7 @@ public class ProfileController {
     @PostMapping("edit-profile")
     public String saveProfile(Principal principal, @Valid Profile viewProfile, BindingResult bindingResult) {
         String email = principal.getName();
-        PortalUser portalUser = memberService.getMember(email);
+        PortalUser portalUser = portalUserService.getMember(email);
         Profile profile = profileService.getProfile(portalUser);
 
         profile.setInfo(viewProfile.getInfo());
@@ -117,7 +117,7 @@ public class ProfileController {
     @GetMapping("profile-photo/{memId}")
     public ResponseEntity<InputStreamResource> viewProfilePhoto(@PathVariable long memId) throws IOException {
         String photoPath = "static/img/portal.png";
-        PortalUser portalUser = memberService.getMemberbyId(memId);
+        PortalUser portalUser = portalUserService.getMemberbyId(memId);
         Profile profile = profileService.getProfile(portalUser);
 
         InputStream is = null;
@@ -142,7 +142,7 @@ public class ProfileController {
     public String savePhoto(@RequestParam("file") MultipartFile file) {
         // FIXME Combile this method with saveProfile to validate photoPath
         Authentication auth = SecurityContextHolder.getContext().getAuthentication();
-        PortalUser portalUser = memberService.getMember(auth.getName());
+        PortalUser portalUser = portalUserService.getMember(auth.getName());
         // Handle the case when profile is null
         Profile profile = profileService.getProfile(portalUser);
 

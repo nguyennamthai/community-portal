@@ -11,13 +11,13 @@ import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.thymeleaf.extras.springsecurity4.dialect.SpringSecurityDialect;
 
-import thai.services.MemberService;
+import thai.services.PortalUserService;
 
 @Configuration
 @EnableWebSecurity
 public class SecurityConfig extends WebSecurityConfigurerAdapter {
     @Autowired
-    private MemberService memberService;
+    private PortalUserService portalUserService;
 
     @Override
     public void configure(HttpSecurity http) throws Exception {
@@ -35,7 +35,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
 
     @Override
     public void configure(AuthenticationManagerBuilder auth) throws Exception {
-        auth.userDetailsService(memberService);
+        auth.userDetailsService(portalUserService);
     }
 
     @Bean

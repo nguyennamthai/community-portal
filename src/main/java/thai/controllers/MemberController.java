@@ -12,13 +12,13 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.servlet.ModelAndView;
 
 import thai.model.PortalUser;
-import thai.services.MemberService;
+import thai.services.PortalUserService;
 
 @Controller
 public class MemberController {
 
     @Autowired
-    private MemberService memberService;
+    private PortalUserService portalUserService;
 
     @GetMapping("login")
     public String admin() {
@@ -35,7 +35,7 @@ public class MemberController {
     @PostMapping("register")
     public ModelAndView register(ModelMap model, @Valid PortalUser portalUser, BindingResult bindingResult) {
         if (!bindingResult.hasErrors()) {
-            memberService.save(portalUser);
+            portalUserService.save(portalUser);
             return new ModelAndView("redirect:/", model);
         }
         return new ModelAndView("register", model);
