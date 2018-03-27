@@ -15,9 +15,14 @@ public class PortalUser {
     @GeneratedValue
     private Long id;
 
+    // TODO Add a constraint to avoid the @ character
+    @Column(unique = true)
+    private String username;
+
     @Column(unique = true)
     @Email(message = "Invalid email address")
     private String email;
+
     // TODO Use a custom validator to verify the repeated password
     // TODO Add a separate username column to be used in the url
     private String password;
@@ -31,6 +36,14 @@ public class PortalUser {
 
     public void setId(Long id) {
         this.id = id;
+    }
+
+    public String getUsername() {
+        return username;
+    }
+
+    public void setUsername(String username) {
+        this.username = username;
     }
 
     public String getEmail() {

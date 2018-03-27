@@ -29,13 +29,17 @@ public class PortalUserService implements UserDetailsService {
         portalUser.setRole(Role.MEMBER);
         portalUserRepository.save(portalUser);
     }
-    
-    public PortalUser getMember(String email) {
-        return portalUserRepository.findByEmail(email);
-    }
-    
-    public PortalUser getMemberbyId(long id) {
+
+    public PortalUser getUserById(long id) {
         return portalUserRepository.findById(id).get();
+    }
+
+    public PortalUser getUserByUsername(String username) {
+        return portalUserRepository.findByEmail(username);
+    }
+
+    public PortalUser getUserByEmail(String email) {
+        return portalUserRepository.findByEmail(email);
     }
 
     @Override
