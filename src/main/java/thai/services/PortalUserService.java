@@ -43,14 +43,17 @@ public class PortalUserService implements UserDetailsService {
     }
 
     @Override
-    public UserDetails loadUserByUsername(String email) throws UsernameNotFoundException {
-        PortalUser portalUser = portalUserRepository.findByEmail(email);
+    public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
+        PortalUser portalUser = portalUserRepository.findByUsername(username);
         if (portalUser == null) {
-            throw new UsernameNotFoundException("User " + email + " isn't found");
+            portalUser = portalUserRepository.findByEmail(username);
+            if (portalUser == null)
+                throw new UsernameNotFoundException("User " + username + " isn't found");
+            username = portalUserRepository.findUsernameByEmail(username);
         }
 
         List<GrantedAuthority> roles = AuthorityUtils.createAuthorityList(portalUser.getRole().name());
         String password = portalUser.getPassword();
-        return new User(email, password, roles);
+        return new User(username, password, roles);
     }
 }
