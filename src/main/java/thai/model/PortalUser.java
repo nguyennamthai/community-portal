@@ -27,7 +27,7 @@ public class PortalUser {
     private String email;
 
     // TODO Use a custom validator to verify the repeated password
-    // TODO Add a separate username column to be used in the url
+    // TODO Use username in the url instead of id
     private String password;
 
     @Enumerated(EnumType.STRING)
