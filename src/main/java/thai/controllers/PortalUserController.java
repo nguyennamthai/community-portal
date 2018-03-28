@@ -15,7 +15,7 @@ import thai.model.PortalUser;
 import thai.services.PortalUserService;
 
 @Controller
-public class MemberController {
+public class PortalUserController {
 
     @Autowired
     private PortalUserService portalUserService;

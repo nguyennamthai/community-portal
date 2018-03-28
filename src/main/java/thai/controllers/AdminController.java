@@ -5,8 +5,8 @@ import org.springframework.web.bind.annotation.GetMapping;
 
 @Controller
 public class AdminController {
-    @GetMapping("notification")
-    public String notification() {
-        return "notification";
+    @GetMapping("users")
+    public String readUsers() {
+        return "read-users";
     }
 }
