@@ -10,7 +10,6 @@ import thai.services.MessageService;
 
 @Controller
 public class HomeController {
-    // TODO handle error 500 and create error page
     @Autowired
     private MessageService messageService;
 
@@ -25,9 +24,14 @@ public class HomeController {
     public String about() {
         return "about";
     }
-    
+
     @GetMapping("403")
     public String accessDenied() {
         return "403";
+    }
+
+    @GetMapping("users")
+    public String readUsers() {
+        return "read-users";
     }
 }
