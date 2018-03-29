@@ -2,6 +2,8 @@ package thai.services;
 
 import static org.springframework.data.domain.Sort.Direction.DESC;
 
+import java.util.List;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
@@ -9,6 +11,7 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
 import thai.model.Message;
+import thai.model.PortalUser;
 import thai.repositories.MessageRepository;
 
 @Service
@@ -36,5 +39,9 @@ public class MessageService {
 
     public Message get(Long id) {
         return messageRepository.findById(id).orElse(getLatest());
+    }
+
+    public List<Message> readMessages(PortalUser user) {
+        return messageRepository.findByUser(user);
     }
 }

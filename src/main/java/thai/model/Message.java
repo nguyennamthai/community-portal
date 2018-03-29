@@ -5,6 +5,7 @@ import java.util.Date;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
+import javax.persistence.ManyToOne;
 import javax.persistence.PrePersist;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
@@ -15,7 +16,6 @@ import lombok.Data;
 @Data
 @Entity
 public class Message {
-    // TODO Add a many-to-many relationship with PortalUser
     @Id
     @GeneratedValue
     private Long id;
@@ -28,6 +28,9 @@ public class Message {
 
     @Temporal(TemporalType.TIMESTAMP)
     private Date modified;
+
+    @ManyToOne
+    private PortalUser user;
 
     public Message() {
     }

@@ -1,11 +1,14 @@
 package thai.model;
 
+import java.util.List;
+
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.EnumType;
 import javax.persistence.Enumerated;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
+import javax.persistence.OneToMany;
 import javax.validation.constraints.Email;
 
 import lombok.Data;
@@ -13,7 +16,6 @@ import lombok.Data;
 @Data
 @Entity
 public class PortalUser {
-    // TODO Add a many-to-many relationship with Message
     @Id
     @GeneratedValue
     private Long id;
@@ -32,6 +34,9 @@ public class PortalUser {
 
     @Enumerated(EnumType.STRING)
     private Role role;
+
+    @OneToMany(mappedBy = "user")
+    private List<Message> messages;
 
     public enum Role {
         ADMIN, MEMBER
