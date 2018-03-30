@@ -5,9 +5,31 @@
 </head>
 <body>
     <div th:replace="layout/default :: navbar"></div>
-    <div class="col-md-6 col-md-offset-3 col-sm-8 col-sm-offset-2">
-        <div class="panel panel-default">
-            List users and their messages, accessible to admins only
+    <div class="container-fluid">
+        <div class="row">
+            <div class="col-md-6 col-md-offset-3 col-sm-8 col-sm-offset-2">
+                <div class="panel panel-default">
+                    <!-- TODO Add a link to profile and a link to all self-written messages in each user -->
+                    <table>
+                        <tr>
+                            <th>User</th>
+                            <th>Profile</th>
+                            <th>Messages</th>
+                        </tr>
+                        <tr th:each="user : ${users}">
+                            <td th:text="${user.username}"></td>
+                            <!-- Change to user.profile later on -->
+                            <td th:text="${user.email}"></td>
+                            <td>
+                                <span class="pull-right">
+                                    <!-- TODO Change to messages of the selected user only -->
+                                    <a th:href="@{/view-messages}">View</a>
+                                </span>
+                            </td>
+                        </tr>
+                    </table>
+                </div>
+            </div>
         </div>
     </div>
     <div th:replace="layout/default :: copy"></div>

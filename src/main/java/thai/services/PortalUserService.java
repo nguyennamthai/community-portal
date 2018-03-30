@@ -41,6 +41,10 @@ public class PortalUserService implements UserDetailsService {
     public PortalUser getUserByEmail(String email) {
         return portalUserRepository.findByEmail(email);
     }
+    
+    public Iterable<PortalUser> getAllUsers() {
+        return portalUserRepository.findAll();
+    }
 
     @Override
     public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {

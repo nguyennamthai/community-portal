@@ -34,6 +34,8 @@ public class PortalUser {
 
     @Enumerated(EnumType.STRING)
     private Role role;
+    
+    // TODO Add a one-to-one relationship to Profile
 
     @OneToMany(mappedBy = "user")
     private List<Message> messages;
