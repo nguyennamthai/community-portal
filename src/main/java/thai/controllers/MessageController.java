@@ -8,12 +8,10 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.ui.ModelMap;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.servlet.ModelAndView;
 
 import thai.model.Message;
 import thai.services.MessageService;
@@ -40,43 +38,43 @@ public class MessageController {
     }
 
     @PostMapping("post-message")
-    public ModelAndView postMessage(ModelMap model, @Valid Message message, BindingResult bindingResult) {
+    public String postMessage(Model model, @Valid Message message, BindingResult bindingResult) {
         if (!bindingResult.hasErrors()) {
             messageService.save(message);
             model.addAttribute("message", new Message());
-            return new ModelAndView("redirect:view", model);
+            return "redirect:view";
         }
 
         Message lastMsg = messageService.getLatest();
         model.addAttribute("lastMsg", lastMsg);
-        return new ModelAndView("post-message", model);
+        return "post-message";
     }
 
     @GetMapping("delele") // FIXME Change method to DELETE
-    public ModelAndView delete(ModelMap model, @RequestParam Long id) {
+    public String delete(@RequestParam Long id) {
         messageService.delete(id);
-        return new ModelAndView("redirect:view", model);
+        return "redirect:view";
     }
 
     @GetMapping("edit") // FIXME Change method to PUT
-    public ModelAndView edit(ModelMap model, @RequestParam Long id) {
+    public String edit(Model model, @RequestParam Long id) {
         Message message = messageService.get(id);
         model.addAttribute("message", message);
-        return new ModelAndView("edit", model);
+        return "edit";
     }
 
     @PostMapping("edit") // FIXME Change method to PUT
-    public ModelAndView edit(ModelMap model, @Valid Message message, BindingResult bindingResult) {
+    public String edit(Model model, @Valid Message message, BindingResult bindingResult) {
         if (!bindingResult.hasErrors()) {
             message.setCreated(new Date());
             message.setModified(new Date());
             messageService.save(message);
             model.addAttribute("message", new Message());
-            return new ModelAndView("redirect:view", model);
+            return "redirect:view";
         }
 
         Message lastMsg = messageService.getLatest();
         model.addAttribute("lastMsg", lastMsg);
-        return new ModelAndView("post-message", model);
+        return "post-message";
     }
 }

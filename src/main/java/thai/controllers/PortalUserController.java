@@ -5,11 +5,9 @@ import javax.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.ui.ModelMap;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.servlet.ModelAndView;
 
 import thai.model.PortalUser;
 import thai.services.PortalUserService;
@@ -33,11 +31,11 @@ public class PortalUserController {
     }
 
     @PostMapping("register")
-    public ModelAndView register(ModelMap model, @Valid PortalUser portalUser, BindingResult bindingResult) {
+    public String register(@Valid PortalUser portalUser, BindingResult bindingResult) {
         if (!bindingResult.hasErrors()) {
             portalUserService.save(portalUser);
-            return new ModelAndView("redirect:/", model);
+            return "redirect:/";
         }
-        return new ModelAndView("register", model);
+        return "register";
     }
 }
