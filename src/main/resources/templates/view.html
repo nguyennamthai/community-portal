@@ -42,7 +42,7 @@
                         <td th:text="${message.content}"></td>
                         <td>
                             <span class="edit-link pull-right">
-                                <a th:href="@{/edit(id=${message.id})}">Edit</a>
+                                <a th:href="@{/edit-message(id=${message.id})}">Edit</a>
                                 <a onclick="return confirm('Sure?')" th:href="@{/delele(id=${message.id})}">Delete</a>
                             </span>
                         </td>

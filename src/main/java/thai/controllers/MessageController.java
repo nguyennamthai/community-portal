@@ -56,15 +56,15 @@ public class MessageController {
         return "redirect:view";
     }
 
-    @GetMapping("edit") // FIXME Change method to PUT
-    public String edit(Model model, @RequestParam Long id) {
+    @GetMapping("edit-message") // FIXME Change method to PUT
+    public String editMessage(Model model, @RequestParam Long id) {
         Message message = messageService.get(id);
         model.addAttribute("message", message);
-        return "edit";
+        return "edit-message";
     }
 
-    @PostMapping("edit") // FIXME Change method to PUT
-    public String edit(Model model, @Valid Message message, BindingResult bindingResult) {
+    @PostMapping("edit-message") // FIXME Change method to PUT
+    public String editMessage(Model model, @Valid Message message, BindingResult bindingResult) {
         if (!bindingResult.hasErrors()) {
             message.setCreated(new Date());
             message.setModified(new Date());
