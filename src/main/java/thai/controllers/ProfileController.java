@@ -54,19 +54,19 @@ public class ProfileController {
 
     // Change method names to match REST conventions
     // Merge the two showProfile methods
-    @GetMapping("profile")
+    @GetMapping("user")
     public String showProfile(Principal principal, Model model) {
-        String email = principal.getName();
-        PortalUser portalUser = portalUserService.getUserByEmail(email);
+        String username = principal.getName();
+        PortalUser portalUser = portalUserService.getUserByUsername(username);
         viewProfile(portalUser, model);
-        return "profile";
+        return "user";
     }
 
-    @GetMapping("profile/{id}")
+    @GetMapping("user/{id}")
     public String showProfile(@PathVariable long id, Model model) {
         PortalUser portalUser = portalUserService.getUserById(id);
         viewProfile(portalUser, model);
-        return "profile";
+        return "user";
     }
 
     private void viewProfile(PortalUser portalUser, Model model) {
@@ -169,6 +169,6 @@ public class ProfileController {
             // TODO Log the exception
             e1.printStackTrace();
         }
-        return "redirect:profile";
+        return "redirect:user";
     }
 }

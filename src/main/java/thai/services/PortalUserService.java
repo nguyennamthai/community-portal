@@ -35,7 +35,7 @@ public class PortalUserService implements UserDetailsService {
     }
 
     public PortalUser getUserByUsername(String username) {
-        return portalUserRepository.findByEmail(username);
+        return portalUserRepository.findByUsername(username);
     }
 
     public PortalUser getUserByEmail(String email) {
