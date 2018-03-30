@@ -21,11 +21,11 @@ public class MessageController {
     @Autowired
     private MessageService messageService;
 
-    @GetMapping("view")
-    public String view(Model model, @RequestParam(name = "p", defaultValue = "1") int pageNumber) {
+    @GetMapping("view-messages")
+    public String viewMessages(Model model, @RequestParam(name = "p", defaultValue = "1") int pageNumber) {
         Page<Message> page = messageService.getPage(pageNumber);
         model.addAttribute("page", page);
-        return "view";
+        return "view-messages";
     }
 
     @GetMapping("post-message")
@@ -42,7 +42,7 @@ public class MessageController {
         if (!bindingResult.hasErrors()) {
             messageService.save(message);
             model.addAttribute("message", new Message());
-            return "redirect:view";
+            return "redirect:view-messages";
         }
 
         Message lastMsg = messageService.getLatest();
@@ -53,7 +53,7 @@ public class MessageController {
     @GetMapping("delele") // FIXME Change method to DELETE
     public String delete(@RequestParam Long id) {
         messageService.delete(id);
-        return "redirect:view";
+        return "redirect:view-messages";
     }
 
     @GetMapping("edit-message") // FIXME Change method to PUT
@@ -70,7 +70,7 @@ public class MessageController {
             message.setModified(new Date());
             messageService.save(message);
             model.addAttribute("message", new Message());
-            return "redirect:view";
+            return "redirect:view-messages";
         }
 
         Message lastMsg = messageService.getLatest();
