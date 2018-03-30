@@ -9,6 +9,7 @@ import org.springframework.web.bind.annotation.ExceptionHandler;
 
 @ControllerAdvice
 public class DefaultExceptionHandler {
+    // TODO Handle 404 error
     @ExceptionHandler
     public String globalHandler(Model model, HttpServletRequest request, Exception exception) {
         model.addAttribute("url", request.getRequestURL());

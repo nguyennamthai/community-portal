@@ -9,6 +9,7 @@ import javax.persistence.Enumerated;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
 import javax.persistence.OneToMany;
+import javax.persistence.OneToOne;
 import javax.validation.constraints.Email;
 
 import lombok.Data;
@@ -36,6 +37,8 @@ public class PortalUser {
     private Role role;
     
     // TODO Add a one-to-one relationship to Profile
+    @OneToOne(mappedBy = "portalUser")
+    private Profile profile;
 
     @OneToMany(mappedBy = "user")
     private List<Message> messages;

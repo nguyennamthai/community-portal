@@ -13,13 +13,15 @@
                     <table>
                         <tr>
                             <th>User</th>
-                            <th>Profile</th>
                             <th>Messages</th>
                         </tr>
                         <tr th:each="user : ${users}">
-                            <td th:text="${user.username}"></td>
-                            <!-- Change to user.profile later on -->
-                            <td th:text="${user.email}"></td>
+                            <td>
+                            <!-- FIXME Disable href instead of removing the link -->
+                                <span class="pull-right">
+                                    <a th:if="${user.profile != null}" th:text="${user.username}" th:href="@{/profile/{id}(id=${user.profile.id})}"></a>
+                                </span>
+                            </td>
                             <td>
                                 <span class="pull-right">
                                     <!-- TODO Change to messages of the selected user only -->
