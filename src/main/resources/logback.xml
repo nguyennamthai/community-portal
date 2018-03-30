@@ -1,7 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE xml>
 <configuration>
-    <!-- TODO Change the message format (increase time precision) for DB and log level for STDOUT -->
     <appender name="DB" class="ch.qos.logback.core.rolling.RollingFileAppender">
         <!-- The primary log file before rollover at midnight -->
         <file>logs${file.separator}info.csv</file>
@@ -13,11 +12,11 @@
             <totalSizeCap>3GB</totalSizeCap>
         </rollingPolicy>
         <filter class="ch.qos.logback.classic.filter.ThresholdFilter">
-            <level>INFO</level>
+            <level>DEBUG</level>
         </filter>
         <encoder>
             <pattern>
-                %d{HH:mm:ss} %-5level %logger{30} - %msg%n
+                %d{HH:mm:ss.SSS} %-5level %logger{30} - %msg%n
             </pattern>
         </encoder>
     </appender>
