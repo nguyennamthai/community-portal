@@ -23,7 +23,8 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
     public void configure(HttpSecurity http) throws Exception {
         http.authorizeRequests()
               .antMatchers("/", "/about", "/signup", "/css/*", "/js/*", "/img/*").permitAll()
-              .antMatchers("/users").hasAuthority("ADMIN") // If hasRole is used instead, the ROLE_ prefix will automatically be added
+              // If hasRole is used instead, the ROLE_ prefix will automatically be added
+              .antMatchers("/users").hasAuthority("ADMIN")
               .anyRequest().authenticated()
             .and()
               .formLogin().loginPage("/login").defaultSuccessUrl("/").permitAll()

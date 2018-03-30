@@ -41,6 +41,7 @@
                         <td th:text="${#dates.format(message.modified, 'EEEE dd MMMM yy ''at'' HH:mm:ss')}"></td>
                         <td th:text="${message.content}"></td>
                         <td>
+                            <!-- FIXME Edit and Delete should be enabled for the author and admins only -->
                             <span class="edit-link pull-right">
                                 <a th:href="@{/edit-message(id=${message.id})}">Edit</a>
                                 <a onclick="return confirm('Sure?')" th:href="@{/delele(id=${message.id})}">Delete</a>
