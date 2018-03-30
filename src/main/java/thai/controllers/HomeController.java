@@ -30,8 +30,8 @@ public class HomeController {
         return "403";
     }
 
-    @GetMapping("users")
-    public String readUsers() {
-        return "read-users";
+    @GetMapping("view-users")
+    public String viewUsers() {
+        return "view-users";
     }
 }

@@ -23,19 +23,19 @@ public class PortalUserController {
         return "login";
     }
 
-    @GetMapping("register")
-    public String register(Model model) {
+    @GetMapping("signup")
+    public String signup(Model model) {
         PortalUser portalUser = new PortalUser();
         model.addAttribute("member", portalUser);
-        return "register";
+        return "signup";
     }
 
-    @PostMapping("register")
-    public String register(@Valid PortalUser portalUser, BindingResult bindingResult) {
+    @PostMapping("signup")
+    public String signup(@Valid PortalUser portalUser, BindingResult bindingResult) {
         if (!bindingResult.hasErrors()) {
             portalUserService.save(portalUser);
             return "redirect:/";
         }
-        return "register";
+        return "signup";
     }
 }
