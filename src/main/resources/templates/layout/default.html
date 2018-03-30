@@ -34,9 +34,10 @@
             <div sec:authorize="isAuthenticated()" class="dropdown">
                 <button type="button" class="btn btn-primary dropdown-toggle" data-toggle="dropdown">Action</button>
                 <div class="dropdown-menu">
-                    <a class="dropdown-item" href="/add">Add</a> <a class="dropdown-item" href="/view">View</a> <a
-                        class="dropdown-item" href="/profile">Profile</a> <a class="dropdown-item"
-                        href="javascript:document.logoutForm.submit();">Log out</a>
+                    <a class="dropdown-item" href="/post-message">Add a Message</a>
+                    <a class="dropdown-item" href="/view">View Messages</a>
+                    <a class="dropdown-item" href="/profile">Profile</a>
+                    <a class="dropdown-item" href="javascript:document.logoutForm.submit();">Log out</a>
                 </div>
             </div>
         </nav>

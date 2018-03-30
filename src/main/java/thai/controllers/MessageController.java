@@ -30,17 +30,17 @@ public class MessageController {
         return "view";
     }
 
-    @GetMapping("add")
-    public String add(Model model) {
+    @GetMapping("post-message")
+    public String postMessage(Model model) {
         Message message = new Message();
         model.addAttribute("message", message);
         Message lastMsg = messageService.getLatest();
         model.addAttribute("lastMsg", lastMsg);
-        return "add";
+        return "post-message";
     }
 
-    @PostMapping("add")
-    public ModelAndView add(ModelMap model, @Valid Message message, BindingResult bindingResult) {
+    @PostMapping("post-message")
+    public ModelAndView postMessage(ModelMap model, @Valid Message message, BindingResult bindingResult) {
         if (!bindingResult.hasErrors()) {
             messageService.save(message);
             model.addAttribute("message", new Message());
@@ -49,7 +49,7 @@ public class MessageController {
 
         Message lastMsg = messageService.getLatest();
         model.addAttribute("lastMsg", lastMsg);
-        return new ModelAndView("add", model);
+        return new ModelAndView("post-message", model);
     }
 
     @GetMapping("delele") // FIXME Change method to DELETE
@@ -77,6 +77,6 @@ public class MessageController {
 
         Message lastMsg = messageService.getLatest();
         model.addAttribute("lastMsg", lastMsg);
-        return new ModelAndView("add", model);
+        return new ModelAndView("post-message", model);
     }
 }
