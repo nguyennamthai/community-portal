@@ -9,12 +9,12 @@
         <div class="row">
             <div class="col-lg-8 col-lg-offset-2">
                 <div th:if="${page.totalPages > 1}">
-                    <!-- Specify the size for a page instead of hard-code -->
+                    <!-- FIXME Specify the size for a page instead of hard-code -->
                     <span th:switch="${page.first}">
                         <span th:case="${true}">Previous</span>
                         <a th:case="${false}" th:href="@{${url}(p=${page.number})}">Previous</a>
                     </span>
-                    <div class="pagination" th:each="index : ${#numbers.sequence(1, page.totalPages)}">
+                    <span th:each="index : ${#numbers.sequence(1, page.totalPages)}">
                         <span th:text="${'|'}"></span>
                         <span th:switch="${index}">
                             <span th:case="${page.number + 1}">
@@ -24,7 +24,7 @@
                                 <a th:href="@{${url}(p=${index})}" th:text="${index}"></a>
                             </span>
                         </span>
-                    </div>
+                    </span>
                     <span th:text="${'|'}"></span>
                     <span th:switch="${page.last}">
                         <span th:case="${true}">Next</span>
