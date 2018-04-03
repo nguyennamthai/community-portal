@@ -7,14 +7,17 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.ControllerAdvice;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 
+import lombok.extern.slf4j.Slf4j;
+
+@Slf4j
 @ControllerAdvice
 public class DefaultExceptionHandler {
     @ExceptionHandler
     public String globalHandler(Model model, HttpServletRequest request, Exception exception) {
         model.addAttribute("url", request.getRequestURL());
         model.addAttribute("exception", exception.getMessage());
-        // FIXME Change the following to a log and send an email to admins
-        exception.printStackTrace();
+        // TODO Send an email to the admin
+        log.error("Exception thrown:", exception);
         return "exception";
     }
 
