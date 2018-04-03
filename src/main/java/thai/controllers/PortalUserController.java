@@ -14,7 +14,7 @@ import thai.services.PortalUserService;
 
 @Controller
 public class PortalUserController {
-
+    // TODO Verify password
     @Autowired
     private PortalUserService portalUserService;
 
@@ -26,7 +26,7 @@ public class PortalUserController {
     @GetMapping("signup")
     public String signup(Model model) {
         PortalUser portalUser = new PortalUser();
-        model.addAttribute("member", portalUser);
+        model.addAttribute("portalUser", portalUser);
         return "signup";
     }
 

@@ -23,7 +23,7 @@ public class DefaultExceptionHandler {
 
     @ExceptionHandler(DataIntegrityViolationException.class)
     public String duplicateUserHandler(Model model) {
-        model.addAttribute("exception", "Username already existed");
+        model.addAttribute("exception", "User already existed");
         return "exception";
     }
 }
