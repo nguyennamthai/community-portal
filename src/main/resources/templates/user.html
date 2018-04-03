@@ -5,6 +5,7 @@
 </head>
 <body>
     <div th:replace="layout/default :: navbar"></div>
+
     <div class="col-md-10 col-md-offset-1">
         <div>
             <img th:src="${'/profile-photo/' + memId}" />
@@ -23,6 +24,7 @@
             <input type="submit" value="Upload" />
         </form>
     </div>
+
     <div th:replace="layout/default :: copy"></div>
 </body>
 </html>

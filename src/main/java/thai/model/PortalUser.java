@@ -11,6 +11,7 @@ import javax.persistence.Id;
 import javax.persistence.OneToMany;
 import javax.persistence.OneToOne;
 import javax.validation.constraints.Email;
+import javax.validation.constraints.NotNull;
 
 import lombok.Data;
 
@@ -22,6 +23,7 @@ public class PortalUser {
     private Long id;
 
     // TODO Add a constraint to avoid the @ character
+    @NotNull
     @Column(unique = true)
     private String username;
 

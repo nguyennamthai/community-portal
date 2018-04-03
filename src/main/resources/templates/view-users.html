@@ -5,35 +5,29 @@
 </head>
 <body>
     <div th:replace="layout/default :: navbar"></div>
+
     <div class="container-fluid">
         <div class="row">
-            <div class="col-md-6 col-md-offset-3 col-sm-8 col-sm-offset-2">
-                <div class="panel panel-default">
-                    <!-- TODO Add a link to profile and a link to all self-written messages in each user -->
-                    <table>
-                        <tr>
-                            <th>User</th>
-                            <th>Messages</th>
-                        </tr>
-                        <tr th:each="user : ${users}">
-                            <td>
-                            <!-- FIXME Disable href instead of removing the link -->
-                                <span class="pull-right">
-                                    <a th:if="${user.profile != null}" th:text="${user.username}" th:href="@{/profile/{id}(id=${user.profile.id})}"></a>
-                                </span>
-                            </td>
-                            <td>
-                                <span class="pull-right">
-                                    <!-- TODO Change to messages of the selected user only -->
-                                    <a th:href="@{/view-messages}">View</a>
-                                </span>
-                            </td>
-                        </tr>
-                    </table>
-                </div>
+            <div class="col-md-4 offset-md-4">
+                <table style="border-spacing:20px;border-collapse:separate">
+                    <tr style="text-align:center">
+                        <th style="width:60%">User</th>
+                        <th style="width:40%">Messages</th>
+                    </tr>
+                    <tr th:each="user : ${users}">
+                        <td>
+                            <a th:text="${user.username}" th:href="@{/user/{id}(id=${user.id})}"></a>
+                        </td>
+                        <td style="text-align:center">
+                            <!-- TODO Change to messages of the selected user only -->
+                            <a th:href="@{/view-messages/{id}(id=${user.id})}">View</a>
+                        </td>
+                    </tr>
+                </table>
             </div>
         </div>
     </div>
+
     <div th:replace="layout/default :: copy"></div>
 </body>
 </html>

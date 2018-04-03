@@ -5,6 +5,7 @@
 </head>
 <body>
     <div th:replace="layout/default :: navbar"></div>
+
     <div class="container-fluid">
         <div class="row">
             <div class="col-md-8 offset-md-2">
@@ -21,7 +22,7 @@
                             <!-- FIXME Edit and Delete should be enabled for the author and admins only -->
                             <span class="edit-link pull-right">
                                 <a th:href="@{/edit-message(id=${message.id})}">Edit</a>
-                                <a onclick="return confirm('Sure?')" th:href="@{/delele(id=${message.id})}">Delete</a>
+                                <a onclick="return confirm('Are you sure to delete this message?')" th:href="@{/delele(id=${message.id})}">Delete</a>
                             </span>
                         </td>
                     </tr>

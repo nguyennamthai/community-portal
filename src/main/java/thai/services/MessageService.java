@@ -33,15 +33,15 @@ public class MessageService {
         return messageRepository.findAll(pageable);
     }
 
+    public List<Message> getMessagesPerUser(PortalUser user) {
+        return messageRepository.findByUser(user);
+    }
+
     public void delete(Long id) {
         messageRepository.deleteById(id);
     }
 
     public Message get(Long id) {
         return messageRepository.findById(id).orElse(getLatest());
-    }
-
-    public List<Message> readMessages(PortalUser user) {
-        return messageRepository.findByUser(user);
     }
 }
