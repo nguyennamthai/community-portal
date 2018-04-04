@@ -19,7 +19,6 @@
                             <a th:text="${user.username}" th:href="@{/user/{id}(id=${user.id})}"></a>
                         </td>
                         <td style="text-align:center">
-                            <!-- TODO Change to messages of the selected user only -->
                             <a th:href="@{/view-messages/{id}(id=${user.id})}">View</a>
                         </td>
                     </tr>

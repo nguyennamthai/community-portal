@@ -28,7 +28,6 @@
                 </table>
 
                 <div style="text-align:center;padding-top:20px" th:if="${page.totalPages > 1}">
-                    <!-- FIXME Specify the size for a page instead of hard-code -->
                     <span th:switch="${page.first}">
                         <span th:case="${true}">Previous</span>
                         <a th:case="${false}" th:href="@{${url}(p=${page.number})}">Previous</a>
