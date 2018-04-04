@@ -121,16 +121,12 @@ public class ProfileController {
         Profile profile = profileService.getProfile(portalUser);
 
         InputStream is = null;
-        try {
-            if (profile == null || profile.getPhotoPath() == null || profile.getPhotoPath().equals("")) {
-                Resource classPathResource = new ClassPathResource(photoPath);
-                is = classPathResource.getInputStream();
-            } else {
-                photoPath = profile.getPhotoPath();
-                is = Files.newInputStream(Paths.get(photoPath));
-            }
-        } catch (IOException e) {
-            // TODO Log the message
+        if (profile == null || profile.getPhotoPath() == null || profile.getPhotoPath().equals("")) {
+            Resource classPathResource = new ClassPathResource(photoPath);
+            is = classPathResource.getInputStream();
+        } else {
+            photoPath = profile.getPhotoPath();
+            is = Files.newInputStream(Paths.get(photoPath));
         }
 
         InputStreamResource resource = new InputStreamResource(is);
@@ -138,7 +134,7 @@ public class ProfileController {
     }
 
     @PostMapping("upload-profile-photo")
-    public String savePhoto(@RequestParam("file") MultipartFile file) {
+    public String savePhoto(@RequestParam("file") MultipartFile file) throws IOException {
         // FIXME Combile this method with saveProfile to validate photoPath
         Authentication auth = SecurityContextHolder.getContext().getAuthentication();
         PortalUser portalUser = portalUserService.getUserByEmail(auth.getName());
@@ -164,9 +160,6 @@ public class ProfileController {
             profileService.save(profile);
             if (oldPhoto != null)
                 Files.delete(Paths.get(oldPhoto));
-        } catch (IOException e1) {
-            // TODO Log the exception
-            e1.printStackTrace();
         }
         return "redirect:user";
     }

@@ -5,6 +5,7 @@
 </head>
 <body>
     <div th:replace="layout/default :: navbar"></div>
+
     <div class="container-fluid">
         <div class="row">
             <div class="col-lg-8 col-lg-offset-2">
@@ -12,8 +13,6 @@
                     <div class="panel-heading">
                         <div class="panel-title">Edit Profile</div>
                     </div>
-
-                    <!-- FIXME Move this to the profile template -->
 
                     <div class="panel-body">
                         <form th:object="${profile}" method="post">
