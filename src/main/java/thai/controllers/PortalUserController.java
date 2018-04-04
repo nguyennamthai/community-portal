@@ -10,11 +10,11 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 
 import thai.model.PortalUser;
+import thai.model.Profile;
 import thai.services.PortalUserService;
 
 @Controller
 public class PortalUserController {
-    // TODO Verify password
     @Autowired
     private PortalUserService portalUserService;
 
@@ -33,6 +33,7 @@ public class PortalUserController {
     @PostMapping("signup")
     public String signup(@Valid PortalUser portalUser, BindingResult bindingResult) {
         if (!bindingResult.hasErrors()) {
+            portalUser.setProfile(new Profile());
             portalUserService.save(portalUser);
             return "redirect:/";
         }

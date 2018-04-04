@@ -4,7 +4,6 @@ import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
-import javax.persistence.JoinColumn;
 import javax.persistence.OneToOne;
 import javax.validation.constraints.Size;
 
@@ -17,8 +16,7 @@ public class Profile {
     @GeneratedValue
     private Long id;
 
-    @OneToOne
-    @JoinColumn(nullable = false)
+    @OneToOne(mappedBy = "profile")
     private PortalUser portalUser;
 
     @Column(length = 1000)

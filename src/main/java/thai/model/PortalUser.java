@@ -2,6 +2,7 @@ package thai.model;
 
 import java.util.List;
 
+import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.EnumType;
@@ -36,8 +37,8 @@ public class PortalUser {
 
     @Enumerated(EnumType.STRING)
     private Role role;
-    
-    @OneToOne(mappedBy = "portalUser")
+
+    @OneToOne(cascade = CascadeType.ALL)
     private Profile profile;
 
     @OneToMany(mappedBy = "user")

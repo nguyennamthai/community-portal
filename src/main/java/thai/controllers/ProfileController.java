@@ -52,8 +52,6 @@ public class ProfileController {
     @Value("${photo.directory}")
     private String photoDirectory;
 
-    // Change method names to match REST conventions
-    // Merge the two showProfile methods
     @GetMapping("user")
     public String showProfile(Principal principal, Model model) {
         String username = principal.getName();
@@ -136,7 +134,6 @@ public class ProfileController {
     public String savePhoto(@RequestParam("file") MultipartFile file) throws IOException {
         Authentication auth = SecurityContextHolder.getContext().getAuthentication();
         PortalUser portalUser = portalUserService.getUserByEmail(auth.getName());
-        // TODO Handle the case when profile is null
         Profile profile = profileService.getProfile(portalUser);
 
         String prefix = System.currentTimeMillis() + profile.getId() + "-";
