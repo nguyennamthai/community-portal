@@ -87,9 +87,8 @@ public class ProfileController {
 
     @GetMapping("edit-profile")
     public String editProfile(Principal principal, Model model) {
-        // FIXME the following code snippet is the same as in showProfile
-        String email = principal.getName();
-        PortalUser portalUser = portalUserService.getUserByEmail(email);
+        String username = principal.getName();
+        PortalUser portalUser = portalUserService.getUserByUsername(username);
         Profile profile = profileService.getProfile(portalUser);
 
         Profile viewProfile = new Profile();
@@ -101,8 +100,8 @@ public class ProfileController {
 
     @PostMapping("edit-profile")
     public String saveProfile(Principal principal, @Valid Profile viewProfile, BindingResult bindingResult) {
-        String email = principal.getName();
-        PortalUser portalUser = portalUserService.getUserByEmail(email);
+        String username = principal.getName();
+        PortalUser portalUser = portalUserService.getUserByUsername(username);
         Profile profile = profileService.getProfile(portalUser);
 
         profile.setInfo(viewProfile.getInfo());
@@ -135,10 +134,9 @@ public class ProfileController {
 
     @PostMapping("upload-profile-photo")
     public String savePhoto(@RequestParam("file") MultipartFile file) throws IOException {
-        // FIXME Combile this method with saveProfile to validate photoPath
         Authentication auth = SecurityContextHolder.getContext().getAuthentication();
         PortalUser portalUser = portalUserService.getUserByEmail(auth.getName());
-        // Handle the case when profile is null
+        // TODO Handle the case when profile is null
         Profile profile = profileService.getProfile(portalUser);
 
         String prefix = System.currentTimeMillis() + profile.getId() + "-";
