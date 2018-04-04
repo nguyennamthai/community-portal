@@ -16,7 +16,6 @@ public class DefaultExceptionHandler {
     public String globalHandler(Model model, HttpServletRequest request, Exception exception) {
         model.addAttribute("url", request.getRequestURL());
         model.addAttribute("exception", exception.getMessage());
-        // TODO Send an email to the admin
         log.error("Exception thrown:", exception);
         return "exception";
     }

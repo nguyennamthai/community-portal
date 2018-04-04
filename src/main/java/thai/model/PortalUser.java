@@ -15,6 +15,7 @@ import javax.validation.constraints.Email;
 import javax.validation.constraints.NotNull;
 
 import lombok.Data;
+import thai.validators.UsernameConstraint;
 
 @Data
 @Entity
@@ -23,9 +24,9 @@ public class PortalUser {
     @GeneratedValue
     private Long id;
 
-    // TODO Add a constraint to avoid the @ character
     @NotNull
     @Column(unique = true)
+    @UsernameConstraint
     private String username;
 
     @Column(unique = true)
