@@ -32,7 +32,6 @@ public class PortalUser {
     @Email(message = "Invalid email address")
     private String email;
 
-    // TODO Use a custom validator to verify the repeated password
     private String password;
 
     @Enumerated(EnumType.STRING)
