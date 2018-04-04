@@ -21,9 +21,10 @@ public class DefaultExceptionHandler {
         return "exception";
     }
 
-    @ExceptionHandler(DataIntegrityViolationException.class)
-    public String duplicateUserHandler(Model model) {
-        model.addAttribute("exception", "User already existed");
+    @ExceptionHandler
+    public String duplicateUserHandler(Model model, DataIntegrityViolationException exception) {
+        model.addAttribute("exception", "The username or email address has already been used");
+        log.error("Exception thrown:", exception);
         return "exception";
     }
 }
