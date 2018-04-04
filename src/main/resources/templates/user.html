@@ -8,7 +8,7 @@
 
     <div class="col-md-10 col-md-offset-1">
         <div>
-            <img th:src="${'/profile-photo/' + memId}" />
+            <img th:src="${'/profile-photo/' + username}" />
         </div>
         <div>
             <p th:if="${profile.info == null}" th:text="${'Click Edit to add your profile info'}"></p>

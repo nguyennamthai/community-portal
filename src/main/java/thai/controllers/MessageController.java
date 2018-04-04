@@ -36,9 +36,9 @@ public class MessageController {
         return "view-messages";
     }
 
-    @GetMapping("view-messages/{id}")
-    public String viewMessagesPerUser(Model model, @PathVariable long id) {
-        PortalUser user = portalUserService.getUserById(id);
+    @GetMapping("view-messages/{username}")
+    public String viewMessagesPerUser(Model model, @PathVariable String username) {
+        PortalUser user = portalUserService.getUserByUsername(username);
         List<Message> messages = messageService.getMessagesPerUser(user);
         model.addAttribute("messages", messages);
         return "messages-per-user";

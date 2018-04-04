@@ -16,10 +16,10 @@
                     </tr>
                     <tr th:each="user : ${users}">
                         <td>
-                            <a th:text="${user.username}" th:href="@{/user/{id}(id=${user.id})}"></a>
+                            <a th:text="${user.username}" th:href="@{/user/{username}(username=${user.username})}"></a>
                         </td>
                         <td style="text-align:center">
-                            <a th:href="@{/view-messages/{id}(id=${user.id})}">View</a>
+                            <a th:href="@{/view-messages/{username}(username=${user.username})}">View</a>
                         </td>
                     </tr>
                 </table>

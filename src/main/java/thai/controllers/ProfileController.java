@@ -62,9 +62,9 @@ public class ProfileController {
         return "user";
     }
 
-    @GetMapping("user/{id}")
-    public String showProfile(@PathVariable long id, Model model) {
-        PortalUser portalUser = portalUserService.getUserById(id);
+    @GetMapping("user/{username}")
+    public String showProfile(@PathVariable String username, Model model) {
+        PortalUser portalUser = portalUserService.getUserByUsername(username);
         viewProfile(portalUser, model);
         return "user";
     }
@@ -81,7 +81,7 @@ public class ProfileController {
         Profile viewProfile = new Profile();
         viewProfile.setInfo(profile.getInfo());
 
-        model.addAttribute("memId", portalUser.getId());
+        model.addAttribute("username", portalUser.getUsername());
         model.addAttribute("profile", viewProfile);
     }
 
@@ -114,10 +114,10 @@ public class ProfileController {
         return "edit-profile";
     }
 
-    @GetMapping("profile-photo/{memId}")
-    public ResponseEntity<InputStreamResource> viewProfilePhoto(@PathVariable long memId) throws IOException {
+    @GetMapping("profile-photo/{username}")
+    public ResponseEntity<InputStreamResource> viewProfilePhoto(@PathVariable String username) throws IOException {
         String photoPath = "static/img/portal.png";
-        PortalUser portalUser = portalUserService.getUserById(memId);
+        PortalUser portalUser = portalUserService.getUserByUsername(username);
         Profile profile = profileService.getProfile(portalUser);
 
         InputStream is = null;
@@ -125,7 +125,6 @@ public class ProfileController {
             if (profile == null || profile.getPhotoPath() == null || profile.getPhotoPath().equals("")) {
                 Resource classPathResource = new ClassPathResource(photoPath);
                 is = classPathResource.getInputStream();
-                System.out.println(is == null);
             } else {
                 photoPath = profile.getPhotoPath();
                 is = Files.newInputStream(Paths.get(photoPath));
