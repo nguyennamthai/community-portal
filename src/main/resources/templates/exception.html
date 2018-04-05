@@ -7,11 +7,10 @@
     <div th:replace="layout/default :: navbar"></div>
 
     <div class="col-md-6 offset-md-3">
-        <div class="panel panel-default">
-            <p th:if="${url != null}" th:text="${'Failed URL: ' + url}"></p>
-            <p th:text="${'Exception Message: ' + exception}"></p>
-        </div>
+        <p th:if="${url != null}" th:text="${'Failed URL: ' + url}"></p>
+        <p th:text="${'Error Message: ' + exception}"></p>
     </div>
+
     <div th:replace="layout/default :: copy"></div>
 </body>
 </html>

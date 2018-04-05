@@ -6,9 +6,9 @@
 <body>
     <div th:replace="layout/default :: navbar"></div>
 
-    <div class="col-md-4 offset-md-4" th:with="httpStatus=${T(org.springframework.http.HttpStatus).valueOf(#response.status)}">
-        <h1 th:text="|${httpStatus} - ${httpStatus.reasonPhrase}|">404</h1>
-        <a href="index.html" th:href="@{/}">Back to Home Page</a>
+    <div style="text-align:center;margin-top:40px" th:with="httpStatus=${T(org.springframework.http.HttpStatus).valueOf(#response.status)}">
+        <h2 style="margin-bottom:40px" th:text="|${httpStatus} - ${httpStatus.reasonPhrase}|"></h2>
+        <a th:href="@{/}">Back to Home Page</a>
     </div>
 
     <div th:replace="layout/default :: copy"></div>
