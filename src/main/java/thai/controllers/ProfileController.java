@@ -50,12 +50,14 @@ public class ProfileController {
     @GetMapping("user")
     public String showProfile(Principal principal, Model model) {
         String username = principal.getName();
+        model.addAttribute("editable", true);
         viewProfile(username, model);
         return "user";
     }
 
     @GetMapping("user/{username}")
     public String showProfile(@PathVariable String username, Model model) {
+        model.addAttribute("editable", false);
         viewProfile(username, model);
         return "user";
     }
