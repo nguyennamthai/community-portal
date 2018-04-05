@@ -33,18 +33,13 @@ import org.springframework.web.multipart.MultipartFile;
 
 import net.coobird.thumbnailator.Thumbnails;
 import thai.exceptions.InvalidImageException;
-import thai.model.PortalUser;
 import thai.model.Profile;
-import thai.services.PortalUserService;
 import thai.services.ProfileService;
 
 @Controller
 public class ProfileController {
     private final int WIDTH = 200;
     private final int HEIGHT = 200;
-
-    @Autowired
-    private PortalUserService portalUserService;
 
     @Autowired
     private ProfileService profileService;
@@ -55,39 +50,29 @@ public class ProfileController {
     @GetMapping("user")
     public String showProfile(Principal principal, Model model) {
         String username = principal.getName();
-        PortalUser portalUser = portalUserService.getUserByUsername(username);
-        viewProfile(portalUser, model);
+        viewProfile(username, model);
         return "user";
     }
 
     @GetMapping("user/{username}")
     public String showProfile(@PathVariable String username, Model model) {
-        PortalUser portalUser = portalUserService.getUserByUsername(username);
-        viewProfile(portalUser, model);
+        viewProfile(username, model);
         return "user";
     }
 
-    private void viewProfile(PortalUser portalUser, Model model) {
-        Profile profile = profileService.getProfile(portalUser);
-
-        if (profile == null) {
-            profile = new Profile();
-            profile.setPortalUser(portalUser);
-            profileService.save(profile);
-        }
-
+    private void viewProfile(String username, Model model) {
+        Profile profile = profileService.getProfileByUsername(username);
         Profile viewProfile = new Profile();
         viewProfile.setInfo(profile.getInfo());
 
-        model.addAttribute("username", portalUser.getUsername());
+        model.addAttribute("username", username);
         model.addAttribute("profile", viewProfile);
     }
 
     @GetMapping("edit-profile")
     public String editProfile(Principal principal, Model model) {
         String username = principal.getName();
-        PortalUser portalUser = portalUserService.getUserByUsername(username);
-        Profile profile = profileService.getProfile(portalUser);
+        Profile profile = profileService.getProfileByUsername(username);
 
         Profile viewProfile = new Profile();
         viewProfile.setInfo(profile.getInfo());
@@ -99,8 +84,7 @@ public class ProfileController {
     @PostMapping("edit-profile")
     public String saveProfile(Principal principal, @Valid Profile viewProfile, BindingResult bindingResult) {
         String username = principal.getName();
-        PortalUser portalUser = portalUserService.getUserByUsername(username);
-        Profile profile = profileService.getProfile(portalUser);
+        Profile profile = profileService.getProfileByUsername(username);
 
         profile.setInfo(viewProfile.getInfo());
 
@@ -114,8 +98,7 @@ public class ProfileController {
     @GetMapping("profile-photo/{username}")
     public ResponseEntity<InputStreamResource> viewProfilePhoto(@PathVariable String username) throws IOException {
         String photoPath = "static/img/portal.png";
-        PortalUser portalUser = portalUserService.getUserByUsername(username);
-        Profile profile = profileService.getProfile(portalUser);
+        Profile profile = profileService.getProfileByUsername(username);
 
         InputStream is = null;
         if (profile == null || profile.getPhotoPath() == null || profile.getPhotoPath().equals("")) {
@@ -133,8 +116,7 @@ public class ProfileController {
     @PostMapping("upload-profile-photo")
     public String savePhoto(@RequestParam("file") MultipartFile file) throws IOException {
         Authentication auth = SecurityContextHolder.getContext().getAuthentication();
-        PortalUser portalUser = portalUserService.getUserByEmail(auth.getName());
-        Profile profile = profileService.getProfile(portalUser);
+        Profile profile = profileService.getProfileByUsername(auth.getName());
 
         String prefix = System.currentTimeMillis() + profile.getId() + "-";
         String originalName = file.getOriginalFilename();

@@ -14,10 +14,12 @@ import javax.persistence.OneToOne;
 import javax.validation.constraints.Email;
 import javax.validation.constraints.NotNull;
 
-import lombok.Data;
+import lombok.Getter;
+import lombok.Setter;
 import thai.validators.UsernameConstraint;
 
-@Data
+@Getter
+@Setter
 @Entity
 public class PortalUser {
     @Id

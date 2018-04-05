@@ -18,7 +18,7 @@
                     <div th:if="${#fields.hasErrors('content')}" class="alert alert-danger">
                         <p th:each="err : ${#fields.errors('content')}" th:text="${err}"></p>
                     </div>
-                    <div class="form-group">
+                    <div>
                         <textarea name="text" rows="4" class="form-control" th:field="*{content}"></textarea>
                     </div>
                     <button type="submit" class="btn btn-primary float-right">Save</button>

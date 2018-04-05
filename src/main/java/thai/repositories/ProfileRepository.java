@@ -1,10 +1,11 @@
 package thai.repositories;
 
+import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.CrudRepository;
 
-import thai.model.PortalUser;
 import thai.model.Profile;
 
-public interface ProfileRepository extends CrudRepository<Profile, Long>{
-    Profile findByPortalUser(PortalUser portalUser);
+public interface ProfileRepository extends CrudRepository<Profile, Long> {
+    @Query("SELECT p FROM Profile p JOIN PortalUser u ON p = u.profile WHERE u.username = ?1")
+    Profile findByUsername(String username);
 }
