@@ -10,7 +10,7 @@
         <div class="col-md-8 offset-md-2">
             <div class="card">
                 <div class="card-header">
-                    <div class="panel-title">Edit Profile</div>
+                    <div class="card-title">Edit Profile</div>
                 </div>
                 <div class="card-body">
                     <form th:object="${profile}" method="post">
@@ -18,9 +18,7 @@
                         <div th:if="${#fields.hasErrors('info')}" class="alert alert-danger">
                             <p th:each="err : ${#fields.errors('info')}" th:text="${err}"></p>
                         </div>
-                        <div>
-                            <textarea name="text" rows="4" class="form-control" th:field="*{info}"></textarea>
-                        </div>
+                        <textarea name="text" rows="4" class="form-control" th:field="*{info}"></textarea>
                         <button type="submit" class="btn btn-primary float-right" style="margin-top:15px">Save</button>
                     </form>
                 </div>
