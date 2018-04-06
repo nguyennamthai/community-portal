@@ -45,8 +45,4 @@ public class PortalUser {
 
     @OneToMany(mappedBy = "user")
     private List<Message> messages;
-
-    public enum Role {
-        ADMIN, MEMBER
-    }
 }

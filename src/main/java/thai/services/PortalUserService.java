@@ -13,7 +13,7 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import thai.model.PortalUser;
-import thai.model.PortalUser.Role;
+import thai.model.Role;
 import thai.repositories.PortalUserRepository;
 
 @Service
