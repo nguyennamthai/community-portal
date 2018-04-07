@@ -1,4 +1,4 @@
-# The following settings are used for development only
+# This configuration is used for development only
 spring:
   thymeleaf:
     cache: false
