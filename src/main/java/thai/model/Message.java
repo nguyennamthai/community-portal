@@ -13,9 +13,11 @@ import javax.validation.constraints.Size;
 
 import lombok.Getter;
 import lombok.Setter;
+import lombok.ToString;
 
 @Getter
 @Setter
+@ToString(exclude = "user")
 @Entity
 public class Message {
     @Id
