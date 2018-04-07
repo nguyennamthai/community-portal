@@ -92,7 +92,7 @@ public class ProfileController {
 
         if (!bindingResult.hasErrors()) {
             profileService.save(profile);
-            return "redirect:profile";
+            return "redirect:user";
         }
         return "edit-profile";
     }
