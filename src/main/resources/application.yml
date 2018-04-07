@@ -1,0 +1,13 @@
+# The following settings are used for development only
+spring:
+  thymeleaf:
+    cache: false
+  jpa:
+    hibernate:
+      ddl-auto: update
+    show-sql: true
+    open-in-view: false
+logging:
+  level:
+    org:
+      hibernate.SQL: DEBUG
