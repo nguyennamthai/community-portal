@@ -9,8 +9,10 @@ import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 
+import thai.exceptions.PasswordMismatchException;
 import thai.model.PortalUser;
 import thai.model.Profile;
+import thai.model.UserDto;
 import thai.services.PortalUserService;
 
 @Controller
@@ -25,14 +27,20 @@ public class PortalUserController {
 
     @GetMapping("signup")
     public String signup(Model model) {
-        PortalUser portalUser = new PortalUser();
-        model.addAttribute("portalUser", portalUser);
+        UserDto portalUser = new UserDto();
+        model.addAttribute("userDto", portalUser);
         return "signup";
     }
 
     @PostMapping("signup")
-    public String signup(@Valid PortalUser portalUser, BindingResult bindingResult) {
+    public String signup(@Valid UserDto userDto, BindingResult bindingResult) {
         if (!bindingResult.hasErrors()) {
+            if (!userDto.getPassword().equals(userDto.getPassRetyped()))
+                throw new PasswordMismatchException();
+            PortalUser portalUser = new PortalUser();
+            portalUser.setUsername(userDto.getUsername());
+            portalUser.setEmail(userDto.getEmail());
+            portalUser.setPassword(userDto.getPassword());
             portalUser.setProfile(new Profile());
             portalUserService.save(portalUser);
             return "redirect:/";

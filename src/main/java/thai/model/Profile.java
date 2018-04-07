@@ -21,8 +21,8 @@ public class Profile {
     @OneToOne(mappedBy = "profile")
     private PortalUser portalUser;
 
-    @Column(length = 1000)
-    @Size(max = 1000, message = "The information is too long")
+    @Column(length = 5000)
+    @Size(max = 5000, message = "The information is too long")
     private String info;
     
     @Size(max = 255, message = "The file name is too long")
