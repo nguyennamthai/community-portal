@@ -13,6 +13,7 @@ import javax.persistence.OneToMany;
 import javax.persistence.OneToOne;
 import javax.validation.constraints.NotNull;
 
+import lombok.EqualsAndHashCode;
 import lombok.Getter;
 import lombok.Setter;
 import lombok.ToString;
@@ -20,6 +21,7 @@ import lombok.ToString;
 @Getter
 @Setter
 @ToString(exclude = { "profile", "messages" })
+@EqualsAndHashCode(exclude = { "profile", "messages" })
 @Entity
 public class PortalUser {
     @Id

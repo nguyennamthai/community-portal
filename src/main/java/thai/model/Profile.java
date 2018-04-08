@@ -7,13 +7,9 @@ import javax.persistence.Id;
 import javax.persistence.OneToOne;
 import javax.validation.constraints.Size;
 
-import lombok.Getter;
-import lombok.Setter;
-import lombok.ToString;
+import lombok.Data;
 
-@Getter
-@Setter
-@ToString(exclude = "portalUser")
+@Data
 @Entity
 public class Profile {
     @Id
