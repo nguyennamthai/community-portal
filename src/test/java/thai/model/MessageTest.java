@@ -1,14 +1,15 @@
 package thai.model;
 
+import static org.assertj.core.api.Assertions.assertThat;
+
 import java.util.Calendar;
 import java.util.Date;
 
-import org.assertj.core.api.Assertions;
 import org.junit.Test;
 
 public class MessageTest {
     @Test
-    public void testMessageGetters() {
+    public void testMessageGettersAndSetters() {
         Calendar createdCal = Calendar.getInstance();
         createdCal.add(Calendar.DATE, -1);
         Date created = createdCal.getTime();
@@ -22,8 +23,8 @@ public class MessageTest {
         message.setModified(modified);
         message.setUser(user);
 
-        Assertions.assertThat(message)
-                  .extracting(Message::getId, Message::getContent, Message::getCreated, Message::getModified, Message::getUser)
-                  .containsExactly(10L, "A simple message", created, modified, user);
+        assertThat(message)
+          .extracting(Message::getId, Message::getContent, Message::getCreated, Message::getModified, Message::getUser)
+          .containsExactly(10L, "A simple message", created, modified, user);
     }
 }
