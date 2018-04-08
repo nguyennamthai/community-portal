@@ -21,12 +21,11 @@ public class MessageTest {
         Message message = new Message();
         message.setId(id);
         message.setContent(content);
-        message.setCreated(created);
         message.setModified(modified);
         message.setUser(user);
 
         assertThat(message)
-          .extracting(Message::getId, Message::getContent, Message::getCreated, Message::getModified, Message::getUser)
+          .extracting(Message::getId, Message::getContent, Message::getModified, Message::getUser)
           .containsExactly(id, content, created, modified, user);
     }
 }

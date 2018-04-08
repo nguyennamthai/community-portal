@@ -1,7 +1,6 @@
 package thai.controllers;
 
 import java.security.Principal;
-import java.util.Date;
 import java.util.List;
 
 import javax.validation.Valid;
@@ -16,11 +15,13 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
+import lombok.extern.slf4j.Slf4j;
 import thai.model.Message;
 import thai.model.PortalUser;
 import thai.services.MessageService;
 import thai.services.PortalUserService;
 
+@Slf4j
 @Controller
 public class MessageController {
     @Autowired
@@ -84,15 +85,14 @@ public class MessageController {
     @PostMapping("edit-message")
     public String editMessage(Model model, @Valid Message message, BindingResult bindingResult) {
         if (!bindingResult.hasErrors()) {
-            message.setCreated(new Date());
-            message.setModified(new Date());
             messageService.save(message);
             model.addAttribute("message", new Message());
             return "redirect:view-messages";
         }
 
+        bindingResult.getAllErrors().forEach(e -> log.error(e.getDefaultMessage()));
         Message lastMsg = messageService.getLatest();
         model.addAttribute("lastMsg", lastMsg);
-        return "post-message";
+        return "edit-message";
     }
 }
