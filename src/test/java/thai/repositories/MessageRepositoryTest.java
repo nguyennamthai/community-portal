@@ -40,6 +40,7 @@ public class MessageRepositoryTest {
     public void testFindByUser() {
         PortalUser user = new PortalUser();
         user.setUsername("johndoe");
+        user.setEmail("johndoe@company.com");
         portalUserRepository.save(user);
 
         Message input = new Message();

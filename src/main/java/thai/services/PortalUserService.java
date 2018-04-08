@@ -30,10 +30,6 @@ public class PortalUserService implements UserDetailsService {
         portalUserRepository.save(portalUser);
     }
 
-    public PortalUser getUserById(long id) {
-        return portalUserRepository.findById(id).get();
-    }
-
     public PortalUser getUserByUsername(String username) {
         return portalUserRepository.findByUsername(username);
     }
