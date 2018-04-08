@@ -7,7 +7,11 @@ import org.junit.Test;
 public class ProfileTest {
     @Test
     public void testProfileGettersAndSetters() {
+        Long id = 20L;
         PortalUser user = new PortalUser();
+        String info = "Basic information";
+        String photoPath = "/images";
+
         Profile profile = new Profile();
         profile.setId(20L);
         profile.setPortalUser(user);
@@ -16,6 +20,6 @@ public class ProfileTest {
 
         assertThat(profile)
           .extracting(Profile::getId, Profile::getPortalUser, Profile::getInfo, Profile::getPhotoPath)
-          .containsExactly(20L, user, "Basic information", "/images");
+          .containsExactly(id, user, info, photoPath);
     }
 }
