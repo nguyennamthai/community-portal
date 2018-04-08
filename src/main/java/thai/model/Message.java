@@ -6,6 +6,7 @@ import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
 import javax.persistence.ManyToOne;
+import javax.persistence.PrePersist;
 import javax.persistence.PreUpdate;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
@@ -31,7 +32,12 @@ public class Message {
 
     public Message() {
     }
-    
+
+    @PrePersist
+    private void onCreate() {
+        modified = new Date();
+    }
+
     @PreUpdate
     private void onUpdate() {
         modified = new Date();
