@@ -1,0 +1,8 @@
+spring:
+  jpa:
+    show-sql: true
+    open-in-view: false
+logging:
+  level:
+    org:
+      hibernate.SQL: DEBUG
