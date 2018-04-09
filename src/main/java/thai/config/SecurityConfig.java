@@ -22,16 +22,16 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
     @Override
     public void configure(HttpSecurity http) throws Exception {
         http.authorizeRequests()
-              .antMatchers("/", "/about", "/signup", "/css/*", "/js/*", "/img/*").permitAll()
-              // If hasRole is used instead, the ROLE_ prefix will automatically be added
-              .antMatchers("/users").hasAuthority("ADMIN")
-              .anyRequest().authenticated()
+            .antMatchers("/", "/about", "/signup", "/css/*", "/js/*", "/img/*").permitAll()
+            // If hasRole is used instead, the ROLE_ prefix will automatically be added
+            .antMatchers("/users").hasAuthority("ADMIN")
+            .anyRequest().authenticated()
             .and()
-              .formLogin().loginPage("/login").defaultSuccessUrl("/").permitAll()
+            .formLogin().loginPage("/login").defaultSuccessUrl("/").permitAll()
             .and()
-              .logout().logoutSuccessUrl("/login")
+            .logout().logoutSuccessUrl("/login")
             .and()
-              .exceptionHandling().accessDeniedPage("/403");
+            .exceptionHandling().accessDeniedPage("/403");
     }
 
     @Override

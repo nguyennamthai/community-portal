@@ -13,9 +13,9 @@ import java.util.Arrays;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
 import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
+import org.springframework.security.test.context.support.WithMockUser;
 import org.springframework.test.context.junit4.SpringRunner;
 import org.springframework.test.web.servlet.MockMvc;
 
@@ -26,10 +26,9 @@ import thai.services.PortalUserService;
 
 @RunWith(SpringRunner.class)
 @WebMvcTest(HomeController.class)
-@AutoConfigureMockMvc(secure = false)
 public class HomeControllerTest {
     @Autowired
-    MockMvc mockMvc;
+    private MockMvc mockMvc;
 
     @MockBean
     private MessageService messageService;
@@ -38,6 +37,7 @@ public class HomeControllerTest {
     private PortalUserService portalUserService;
 
     @Test
+    @WithMockUser
     public void testGetHome() throws Exception {
         Message message = new Message();
         message.setContent("Hello World");
@@ -50,6 +50,7 @@ public class HomeControllerTest {
     }
 
     @Test
+    @WithMockUser
     public void testGetAbout() throws Exception {
         mockMvc.perform(get("/about"))
                .andExpect(status().isOk())
@@ -58,6 +59,7 @@ public class HomeControllerTest {
     }
 
     @Test
+    @WithMockUser
     public void testGetViewUsers() throws Exception {
         PortalUser user = new PortalUser();
         user.setUsername("johndoe");
@@ -70,6 +72,7 @@ public class HomeControllerTest {
     }
 
     @Test
+    @WithMockUser
     public void testGet403() throws Exception {
         mockMvc.perform(get("/403"))
                .andExpect(status().isOk())
@@ -78,6 +81,7 @@ public class HomeControllerTest {
     }
     
     @Test
+    @WithMockUser
     public void testGlobalException() throws Exception {
         given(messageService.getLatest()).willThrow(new RuntimeException("An error occurred"));
         mockMvc.perform(get("/"))
