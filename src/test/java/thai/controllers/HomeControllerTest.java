@@ -3,7 +3,6 @@ package thai.controllers;
 import static org.hamcrest.CoreMatchers.containsString;
 import static org.mockito.BDDMockito.given;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
-import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.print;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.content;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.model;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
@@ -39,7 +38,7 @@ public class HomeControllerTest {
     private PortalUserService portalUserService;
 
     @Test
-    public void testHome() throws Exception {
+    public void testGetHome() throws Exception {
         Message message = new Message();
         message.setContent("Hello World");
         given(messageService.getLatest()).willReturn(message);
@@ -51,7 +50,7 @@ public class HomeControllerTest {
     }
 
     @Test
-    public void testAbout() throws Exception {
+    public void testGetAbout() throws Exception {
         mockMvc.perform(get("/about"))
                .andExpect(status().isOk())
                .andExpect(view().name("about"))
@@ -59,7 +58,7 @@ public class HomeControllerTest {
     }
 
     @Test
-    public void testViewUsers() throws Exception {
+    public void testGetViewUsers() throws Exception {
         PortalUser user = new PortalUser();
         user.setUsername("johndoe");
         given(portalUserService.getAllUsers()).willReturn(Arrays.asList(user));
@@ -71,7 +70,7 @@ public class HomeControllerTest {
     }
 
     @Test
-    public void test403() throws Exception {
+    public void testGet403() throws Exception {
         mockMvc.perform(get("/403"))
                .andExpect(status().isOk())
                .andExpect(view().name("403"))
