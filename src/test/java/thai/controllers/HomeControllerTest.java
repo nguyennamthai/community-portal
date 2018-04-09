@@ -3,6 +3,7 @@ package thai.controllers;
 import static org.hamcrest.CoreMatchers.containsString;
 import static org.mockito.BDDMockito.given;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
+import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.print;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.content;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.model;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
@@ -75,5 +76,15 @@ public class HomeControllerTest {
                .andExpect(status().isOk())
                .andExpect(view().name("403"))
                .andExpect(content().string(containsString("Access denied")));
+    }
+    
+    @Test
+    public void testGlobalException() throws Exception {
+        given(messageService.getLatest()).willThrow(new RuntimeException("An error occurred"));
+        mockMvc.perform(get("/"))
+               .andExpect(status().isInternalServerError())
+               .andExpect(model().attribute("exception", "An error occurred"))
+               .andExpect(view().name("exception"))
+               .andExpect(content().string(containsString("Failed URL:")));
     }
 }
