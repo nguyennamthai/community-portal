@@ -2,12 +2,10 @@ package thai.model;
 
 import javax.validation.constraints.Email;
 
-import lombok.Getter;
-import lombok.Setter;
+import lombok.Data;
 import thai.validators.UsernameConstraint;
 
-@Getter
-@Setter
+@Data
 public class UserDto {
     @UsernameConstraint
     private String username;
