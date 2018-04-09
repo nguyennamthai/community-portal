@@ -12,9 +12,6 @@ public class MessageTest {
     public void testMessageGettersAndSetters() {
         Long id = 10L;
         String content = "A simple message";
-        Calendar createdCal = Calendar.getInstance();
-        createdCal.add(Calendar.DATE, -1);
-        Date created = createdCal.getTime();
         Date modified = Calendar.getInstance().getTime();
         PortalUser user = new PortalUser();
 
@@ -26,6 +23,6 @@ public class MessageTest {
 
         assertThat(message)
           .extracting(Message::getId, Message::getContent, Message::getModified, Message::getUser)
-          .containsExactly(id, content, created, modified, user);
+          .containsExactly(id, content, modified, user);
     }
 }
