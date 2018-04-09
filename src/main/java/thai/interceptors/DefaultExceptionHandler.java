@@ -1,6 +1,9 @@
 package thai.interceptors;
 
-import static org.springframework.http.HttpStatus.*;
+import static org.springframework.http.HttpStatus.CONFLICT;
+import static org.springframework.http.HttpStatus.INTERNAL_SERVER_ERROR;
+import static org.springframework.http.HttpStatus.PRECONDITION_FAILED;
+import static org.springframework.http.HttpStatus.UNSUPPORTED_MEDIA_TYPE;
 
 import javax.servlet.http.HttpServletRequest;
 
@@ -11,6 +14,7 @@ import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.ResponseStatus;
 
 import lombok.extern.slf4j.Slf4j;
+import thai.exceptions.InvalidImageException;
 import thai.exceptions.PasswordMismatchException;
 
 @Slf4j
@@ -36,7 +40,15 @@ public class DefaultExceptionHandler {
     @ExceptionHandler
     @ResponseStatus(PRECONDITION_FAILED)
     public String passwordMismatch(Model model, PasswordMismatchException exception) {
-        model.addAttribute("exception", "The two provided passwords do not match");
+        model.addAttribute("exception", exception.getMessage());
+        log.error("Exception thrown:", exception);
+        return "exception";
+    }
+    
+    @ExceptionHandler
+    @ResponseStatus(UNSUPPORTED_MEDIA_TYPE)
+    public String invalid(Model model, InvalidImageException exception) {
+        model.addAttribute("exception", exception.getMessage());
         log.error("Exception thrown:", exception);
         return "exception";
     }
