@@ -47,4 +47,11 @@ public class PortalUserController {
         }
         return "signup";
     }
+
+    @GetMapping("view-users")
+    public String viewUsers(Model model) {
+        Iterable<PortalUser> users = portalUserService.getAll();
+        model.addAttribute("users", users);
+        return "view-users";
+    }
 }
