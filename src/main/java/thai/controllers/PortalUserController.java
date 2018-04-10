@@ -9,12 +9,14 @@ import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 
+import lombok.extern.slf4j.Slf4j;
 import thai.exceptions.PasswordMismatchException;
 import thai.model.PortalUser;
 import thai.model.Profile;
 import thai.model.UserDto;
 import thai.services.PortalUserService;
 
+@Slf4j
 @Controller
 public class PortalUserController {
     @Autowired
@@ -34,8 +36,11 @@ public class PortalUserController {
 
     @PostMapping("signup")
     public String signup(@Valid UserDto userDto, BindingResult bindingResult) {
-        if (bindingResult.hasErrors())
+        if (bindingResult.hasErrors()) {
+            bindingResult.getAllErrors().forEach(e -> log.error(e.getDefaultMessage()));
             return "signup";
+        }
+
         if (!userDto.getPassword().equals(userDto.getPassRetyped()))
             throw new PasswordMismatchException();
 

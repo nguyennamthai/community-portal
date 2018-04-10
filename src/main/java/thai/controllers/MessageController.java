@@ -62,6 +62,7 @@ public class MessageController {
             return "redirect:view-messages";
         }
 
+        bindingResult.getAllErrors().forEach(e -> log.error(e.getDefaultMessage()));
         Message lastMsg = messageService.getLatest();
         model.addAttribute("lastMsg", lastMsg);
         return "add-message";
