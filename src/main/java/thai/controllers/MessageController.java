@@ -46,16 +46,14 @@ public class MessageController {
     }
 
     @GetMapping("add-message")
-    public String postMessage(Model model) {
+    public String addMessage(Model model) {
         Message message = new Message();
         model.addAttribute("message", message);
-        Message lastMsg = messageService.getLatest();
-        model.addAttribute("lastMsg", lastMsg);
         return "add-message";
     }
 
     @PostMapping("add-message")
-    public String postMessage(Principal principal, Model model, @Valid Message message, BindingResult bindingResult) {
+    public String addMessage(Principal principal, Model model, @Valid Message message, BindingResult bindingResult) {
         PortalUser user = portalUserService.getUserByUsername(principal.getName());
         message.setUser(user);
         if (!bindingResult.hasErrors()) {
@@ -69,7 +67,7 @@ public class MessageController {
         return "add-message";
     }
 
-    @GetMapping("delele")
+    @GetMapping("delete")
     public String delete(@RequestParam Long id) {
         messageService.delete(id);
         return "redirect:view-messages";
@@ -86,7 +84,6 @@ public class MessageController {
     public String editMessage(Model model, @Valid Message message, BindingResult bindingResult) {
         if (!bindingResult.hasErrors()) {
             messageService.save(message);
-            model.addAttribute("message", new Message());
             return "redirect:view-messages";
         }
 

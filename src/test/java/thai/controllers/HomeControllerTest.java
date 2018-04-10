@@ -79,7 +79,7 @@ public class HomeControllerTest {
                .andExpect(view().name("403"))
                .andExpect(content().string(containsString("Access denied")));
     }
-    
+
     @Test
     @WithMockUser
     public void testGlobalException() throws Exception {

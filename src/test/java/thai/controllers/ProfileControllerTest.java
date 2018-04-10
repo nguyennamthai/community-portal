@@ -50,7 +50,7 @@ public class ProfileControllerTest {
                .andExpect(model().attribute("editable", true))
                .andExpect(content().string(containsString("Basic information")));
     }
-    
+
     @Test
     @WithMockUser
     public void testGetUserWithUsername() throws Exception {
@@ -64,7 +64,7 @@ public class ProfileControllerTest {
                .andExpect(model().attribute("editable", false))
                .andExpect(content().string(containsString("My name is John Doe")));
     }
-    
+
     @Test
     @WithMockUser
     public void testGetEditProfile() throws Exception {
@@ -77,7 +77,7 @@ public class ProfileControllerTest {
                .andExpect(model().attributeExists("profile"))
                .andExpect(content().string(containsString("Basic Information")));
     }
-    
+
     @Test
     @WithMockUser
     public void testPostEditProfile() throws Exception {
@@ -86,7 +86,7 @@ public class ProfileControllerTest {
                .andExpect(status().isFound())
                .andExpect(view().name("redirect:user"));
     }
-    
+
     @Test
     @WithMockUser
     public void testGetProfilePhoto() throws Exception {
@@ -95,7 +95,7 @@ public class ProfileControllerTest {
                .andExpect(status().isOk())
                .andExpect(content().contentType(MediaType.IMAGE_PNG));
     }
-    
+
     @Test
     @WithMockUser
     public void testPostProfilePhoto() throws Exception {

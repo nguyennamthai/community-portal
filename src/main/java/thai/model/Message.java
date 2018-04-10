@@ -30,9 +30,6 @@ public class Message {
     @ManyToOne
     private PortalUser user;
 
-    public Message() {
-    }
-
     @PrePersist
     private void onCreate() {
         modified = new Date();

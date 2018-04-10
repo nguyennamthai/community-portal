@@ -20,7 +20,7 @@
                     <td style="text-align:center">
                         <span sec:authorize="hasAuthority('ADMIN')">
                             <a th:href="@{/edit-message(id=${message.id})}">Edit</a>
-                            <a onclick="return confirm('Are you sure to delete this message?')" th:href="@{/delele(id=${message.id})}">Delete</a>
+                            <a onclick="return confirm('Are you sure to delete this message?')" th:href="@{/delete(id=${message.id})}">Delete</a>
                         </span>
                     </td>
                 </tr>

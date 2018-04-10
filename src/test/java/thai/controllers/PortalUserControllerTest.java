@@ -25,10 +25,10 @@ import thai.services.PortalUserService;
 public class PortalUserControllerTest {
     @Autowired
     private MockMvc mockMvc;
-    
+
     @MockBean
     private PortalUserService portalUserService;
-    
+
     @Test
     @WithMockUser
     public void testGetSignup() throws Exception {
@@ -38,7 +38,7 @@ public class PortalUserControllerTest {
                .andExpect(model().attributeExists("userDto"))
                .andExpect(content().string(containsString("Enter your username")));
     }
-    
+
     @Test
     @WithMockUser
     public void testPostSignup() throws Exception {
