@@ -44,7 +44,7 @@ public class ProfileController {
     @Autowired
     private ProfileService profileService;
 
-    @Value("${photo.directory}")
+    @Value("${photo.directory:}")
     private String photoDirectory;
 
     @GetMapping("user")
