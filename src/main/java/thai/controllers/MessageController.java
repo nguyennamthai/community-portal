@@ -45,16 +45,16 @@ public class MessageController {
         return "messages-per-user";
     }
 
-    @GetMapping("post-message")
+    @GetMapping("add-message")
     public String postMessage(Model model) {
         Message message = new Message();
         model.addAttribute("message", message);
         Message lastMsg = messageService.getLatest();
         model.addAttribute("lastMsg", lastMsg);
-        return "post-message";
+        return "add-message";
     }
 
-    @PostMapping("post-message")
+    @PostMapping("add-message")
     public String postMessage(Principal principal, Model model, @Valid Message message, BindingResult bindingResult) {
         PortalUser user = portalUserService.getUserByUsername(principal.getName());
         message.setUser(user);
@@ -66,7 +66,7 @@ public class MessageController {
 
         Message lastMsg = messageService.getLatest();
         model.addAttribute("lastMsg", lastMsg);
-        return "post-message";
+        return "add-message";
     }
 
     @GetMapping("delele")
