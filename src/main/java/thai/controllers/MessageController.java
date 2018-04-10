@@ -53,19 +53,16 @@ public class MessageController {
     }
 
     @PostMapping("add-message")
-    public String addMessage(Principal principal, Model model, @Valid Message message, BindingResult bindingResult) {
-        PortalUser user = portalUserService.getByUsername(principal.getName());
-        message.setUser(user);
-        if (!bindingResult.hasErrors()) {
-            messageService.save(message);
-            model.addAttribute("message", new Message());
-            return "redirect:view-messages";
+    public String addMessage(Principal principal, @Valid Message message, BindingResult bindingResult) {
+        if (bindingResult.hasErrors()) {
+            bindingResult.getAllErrors().forEach(e -> log.error(e.getDefaultMessage()));
+            return "add-message";
         }
 
-        bindingResult.getAllErrors().forEach(e -> log.error(e.getDefaultMessage()));
-        Message lastMsg = messageService.getLatest();
-        model.addAttribute("lastMsg", lastMsg);
-        return "add-message";
+        PortalUser user = portalUserService.getByUsername(principal.getName());
+        message.setUser(user);
+        messageService.save(message);
+        return "redirect:view-messages";
     }
 
     @GetMapping("edit-message")
@@ -76,18 +73,16 @@ public class MessageController {
     }
 
     @PostMapping("edit-message")
-    public String editMessage(Model model, @Valid Message message, BindingResult bindingResult) {
-        if (!bindingResult.hasErrors()) {
-            messageService.save(message);
-            return "redirect:view-messages";
+    public String editMessage(@Valid Message message, BindingResult bindingResult) {
+        if (bindingResult.hasErrors()) {
+            bindingResult.getAllErrors().forEach(e -> log.error(e.getDefaultMessage()));
+            return "edit-message";
         }
 
-        bindingResult.getAllErrors().forEach(e -> log.error(e.getDefaultMessage()));
-        Message lastMsg = messageService.getLatest();
-        model.addAttribute("lastMsg", lastMsg);
-        return "edit-message";
+        messageService.save(message);
+        return "redirect:view-messages";
     }
-    
+
     @GetMapping("delete")
     public String delete(@RequestParam Long id) {
         messageService.delete(id);
