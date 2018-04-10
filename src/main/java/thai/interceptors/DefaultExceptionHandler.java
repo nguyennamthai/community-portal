@@ -44,7 +44,7 @@ public class DefaultExceptionHandler {
         log.error("Exception thrown:", exception);
         return "exception";
     }
-    
+
     @ExceptionHandler
     @ResponseStatus(UNSUPPORTED_MEDIA_TYPE)
     public String invalid(Model model, InvalidImageException exception) {
