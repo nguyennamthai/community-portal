@@ -42,7 +42,7 @@ public class ProfileControllerTest {
     public void testGetUser() throws Exception {
         Profile profile = new Profile();
         profile.setInfo("Basic information");
-        given(profileService.getProfileByUsername(anyString())).willReturn(profile);
+        given(profileService.getByUsername(anyString())).willReturn(profile);
         mockMvc.perform(get("/user"))
                .andExpect(status().isOk())
                .andExpect(view().name("user"))
@@ -56,7 +56,7 @@ public class ProfileControllerTest {
     public void testGetUserWithUsername() throws Exception {
         Profile profile = new Profile();
         profile.setInfo("My name is John Doe");
-        given(profileService.getProfileByUsername("johndoe")).willReturn(profile);
+        given(profileService.getByUsername("johndoe")).willReturn(profile);
         mockMvc.perform(get("/user/johndoe"))
                .andExpect(status().isOk())
                .andExpect(view().name("user"))
@@ -70,7 +70,7 @@ public class ProfileControllerTest {
     public void testGetEditProfile() throws Exception {
         Profile profile = new Profile();
         profile.setInfo("Basic Information");
-        given(profileService.getProfileByUsername("user")).willReturn(profile);
+        given(profileService.getByUsername("user")).willReturn(profile);
         mockMvc.perform(get("/edit-profile"))
                .andExpect(status().isOk())
                .andExpect(view().name("edit-profile"))
@@ -81,7 +81,7 @@ public class ProfileControllerTest {
     @Test
     @WithMockUser
     public void testPostEditProfile() throws Exception {
-        given(profileService.getProfileByUsername("user")).willReturn(new Profile());
+        given(profileService.getByUsername("user")).willReturn(new Profile());
         mockMvc.perform(post("/edit-profile").with(csrf()).param("info", "Information"))
                .andExpect(status().isFound())
                .andExpect(view().name("redirect:user"));
@@ -90,7 +90,7 @@ public class ProfileControllerTest {
     @Test
     @WithMockUser
     public void testGetProfilePhoto() throws Exception {
-        given(profileService.getProfileByUsername(anyString())).willReturn(new Profile());
+        given(profileService.getByUsername(anyString())).willReturn(new Profile());
         mockMvc.perform(get("/profile-photo/johndoe"))
                .andExpect(status().isOk())
                .andExpect(content().contentType(MediaType.IMAGE_PNG));
@@ -101,7 +101,7 @@ public class ProfileControllerTest {
     public void testPostProfilePhoto() throws Exception {
         Profile profile = new Profile();
         profile.setId(1L);
-        given(profileService.getProfileByUsername("user")).willReturn(profile);
+        given(profileService.getByUsername("user")).willReturn(profile);
 
         MockMultipartFile file = new MockMultipartFile("file", "photo.png", "image/png", new byte[0]);
         mockMvc.perform(multipart(new URI("/profile-photo")).file(file).with(csrf()))

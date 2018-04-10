@@ -63,7 +63,7 @@ public class ProfileController {
     }
 
     private void viewProfile(String username, Model model) {
-        Profile profile = profileService.getProfileByUsername(username);
+        Profile profile = profileService.getByUsername(username);
         Profile profileDto = new Profile();
         profileDto.setInfo(profile.getInfo());
 
@@ -74,7 +74,7 @@ public class ProfileController {
     @GetMapping("edit-profile")
     public String editProfile(Principal principal, Model model) {
         String username = principal.getName();
-        Profile profile = profileService.getProfileByUsername(username);
+        Profile profile = profileService.getByUsername(username);
 
         Profile profileDto = new Profile();
         profileDto.setInfo(profile.getInfo());
@@ -86,7 +86,7 @@ public class ProfileController {
     @PostMapping("edit-profile")
     public String saveProfile(Principal principal, @Valid Profile profileDto, BindingResult bindingResult) {
         String username = principal.getName();
-        Profile profile = profileService.getProfileByUsername(username);
+        Profile profile = profileService.getByUsername(username);
         profile.setInfo(profileDto.getInfo());
 
         if (!bindingResult.hasErrors()) {
@@ -99,7 +99,7 @@ public class ProfileController {
     @GetMapping("profile-photo/{username}")
     public ResponseEntity<InputStreamResource> viewProfilePhoto(@PathVariable String username) throws IOException {
         String photoPath = "static/img/portal.png";
-        Profile profile = profileService.getProfileByUsername(username);
+        Profile profile = profileService.getByUsername(username);
 
         InputStream is = null;
         if (profile == null || profile.getPhotoPath() == null || profile.getPhotoPath().equals("")) {
@@ -117,7 +117,7 @@ public class ProfileController {
     @PostMapping("profile-photo")
     public String savePhoto(@RequestParam("file") MultipartFile file) throws IOException {
         Authentication auth = SecurityContextHolder.getContext().getAuthentication();
-        Profile profile = profileService.getProfileByUsername(auth.getName());
+        Profile profile = profileService.getByUsername(auth.getName());
 
         String prefix = System.currentTimeMillis() + profile.getId() + "-";
         String originalName = file.getOriginalFilename();

@@ -63,7 +63,7 @@ public class HomeControllerTest {
     public void testGetViewUsers() throws Exception {
         PortalUser user = new PortalUser();
         user.setUsername("johndoe");
-        given(portalUserService.getAllUsers()).willReturn(Arrays.asList(user));
+        given(portalUserService.getAll()).willReturn(Arrays.asList(user));
         mockMvc.perform(get("/view-users"))
                .andExpect(status().isOk())
                .andExpect(model().attribute("users", Arrays.asList(user)))

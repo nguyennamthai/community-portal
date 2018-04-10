@@ -26,7 +26,7 @@ public class HomeController {
     }
 
     @GetMapping("about")
-    public String about() {
+    public String describe() {
         return "about";
     }
 
@@ -37,7 +37,7 @@ public class HomeController {
 
     @GetMapping("view-users")
     public String viewUsers(Model model) {
-        Iterable<PortalUser> users = portalUserService.getAllUsers();
+        Iterable<PortalUser> users = portalUserService.getAll();
         model.addAttribute("users", users);
         return "view-users";
     }

@@ -39,8 +39,8 @@ public class MessageController {
 
     @GetMapping("view-messages/{username}")
     public String viewMessagesPerUser(Model model, @PathVariable String username) {
-        PortalUser user = portalUserService.getUserByUsername(username);
-        List<Message> messages = messageService.getMessagesPerUser(user);
+        PortalUser user = portalUserService.getByUsername(username);
+        List<Message> messages = messageService.getByUser(user);
         model.addAttribute("messages", messages);
         return "messages-per-user";
     }
@@ -54,7 +54,7 @@ public class MessageController {
 
     @PostMapping("add-message")
     public String addMessage(Principal principal, Model model, @Valid Message message, BindingResult bindingResult) {
-        PortalUser user = portalUserService.getUserByUsername(principal.getName());
+        PortalUser user = portalUserService.getByUsername(principal.getName());
         message.setUser(user);
         if (!bindingResult.hasErrors()) {
             messageService.save(message);

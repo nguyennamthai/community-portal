@@ -24,21 +24,21 @@ public class PortalUserService implements UserDetailsService {
     @Autowired
     private PasswordEncoder passwordEncoder;
 
-    public void save(PortalUser portalUser) {
-        portalUser.setPassword(passwordEncoder.encode(portalUser.getPassword()));
-        portalUser.setRole(Role.MEMBER);
-        portalUserRepository.save(portalUser);
+    public void save(PortalUser user) {
+        user.setPassword(passwordEncoder.encode(user.getPassword()));
+        user.setRole(Role.MEMBER);
+        portalUserRepository.save(user);
     }
 
-    public PortalUser getUserByUsername(String username) {
+    public PortalUser getByUsername(String username) {
         return portalUserRepository.findByUsername(username);
     }
 
-    public PortalUser getUserByEmail(String email) {
+    public PortalUser getByEmail(String email) {
         return portalUserRepository.findByEmail(email);
     }
-    
-    public Iterable<PortalUser> getAllUsers() {
+
+    public Iterable<PortalUser> getAll() {
         return portalUserRepository.findAll();
     }
 
@@ -48,7 +48,7 @@ public class PortalUserService implements UserDetailsService {
         if (portalUser == null) {
             portalUser = portalUserRepository.findByEmail(username);
             if (portalUser == null)
-                throw new UsernameNotFoundException("User " + username + " isn't found");
+                throw new UsernameNotFoundException("The user " + username + " could not be found");
             username = portalUserRepository.findUsernameByEmail(username);
         }
 

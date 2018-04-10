@@ -10,16 +10,12 @@ import thai.repositories.ProfileRepository;
 public class ProfileService {
     @Autowired
     private ProfileRepository profileRepository;
-    
+
     public void save(Profile profile) {
         profileRepository.save(profile);
     }
-    
-    public Profile getProfileByUsername(String username) {
+
+    public Profile getByUsername(String username) {
         return profileRepository.findByUsername(username);
-    }
-    
-    public Profile getById(long id) {
-        return profileRepository.findById(id).get();
     }
 }

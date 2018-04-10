@@ -53,7 +53,7 @@ public class MessageControllerTest {
     @Test
     @WithMockUser
     public void testGetViewMessagesPerUser() throws Exception {
-        given(messageService.getMessagesPerUser(any())).willReturn(Collections.emptyList());
+        given(messageService.getByUser(any())).willReturn(Collections.emptyList());
         mockMvc.perform(get("/view-messages/johndoe"))
                .andExpect(status().isOk())
                .andExpect(model().attributeExists("messages"))
