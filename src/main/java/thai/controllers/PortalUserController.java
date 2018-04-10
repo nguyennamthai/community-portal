@@ -21,7 +21,7 @@ public class PortalUserController {
     private PortalUserService portalUserService;
 
     @GetMapping("login")
-    public String admin() {
+    public String login() {
         return "login";
     }
 
@@ -34,18 +34,19 @@ public class PortalUserController {
 
     @PostMapping("signup")
     public String signup(@Valid UserDto userDto, BindingResult bindingResult) {
-        if (!bindingResult.hasErrors()) {
-            if (!userDto.getPassword().equals(userDto.getPassRetyped()))
-                throw new PasswordMismatchException();
-            PortalUser portalUser = new PortalUser();
-            portalUser.setUsername(userDto.getUsername());
-            portalUser.setEmail(userDto.getEmail());
-            portalUser.setPassword(userDto.getPassword());
-            portalUser.setProfile(new Profile());
-            portalUserService.save(portalUser);
-            return "redirect:/";
-        }
-        return "signup";
+        if (bindingResult.hasErrors())
+            return "signup";
+        if (!userDto.getPassword().equals(userDto.getPassRetyped()))
+            throw new PasswordMismatchException();
+
+        PortalUser portalUser = new PortalUser();
+        portalUser.setUsername(userDto.getUsername());
+        portalUser.setEmail(userDto.getEmail());
+        portalUser.setPassword(userDto.getPassword());
+        portalUser.setProfile(new Profile());
+
+        portalUserService.save(portalUser);
+        return "redirect:/";
     }
 
     @GetMapping("view-users")

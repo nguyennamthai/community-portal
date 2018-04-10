@@ -19,7 +19,6 @@ import org.springframework.test.web.servlet.MockMvc;
 
 import thai.model.Message;
 import thai.services.MessageService;
-import thai.services.PortalUserService;
 
 @RunWith(SpringRunner.class)
 @WebMvcTest(HomeController.class)
@@ -30,15 +29,13 @@ public class HomeControllerTest {
     @MockBean
     private MessageService messageService;
 
-    @MockBean
-    private PortalUserService portalUserService;
-
     @Test
     @WithMockUser
     public void testGetHome() throws Exception {
         Message message = new Message();
         message.setContent("Hello World");
         given(messageService.getLatest()).willReturn(message);
+
         mockMvc.perform(get("/"))
                .andExpect(status().isOk())
                .andExpect(view().name("home"))
@@ -68,6 +65,7 @@ public class HomeControllerTest {
     @WithMockUser
     public void testGlobalException() throws Exception {
         given(messageService.getLatest()).willThrow(new RuntimeException("An error occurred"));
+
         mockMvc.perform(get("/"))
                .andExpect(status().isInternalServerError())
                .andExpect(model().attribute("exception", "An error occurred"))
