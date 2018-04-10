@@ -20,7 +20,6 @@ public class Profile {
     private PortalUser portalUser;
 
     @Column(length = 5000)
-    @Size(max = 5000, message = "The information is too long")
     private String info;
 
     @Size(max = 255, message = "The file name is too long")

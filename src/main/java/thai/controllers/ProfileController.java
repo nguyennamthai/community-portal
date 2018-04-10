@@ -35,6 +35,7 @@ import lombok.extern.slf4j.Slf4j;
 import net.coobird.thumbnailator.Thumbnails;
 import thai.exceptions.InvalidImageException;
 import thai.model.Profile;
+import thai.model.ProfileDto;
 import thai.services.ProfileService;
 
 @Slf4j
@@ -42,6 +43,7 @@ import thai.services.ProfileService;
 public class ProfileController {
     private final int WIDTH = 200;
     private final int HEIGHT = 200;
+    private String photoPath = "static/img/portal.png";
 
     @Autowired
     private ProfileService profileService;
@@ -53,20 +55,20 @@ public class ProfileController {
     public String showProfile(Principal principal, Model model) {
         String username = principal.getName();
         model.addAttribute("editable", true);
-        viewProfile(username, model);
+        addAttributes(username, model);
         return "user";
     }
 
     @GetMapping("user/{username}")
     public String showProfile(@PathVariable String username, Model model) {
         model.addAttribute("editable", false);
-        viewProfile(username, model);
+        addAttributes(username, model);
         return "user";
     }
 
-    private void viewProfile(String username, Model model) {
+    private void addAttributes(String username, Model model) {
         Profile profile = profileService.getByUsername(username);
-        Profile profileDto = new Profile();
+        ProfileDto profileDto = new ProfileDto();
         profileDto.setInfo(profile.getInfo());
 
         model.addAttribute("username", username);
@@ -77,8 +79,7 @@ public class ProfileController {
     public String editProfile(Principal principal, Model model) {
         String username = principal.getName();
         Profile profile = profileService.getByUsername(username);
-
-        Profile profileDto = new Profile();
+        ProfileDto profileDto = new ProfileDto();
         profileDto.setInfo(profile.getInfo());
 
         model.addAttribute("profile", profileDto);
@@ -86,65 +87,67 @@ public class ProfileController {
     }
 
     @PostMapping("edit-profile")
-    public String saveProfile(Principal principal, @Valid Profile profileDto, BindingResult bindingResult) {
+    public String editProfile(Principal principal, @Valid ProfileDto profileDto, BindingResult bindingResult) {
+        if (bindingResult.hasErrors()) {
+            bindingResult.getAllErrors().forEach(e -> log.error(e.getDefaultMessage()));
+            return "edit-profile";
+        }
+
         String username = principal.getName();
         Profile profile = profileService.getByUsername(username);
         profile.setInfo(profileDto.getInfo());
-
-        if (!bindingResult.hasErrors()) {
-            profileService.save(profile);
-            return "redirect:user";
-        }
-
-        bindingResult.getAllErrors().forEach(e -> log.error(e.getDefaultMessage()));
-        return "edit-profile";
+        profileService.save(profile);
+        return "redirect:user";
     }
 
     @GetMapping("profile-photo/{username}")
-    public ResponseEntity<InputStreamResource> viewProfilePhoto(@PathVariable String username) throws IOException {
-        String photoPath = "static/img/portal.png";
+    public ResponseEntity<InputStreamResource> getProfilePhoto(@PathVariable String username) throws IOException {
         Profile profile = profileService.getByUsername(username);
+        InputStream inputStream = null;
 
-        InputStream is = null;
         if (profile == null || profile.getPhotoPath() == null || profile.getPhotoPath().equals("")) {
             Resource classPathResource = new ClassPathResource(photoPath);
-            is = classPathResource.getInputStream();
+            inputStream = classPathResource.getInputStream();
         } else {
             photoPath = profile.getPhotoPath();
-            is = Files.newInputStream(Paths.get(photoPath));
+            inputStream = Files.newInputStream(Paths.get(photoPath));
         }
 
-        InputStreamResource resource = new InputStreamResource(is);
+        InputStreamResource resource = new InputStreamResource(inputStream);
         return ResponseEntity.ok().contentType(MediaType.parseMediaType(URLConnection.guessContentTypeFromName(photoPath))).body(resource);
     }
 
     @PostMapping("profile-photo")
-    public String savePhoto(@RequestParam("file") MultipartFile file) throws IOException {
+    public String editPhoto(@RequestParam("file") MultipartFile file) throws IOException {
         Authentication auth = SecurityContextHolder.getContext().getAuthentication();
         Profile profile = profileService.getByUsername(auth.getName());
-
         String prefix = System.currentTimeMillis() + profile.getId() + "-";
+
         String originalName = file.getOriginalFilename();
         String extension = originalName.substring(originalName.lastIndexOf(".") + 1);
         Path path = Paths.get(photoDirectory, prefix + originalName);
-        try (InputStream is = file.getInputStream()) {
+
+        try (InputStream inputStream = file.getInputStream()) {
             // Validate file type based on the extension
             if (!file.getContentType().startsWith("image/"))
                 throw new InvalidImageException();
-            BufferedImage image = ImageIO.read(is);
+            BufferedImage image = ImageIO.read(inputStream);
             // Validate file type based on the actual content
             if (image == null)
                 throw new InvalidImageException();
+
             BufferedImage thumbnail = Thumbnails.of(image).size(WIDTH, HEIGHT).asBufferedImage();
-            OutputStream os = Files.newOutputStream(path);
-            ImageIO.write(thumbnail, extension, os);
-            os.close();
+            OutputStream outputStream = Files.newOutputStream(path);
+            ImageIO.write(thumbnail, extension, outputStream);
+            outputStream.close();
+
             String oldPhoto = profile.getPhotoPath();
             profile.setPhotoPath(path.toString());
             profileService.save(profile);
             if (oldPhoto != null)
-                Files.delete(Paths.get(oldPhoto));
+                Files.deleteIfExists(Paths.get(oldPhoto));
         }
+
         return "redirect:user";
     }
 }
