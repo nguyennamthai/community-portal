@@ -38,11 +38,11 @@ public class MessageController {
     }
 
     @GetMapping("view-messages/{username}")
-    public String viewMessagesPerUser(Model model, @PathVariable String username) {
+    public String viewMessagesByUser(Model model, @PathVariable String username) {
         PortalUser user = portalUserService.getByUsername(username);
         List<Message> messages = messageService.getByUser(user);
         model.addAttribute("messages", messages);
-        return "messages-per-user";
+        return "messages-by-user";
     }
 
     @GetMapping("add-message")
@@ -68,12 +68,6 @@ public class MessageController {
         return "add-message";
     }
 
-    @GetMapping("delete")
-    public String delete(@RequestParam Long id) {
-        messageService.delete(id);
-        return "redirect:view-messages";
-    }
-
     @GetMapping("edit-message")
     public String editMessage(Model model, @RequestParam Long id) {
         Message message = messageService.get(id);
@@ -92,5 +86,11 @@ public class MessageController {
         Message lastMsg = messageService.getLatest();
         model.addAttribute("lastMsg", lastMsg);
         return "edit-message";
+    }
+    
+    @GetMapping("delete")
+    public String delete(@RequestParam Long id) {
+        messageService.delete(id);
+        return "redirect:view-messages";
     }
 }

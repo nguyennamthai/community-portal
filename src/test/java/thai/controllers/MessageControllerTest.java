@@ -57,7 +57,7 @@ public class MessageControllerTest {
         mockMvc.perform(get("/view-messages/johndoe"))
                .andExpect(status().isOk())
                .andExpect(model().attributeExists("messages"))
-               .andExpect(view().name("messages-per-user"));
+               .andExpect(view().name("messages-by-user"));
     }
 
     @Test
