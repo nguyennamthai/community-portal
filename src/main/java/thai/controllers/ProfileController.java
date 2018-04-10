@@ -64,11 +64,11 @@ public class ProfileController {
 
     private void viewProfile(String username, Model model) {
         Profile profile = profileService.getProfileByUsername(username);
-        Profile viewProfile = new Profile();
-        viewProfile.setInfo(profile.getInfo());
+        Profile profileDto = new Profile();
+        profileDto.setInfo(profile.getInfo());
 
         model.addAttribute("username", username);
-        model.addAttribute("profile", viewProfile);
+        model.addAttribute("profile", profileDto);
     }
 
     @GetMapping("edit-profile")
@@ -76,19 +76,18 @@ public class ProfileController {
         String username = principal.getName();
         Profile profile = profileService.getProfileByUsername(username);
 
-        Profile viewProfile = new Profile();
-        viewProfile.setInfo(profile.getInfo());
+        Profile profileDto = new Profile();
+        profileDto.setInfo(profile.getInfo());
 
-        model.addAttribute("profile", viewProfile);
+        model.addAttribute("profile", profileDto);
         return "edit-profile";
     }
 
     @PostMapping("edit-profile")
-    public String saveProfile(Principal principal, @Valid Profile viewProfile, BindingResult bindingResult) {
+    public String saveProfile(Principal principal, @Valid Profile profileDto, BindingResult bindingResult) {
         String username = principal.getName();
         Profile profile = profileService.getProfileByUsername(username);
-
-        profile.setInfo(viewProfile.getInfo());
+        profile.setInfo(profileDto.getInfo());
 
         if (!bindingResult.hasErrors()) {
             profileService.save(profile);
@@ -115,7 +114,7 @@ public class ProfileController {
         return ResponseEntity.ok().contentType(MediaType.parseMediaType(URLConnection.guessContentTypeFromName(photoPath))).body(resource);
     }
 
-    @PostMapping("upload-profile-photo")
+    @PostMapping("profile-photo")
     public String savePhoto(@RequestParam("file") MultipartFile file) throws IOException {
         Authentication auth = SecurityContextHolder.getContext().getAuthentication();
         Profile profile = profileService.getProfileByUsername(auth.getName());
