@@ -123,7 +123,7 @@ public class ProfileController {
         String originalName = file.getOriginalFilename();
         String extension = originalName.substring(originalName.lastIndexOf(".") + 1);
         Path path = Paths.get(photoDirectory, prefix + originalName);
-        try (InputStream is = file.getInputStream(); OutputStream os = Files.newOutputStream(path)) {
+        try (InputStream is = file.getInputStream()) {
             // Validate file type based on the extension
             if (!file.getContentType().startsWith("image/"))
                 throw new InvalidImageException();
@@ -132,7 +132,9 @@ public class ProfileController {
             if (image == null)
                 throw new InvalidImageException();
             BufferedImage thumbnail = Thumbnails.of(image).size(WIDTH, HEIGHT).asBufferedImage();
+            OutputStream os = Files.newOutputStream(path);
             ImageIO.write(thumbnail, extension, os);
+            os.close();
             String oldPhoto = profile.getPhotoPath();
             profile.setPhotoPath(path.toString());
             profileService.save(profile);

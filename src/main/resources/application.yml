@@ -1,5 +1,3 @@
-photo:
-  directory: portal-photos
 spring:
   jpa:
     show-sql: true
