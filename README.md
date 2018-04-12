@@ -10,5 +10,5 @@ Technologies in use:
 * Thymeleaf
 * Bootstrap 4
 
-This project isn't entirely complete yet, but the functionality has been there. You can run tests by cloning the repository and execute `mvn test`.  
+This project isn't entirely complete yet, but the functionality has been there. You can run tests by cloning the repository and executing `mvn test`.  
 Note that the project makes use of Project Lombok, you need to have its plugin in your IDE then.
