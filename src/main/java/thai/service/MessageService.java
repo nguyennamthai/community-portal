@@ -1,48 +1,21 @@
 package thai.service;
 
-import static org.springframework.data.domain.Sort.Direction.DESC;
+import org.springframework.data.domain.Page;
+import thai.domain.Message;
+import thai.domain.PortalUser;
 
 import java.util.List;
 
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.data.domain.Page;
-import org.springframework.data.domain.PageRequest;
-import org.springframework.data.domain.Pageable;
-import org.springframework.stereotype.Service;
+public interface MessageService {
+    public void save(Message message);
 
-import thai.domain.Message;
-import thai.domain.PortalUser;
-import thai.repository.MessageRepository;
+    public Message getLatest();
 
-@Service
-public class MessageService {
-    private final static int PAGE_SIZE = 5;
+    public Page<Message> getPage(int pageNumber);
 
-    @Autowired
-    private MessageRepository messageRepository;
+    public List<Message> getByUser(PortalUser user);
 
-    public void save(Message message) {
-        messageRepository.save(message);
-    }
+    public Message get(Long id);
 
-    public Message getLatest() {
-        return messageRepository.findFirstByOrderByModifiedDesc();
-    }
-
-    public Page<Message> getPage(int pageNumber) {
-        Pageable pageable = PageRequest.of(pageNumber - 1, PAGE_SIZE, DESC, "modified");
-        return messageRepository.findAll(pageable);
-    }
-
-    public List<Message> getByUser(PortalUser user) {
-        return messageRepository.findByUser(user);
-    }
-
-    public Message get(Long id) {
-        return messageRepository.findById(id).orElse(getLatest());
-    }
-
-    public void delete(Long id) {
-        messageRepository.deleteById(id);
-    }
+    public void delete(Long id);
 }
