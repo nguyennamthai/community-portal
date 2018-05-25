@@ -11,7 +11,7 @@ import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.thymeleaf.extras.springsecurity4.dialect.SpringSecurityDialect;
 
-import thai.services.PortalUserService;
+import thai.service.PortalUserService;
 
 @Configuration
 @EnableWebSecurity
