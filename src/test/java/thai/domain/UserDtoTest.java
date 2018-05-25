@@ -11,7 +11,6 @@ public class UserDtoTest {
         String username = "johndoe";
         String email = "johndoe@company.com";
         String password = "password";
-        String passRetyped = "password";
 
         UserDto userDto = new UserDto();
         userDto.setUsername("johndoe");
@@ -20,6 +19,6 @@ public class UserDtoTest {
 
         assertThat(userDto)
           .extracting(UserDto::getUsername, UserDto::getEmail, UserDto::getPassword)
-          .containsExactly(username, email, password, passRetyped);
+          .containsExactly(username, email, password);
     }
 }

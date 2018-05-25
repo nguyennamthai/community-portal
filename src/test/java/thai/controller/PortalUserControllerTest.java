@@ -40,7 +40,7 @@ public class PortalUserControllerTest {
                .andExpect(status().isOk())
                .andExpect(view().name("signup"))
                .andExpect(model().attributeExists("userDto"))
-               .andExpect(content().string(containsString("Enter your username")));
+               .andExpect(content().string(containsString("Account")));
     }
 
     @Test
