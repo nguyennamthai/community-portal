@@ -1,46 +1,49 @@
 <!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org">
 <head th:replace="layout/default :: head(~{::title}, ~{::link})">
-<title>Sign up</title>
+    <title>Sign up</title>
 </head>
 <body>
-    <div th:replace="layout/default :: navbar"></div>
+<div th:replace="layout/default :: navbar"></div>
 
-    <div class="container">
-        <div class="col-md-6 offset-md-3">
+<div class="container">
+    <div class="row">
+        <div class="col-10 col-sm-8 col-lg-6 m-auto">
             <div class="card">
                 <div class="card-header">
-                    <div class="card-title">Enter your username, email address and password</div>
+                    <div class="card-title text-center">Account Info</div>
                 </div>
                 <div class="card-body">
                     <form th:object="${userDto}" method="post">
-                        <input type="hidden" th:name="${_csrf.parameterName}" th:value="${_csrf.token}" />
+                        <input type="hidden" th:name="${_csrf.parameterName}" th:value="${_csrf.token}"/>
                         <div th:if="${#fields.hasErrors('*')}" class="alert alert-danger">
                             <p th:each="err : ${#fields.errors('*')}" th:text="${err}"></p>
                         </div>
-                        <input type="text" placeholder="Username" th:field="*{username}" class="form-control" />
-                        <input type="text" placeholder="Email address" th:field="*{email}" class="form-control" />
-                        <input id="pass1" type="password" placeholder="Password" th:field="*{password}" class="form-control" />
-                        <div>
-                            <input id="pass2" type="password" placeholder="Re-type password" th:field="*{passRetyped}" class="form-control" />
-                            <span id="msg"></span>
-                        </div>
-                        <button type="submit" class="btn btn-primary float-right" style="margin-top:15px">Sign up</button>
+                        <input type="text" placeholder="Username" th:field="*{username}" class="form-control" required/>
+                        <input type="text" placeholder="Email address" th:field="*{email}" class="form-control" required/>
+                        <input id="pass1" type="password" placeholder="Password" th:field="*{password}" class="form-control"/>
+                        <input id="pass2" type="password" placeholder="Password" class="form-control"/>
+                        <div id="msg"></div>
+                        <button type="submit" class="btn btn-primary float-right mt-3" disabled>Sign up</button>
                     </form>
                 </div>
             </div>
         </div>
     </div>
+</div>
 
-    <div th:replace="layout/default :: copy"></div>
+<div th:replace="layout/default :: copy"></div>
 
-    <script>
-        $('#pass1, #pass2').on('keyup', function () {
-    	    if ($('#pass1').val() != "" && $('#pass1').val() == $('#pass2').val())
-    	        $('#msg').html('Password matches').css('color', 'green');
-    	    else if ($('#pass1').val() != "")
-    	        $('#msg').html('Password does not match').css('color', 'red');
-    	});
-    </script>
+<script>
+    $("#pass1, #pass2").on("keyup", function () {
+        if ($("#pass1").val() !== "" && $("#pass1").val() === $("#pass2").val()) {
+            $("#msg").html("Passwords match").css("color", "green");
+            $("button").prop("disabled", false);
+        } else if ($("#pass1").val() !== "" && $("#pass2").val() !== "") {
+            $("#msg").html("Passwords mismatch").css("color", "red");
+            $("button").prop("disabled", true);
+        }
+    });
+</script>
 </body>
 </html>

@@ -2,7 +2,6 @@ package thai.interceptor;
 
 import static org.springframework.http.HttpStatus.CONFLICT;
 import static org.springframework.http.HttpStatus.INTERNAL_SERVER_ERROR;
-import static org.springframework.http.HttpStatus.PRECONDITION_FAILED;
 import static org.springframework.http.HttpStatus.UNSUPPORTED_MEDIA_TYPE;
 
 import javax.servlet.http.HttpServletRequest;
@@ -15,7 +14,6 @@ import org.springframework.web.bind.annotation.ResponseStatus;
 
 import lombok.extern.slf4j.Slf4j;
 import thai.exception.InvalidImageException;
-import thai.exception.PasswordMismatchException;
 
 @Slf4j
 @ControllerAdvice
@@ -33,14 +31,6 @@ public class DefaultExceptionHandler {
     @ResponseStatus(CONFLICT)
     public String duplicateUserHandler(Model model, DataIntegrityViolationException exception) {
         model.addAttribute("exception", "The username or email address has already been used");
-        log.error("Exception thrown:", exception);
-        return "exception";
-    }
-
-    @ExceptionHandler
-    @ResponseStatus(PRECONDITION_FAILED)
-    public String passwordMismatch(Model model, PasswordMismatchException exception) {
-        model.addAttribute("exception", exception.getMessage());
         log.error("Exception thrown:", exception);
         return "exception";
     }

@@ -1,4 +1,4 @@
-package thai.domain;
+package thai.service.dto;
 
 import javax.validation.constraints.Email;
 
@@ -14,6 +14,4 @@ public class UserDto {
     private String email;
 
     private String password;
-
-    private String passRetyped;
 }

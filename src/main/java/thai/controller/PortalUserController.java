@@ -10,10 +10,9 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 
 import lombok.extern.slf4j.Slf4j;
-import thai.exception.PasswordMismatchException;
 import thai.domain.PortalUser;
 import thai.domain.Profile;
-import thai.domain.UserDto;
+import thai.service.dto.UserDto;
 import thai.service.PortalUserService;
 
 @Slf4j
@@ -40,9 +39,6 @@ public class PortalUserController {
             bindingResult.getAllErrors().forEach(e -> log.error(e.getDefaultMessage()));
             return "signup";
         }
-
-        if (!userDto.getPassword().equals(userDto.getPassRetyped()))
-            throw new PasswordMismatchException();
 
         PortalUser portalUser = new PortalUser();
         portalUser.setUsername(userDto.getUsername());
