@@ -1,18 +1,22 @@
 <!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org">
 <head th:replace="layout/default :: head(~{::title}, ~{::link})">
-<title>About This Portal</title>
+    <title>About This Portal</title>
 </head>
 <body>
-    <div th:replace="layout/default :: navbar"></div>
+<div th:replace="layout/default :: navbar"></div>
 
-    <div class="container">
-        <div class="col-md-8 offset-md-2">
-            This application features a simple portal, where users can post messages about their community.
-            Posted messages are visible to all users, but only the admin can edit and delete them.
+<div class="container">
+    <div class="row">
+        <div class="text-primary col-10 m-auto">
+            <p class="mt-4">
+                This application features a simple portal, where users can post messages about their community.
+                Posted messages are visible to all users, but only the author and the admin can edit or delete them.
+            </p>
         </div>
     </div>
+</div>
 
-    <div th:replace="layout/default :: copy"></div>
+<div th:replace="layout/default :: copy"></div>
 </body>
 </html>
