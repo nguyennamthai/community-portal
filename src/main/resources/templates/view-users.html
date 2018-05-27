@@ -1,30 +1,32 @@
 <!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org">
 <head th:replace="layout/default :: head(~{::title}, ~{::link})">
-<title>View Users</title>
+    <title>Users</title>
 </head>
 <body>
-    <div th:replace="layout/default :: navbar"></div>
+<div th:replace="layout/default :: navbar"></div>
 
-    <div class="container">
-        <div class="col-md-4 offset-md-4">
-            <table style="border-spacing:20px;border-collapse:separate">
-                <tr style="text-align:center">
-                    <th style="width:60%">User</th>
-                    <th style="width:40%">Messages</th>
+<div class="container">
+    <div class="row">
+        <div class="col-md-4 m-auto">
+            <table class="table table-striped">
+                <tr class="text-center">
+                    <th class="w-60">User</th>
+                    <th class="w-40">Messages</th>
                 </tr>
                 <tr th:each="user : ${users}">
                     <td>
                         <a th:text="${user.username}" th:href="@{/user/{username}(username=${user.username})}"></a>
                     </td>
-                    <td style="text-align:center">
+                    <td class="text-center">
                         <a th:href="@{/view-messages/{username}(username=${user.username})}">View</a>
                     </td>
                 </tr>
             </table>
         </div>
     </div>
+</div>
 
-    <div th:replace="layout/default :: copy"></div>
+<div th:replace="layout/default :: copy"></div>
 </body>
 </html>

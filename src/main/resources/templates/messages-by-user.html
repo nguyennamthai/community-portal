@@ -1,31 +1,33 @@
 <!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org">
 <head th:replace="layout/default :: head(~{::title}, ~{::link})">
-<title>View Messages</title>
+    <title>Messages</title>
 </head>
 <body>
-    <div th:replace="layout/default :: navbar"></div>
+<div th:replace="layout/default :: navbar"></div>
 
-    <div class="container">
-        <div class="col-md-10 offset-md-1">
-            <table style="border-spacing: 5px; border-collapse: separate">
-                <tr style="text-align: center">
-                    <th style="width:70%">Message</th>
-                    <th style="width:20%">Last Modified</th>
-                    <th style="width:10%">Action</th>
+<div class="container">
+    <div class="row">
+        <div class="col-12 col-md-10 m-auto">
+            <table class="table table-striped">
+                <tr class="text-center">
+                    <th>Message</th>
+                    <th style="width: 8em">Modified</th>
+                    <th style="width: 8em">Action</th>
                 </tr>
                 <tr th:each="message : ${messages}">
                     <td th:text="${message.content}"></td>
-                    <td style="text-align:center" th:text="${#dates.format(message.modified, 'dd-MM-yy ''at'' HH:mm:ss')}"></td>
-                    <td style="text-align:center">
+                    <td class="text-center align-middle" style="width: 8em" th:text="${#dates.format(message.modified, 'dd MMM yy')}"></td>
+                    <td class="text-center align-middle" style="width: 8em">
                         <a th:href="@{/edit-message(id=${message.id})}">Edit</a>
-                        <a onclick="return confirm('Are you sure to delete this message?')" th:href="@{/delete(id=${message.id})}">Delete</a>
+                        <a onclick="return confirm('Do you really want to delete this message?')" th:href="@{/delete(id=${message.id})}">Delete</a>
                     </td>
                 </tr>
             </table>
         </div>
     </div>
+</div>
 
-    <div th:replace="layout/default :: copy"></div>
+<div th:replace="layout/default :: copy"></div>
 </body>
 </html>
