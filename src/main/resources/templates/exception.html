@@ -9,7 +9,7 @@
 <div class="container">
     <div class="row">
         <div class="col-10 col-sm-8 col-md-6 m-auto text-danger">
-            <p class="mt-4 mb-4" th:if="${url != null}" th:text="${'Failed URL: ' + url}"></p>
+            <p class="mb-4" th:if="${url != null}" th:text="${'Failed URL: ' + url}"></p>
             <p th:text="${'Error Message: ' + exception}"></p>
         </div>
     </div>

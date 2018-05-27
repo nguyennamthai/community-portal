@@ -1,17 +1,19 @@
 <!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org">
 <head th:replace="layout/default :: head(~{::title}, ~{::link})">
-<title>Home Page</title>
+    <title>Home Page</title>
 </head>
 <body>
-    <div th:replace="layout/default :: navbar"></div>
+<div th:replace="layout/default :: navbar"></div>
 
-    <div class="container">
-        <div class="col-md-6 offset-md-3">
-            <div class="homepage-status" th:if="${message != null}" th:text="${message.content}"></div>
+<div class="container">
+    <div class="row">
+        <div class="col-10 col-sm-8 col-md-6 m-auto">
+            <p class="text-success" th:if="${message != null}" th:text="${message.content}"></p>
         </div>
     </div>
+</div>
 
-    <div th:replace="layout/default :: copy"></div>
+<div th:replace="layout/default :: copy"></div>
 </body>
 </html>
