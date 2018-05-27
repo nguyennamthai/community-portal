@@ -1,31 +1,35 @@
 <!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org">
 <head th:replace="layout/default :: head(~{::title}, ~{::link})">
-<title>Edit Profile</title>
+    <title>Edit Profile</title>
 </head>
 <body>
-    <div th:replace="layout/default :: navbar"></div>
+<div th:replace="layout/default :: navbar"></div>
 
-    <div class="container">
-        <div class="col-md-8 offset-md-2">
+<div class="container">
+    <div class="row">
+        <div class="col-12 col-md-10 col-lg-8 m-auto">
             <div class="card">
                 <div class="card-header">
-                    <div class="card-title">Edit Profile</div>
+                    <div class="card-title text-primary">Edit Profile</div>
                 </div>
                 <div class="card-body">
                     <form th:object="${profile}" method="post">
-                        <input type="hidden" th:name="${_csrf.parameterName}" th:value="${_csrf.token}" />
-                        <div th:if="${#fields.hasErrors('info')}" class="alert alert-danger">
-                            <p th:each="err : ${#fields.errors('info')}" th:text="${err}"></p>
+                        <input type="hidden" th:name="${_csrf.parameterName}" th:value="${_csrf.token}"/>
+                        <div class="form-group">
+                            <div th:if="${#fields.hasErrors('info')}" class="alert alert-danger">
+                                <p th:each="err : ${#fields.errors('info')}" th:text="${err}"></p>
+                            </div>
+                            <textarea name="text" rows="4" class="form-control" th:field="*{info}"></textarea>
                         </div>
-                        <textarea name="text" rows="4" class="form-control" th:field="*{info}"></textarea>
-                        <button type="submit" class="btn btn-primary float-right" style="margin-top:15px">Save</button>
+                        <button type="submit" class="btn btn-primary float-right mt-1">Save</button>
                     </form>
                 </div>
             </div>
         </div>
     </div>
+</div>
 
-    <div th:replace="layout/default :: copy"></div>
+<div th:replace="layout/default :: copy"></div>
 </body>
 </html>

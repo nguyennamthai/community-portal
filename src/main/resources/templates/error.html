@@ -1,16 +1,20 @@
 <!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org">
 <head th:replace="layout/default :: head(~{::title}, ~{::link})">
-<title>Error</title>
+    <title>Error</title>
 </head>
 <body>
-    <div th:replace="layout/default :: navbar"></div>
+<div th:replace="layout/default :: navbar"></div>
 
-    <div style="text-align:center;margin-top:40px" th:with="httpStatus=${T(org.springframework.http.HttpStatus).valueOf(#response.status)}">
-        <h2 style="margin-bottom:40px" th:text="|${httpStatus} - ${httpStatus.reasonPhrase}|"></h2>
-        <a th:href="@{/}">Back to Home Page</a>
+<div class="container">
+    <div class="row">
+        <div class="col-12 col-md-10 m-auto text-center" th:with="httpStatus=${T(org.springframework.http.HttpStatus).valueOf(#response.status)}">
+            <h2 class="text-danger mt-5 mb-5" th:text="|${httpStatus} - ${httpStatus.reasonPhrase}|"></h2>
+            <a th:href="@{/}">Back to <span class="font-weight-bold">Home</span> Page</a>
+        </div>
     </div>
+</div>
 
-    <div th:replace="layout/default :: copy"></div>
+<div th:replace="layout/default :: copy"></div>
 </body>
 </html>

@@ -1,18 +1,20 @@
 <!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org">
 <head th:replace="layout/default :: head(~{::title}, ~{::link})">
-<title>Error</title>
+    <title>Error</title>
 </head>
 <body>
-    <div th:replace="layout/default :: navbar"></div>
+<div th:replace="layout/default :: navbar"></div>
 
-    <div class="container">
-        <div class="col-md-6 offset-md-3">
-            <p th:if="${url != null}" th:text="${'Failed URL: ' + url}"></p>
+<div class="container">
+    <div class="row">
+        <div class="col-10 col-sm-8 col-md-6 m-auto text-danger">
+            <p class="mt-4 mb-4" th:if="${url != null}" th:text="${'Failed URL: ' + url}"></p>
             <p th:text="${'Error Message: ' + exception}"></p>
         </div>
     </div>
+</div>
 
-    <div th:replace="layout/default :: copy"></div>
+<div th:replace="layout/default :: copy"></div>
 </body>
 </html>
