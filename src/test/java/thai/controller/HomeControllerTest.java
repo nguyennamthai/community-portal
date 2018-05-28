@@ -58,7 +58,7 @@ public class HomeControllerTest {
         mockMvc.perform(get("/403"))
                .andExpect(status().isOk())
                .andExpect(view().name("403"))
-               .andExpect(content().string(containsString("Access denied")));
+               .andExpect(content().string(containsString("Access Denied")));
     }
 
     @Test

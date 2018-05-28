@@ -4,11 +4,12 @@
     <title>Edit Profile</title>
 </head>
 <body>
+
 <div th:replace="layout/default :: navbar"></div>
 
 <div class="container">
     <div class="row">
-        <div class="col-12 col-md-10 col-lg-8 m-auto">
+        <div class="col-12 col-md-10 m-auto">
             <div class="card">
                 <div class="card-header">
                     <div class="card-title text-primary">Edit Profile</div>
@@ -20,7 +21,7 @@
                             <div th:if="${#fields.hasErrors('info')}" class="alert alert-danger">
                                 <p th:each="err : ${#fields.errors('info')}" th:text="${err}"></p>
                             </div>
-                            <textarea name="text" rows="4" class="form-control" th:field="*{info}"></textarea>
+                            <textarea name="text" rows="10" class="form-control" th:field="*{info}"></textarea>
                         </div>
                         <button type="submit" class="btn btn-primary float-right mt-1">Save</button>
                     </form>
@@ -31,5 +32,13 @@
 </div>
 
 <div th:replace="layout/default :: copy"></div>
+
+<script src="/js/tinymce/tinymce.js"></script>
+<script>
+    tinymce.init({
+        selector: "textarea",
+        plugins: "link"
+    });
+</script>
 </body>
 </html>
