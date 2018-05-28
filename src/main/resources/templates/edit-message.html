@@ -8,7 +8,7 @@
 
 <div class="container">
     <div class="row">
-        <div class="col-12 col-md-10 m-auto">
+        <div class="col-12 col-md-10 col-lg-8 m-auto">
             <div class="card">
                 <div class="card-header">
                     <div class="card-title text-primary">Edit Message</div>
@@ -32,13 +32,5 @@
 </div>
 
 <div th:replace="layout/default :: copy"></div>
-
-<script src="/js/tinymce/tinymce.js"></script>
-<script>
-    tinymce.init({
-        selector: "textarea",
-        plugins: "link"
-    });
-</script>
 </body>
 </html>

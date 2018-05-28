@@ -8,7 +8,7 @@
 
 <div class="container">
     <div class="row">
-        <div class="col-12 col-md-10 m-auto">
+        <div class="col-12 col-md-10 col-lg-8 m-auto">
             <div class="card">
                 <div class="card-header">
                     <div class="card-title text-primary">New Message</div>
@@ -22,8 +22,7 @@
                             </div>
                             <textarea name="text" rows="5" class="form-control" th:field="*{content}"></textarea>
                         </div>
-                        <button type="submit" class="btn btn-primary float-right mt-1">Add Message
-                        </button>
+                        <button type="submit" class="btn btn-primary float-right mt-1">Add Message</button>
                     </form>
                 </div>
             </div>
@@ -32,12 +31,5 @@
 </div>
 
 <div th:replace="layout/default :: copy"></div>
-
-<script>
-    tinymce.init({
-        selector: "textarea",
-        plugins: "link"
-    });
-</script>
 </body>
 </html>
