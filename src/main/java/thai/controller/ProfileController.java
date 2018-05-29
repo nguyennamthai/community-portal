@@ -13,7 +13,6 @@ import java.security.Principal;
 import javax.imageio.ImageIO;
 import javax.validation.Valid;
 
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.core.io.ClassPathResource;
 import org.springframework.core.io.InputStreamResource;
@@ -33,6 +32,7 @@ import org.springframework.web.multipart.MultipartFile;
 
 import lombok.extern.slf4j.Slf4j;
 import net.coobird.thumbnailator.Thumbnails;
+import org.springframework.web.util.JavaScriptUtils;
 import thai.exception.InvalidImageException;
 import thai.domain.Profile;
 import thai.service.dto.ProfileDto;
@@ -44,9 +44,11 @@ public class ProfileController {
     private final int WIDTH = 200;
     private final int HEIGHT = 200;
     private String photoPath = "static/img/portal.png";
-
-    @Autowired
     private ProfileService profileService;
+
+    public ProfileController(ProfileService profileService) {
+        this.profileService = profileService;
+    }
 
     @Value("${photo.directory:}")
     private String photoDirectory;
@@ -95,7 +97,8 @@ public class ProfileController {
 
         String username = principal.getName();
         Profile profile = profileService.getByUsername(username);
-        profile.setInfo(profileDto.getInfo());
+        String info = JavaScriptUtils.javaScriptEscape(profileDto.getInfo());
+        profile.setInfo(info.replace("\\n", "<br>"));
         profileService.save(profile);
         return "redirect:user";
     }
