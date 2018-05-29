@@ -10,7 +10,7 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.view;
 
-import java.util.Arrays;
+import java.util.Collections;
 
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -60,11 +60,11 @@ public class PortalUserControllerTest {
     public void testGetViewUsers() throws Exception {
         PortalUser user = new PortalUser();
         user.setUsername("johndoe");
-        given(portalUserService.getAll()).willReturn(Arrays.asList(user));
+        given(portalUserService.getAll()).willReturn(Collections.singletonList(user));
 
         mockMvc.perform(get("/view-users"))
                .andExpect(status().isOk())
-               .andExpect(model().attribute("users", Arrays.asList(user)))
+               .andExpect(model().attribute("users", Collections.singletonList(user)))
                .andExpect(view().name("view-users"))
                .andExpect(content().string(containsString("johndoe")));
     }

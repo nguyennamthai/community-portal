@@ -3,7 +3,7 @@ package thai.domain;
 import static org.assertj.core.api.Assertions.assertThat;
 import static thai.domain.PortalUser.Role;
 
-import java.util.Arrays;
+import java.util.Collections;
 import java.util.List;
 
 import org.junit.Test;
@@ -18,7 +18,7 @@ public class PortalUserTest {
         Role role = Role.MEMBER;
         Profile profile = new Profile();
         Message message = new Message();
-        List<Message> messages = Arrays.asList(message);
+        List<Message> messages = Collections.singletonList(message);
 
         PortalUser user = new PortalUser();
         user.setId(id);

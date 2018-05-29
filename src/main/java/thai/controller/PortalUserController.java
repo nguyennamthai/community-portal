@@ -2,7 +2,6 @@ package thai.controller;
 
 import javax.validation.Valid;
 
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
@@ -18,8 +17,11 @@ import thai.service.PortalUserService;
 @Slf4j
 @Controller
 public class PortalUserController {
-    @Autowired
     private PortalUserService portalUserService;
+
+    public PortalUserController(PortalUserService portalUserService) {
+        this.portalUserService = portalUserService;
+    }
 
     @GetMapping("login")
     public String login() {
