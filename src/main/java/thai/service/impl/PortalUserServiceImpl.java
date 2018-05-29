@@ -1,5 +1,6 @@
 package thai.service.impl;
 
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.AuthorityUtils;
 import org.springframework.security.core.userdetails.User;
@@ -15,13 +16,11 @@ import java.util.List;
 
 @Service
 public class PortalUserServiceImpl implements PortalUserService {
+    @Autowired
     private PortalUserRepository portalUserRepository;
-    private PasswordEncoder passwordEncoder;
 
-    public PortalUserServiceImpl(PortalUserRepository portalUserRepository, PasswordEncoder passwordEncoder) {
-        this.portalUserRepository = portalUserRepository;
-        this.passwordEncoder = passwordEncoder;
-    }
+    @Autowired
+    private PasswordEncoder passwordEncoder;
 
     public void save(PortalUser user) {
         user.setPassword(passwordEncoder.encode(user.getPassword()));

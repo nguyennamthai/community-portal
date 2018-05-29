@@ -5,6 +5,7 @@ import java.util.List;
 
 import javax.validation.Valid;
 
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -23,13 +24,11 @@ import thai.service.PortalUserService;
 @Slf4j
 @Controller
 public class MessageController {
+    @Autowired
     private MessageService messageService;
-    private PortalUserService portalUserService;
 
-    public MessageController(MessageService messageService, PortalUserService portalUserService) {
-        this.messageService = messageService;
-        this.portalUserService = portalUserService;
-    }
+    @Autowired
+    private PortalUserService portalUserService;
 
     @GetMapping("view-messages")
     public String viewMessages(Model model, @RequestParam(name = "p", defaultValue = "1") int pageNumber) {

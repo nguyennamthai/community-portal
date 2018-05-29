@@ -25,6 +25,7 @@ import org.springframework.test.web.servlet.MockMvc;
 
 import thai.domain.Message;
 import thai.service.MessageService;
+import thai.service.PortalUserService;
 
 @RunWith(SpringRunner.class)
 @WebMvcTest(MessageController.class)
@@ -34,6 +35,9 @@ public class MessageControllerTest {
 
     @MockBean
     private MessageService messageService;
+
+    @MockBean
+    private PortalUserService portalUserService;
 
     @Test
     @WithMockUser

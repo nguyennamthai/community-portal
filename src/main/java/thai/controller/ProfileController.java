@@ -13,6 +13,7 @@ import java.security.Principal;
 import javax.imageio.ImageIO;
 import javax.validation.Valid;
 
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.core.io.ClassPathResource;
 import org.springframework.core.io.InputStreamResource;
@@ -43,14 +44,12 @@ public class ProfileController {
     private final int WIDTH = 200;
     private final int HEIGHT = 200;
     private String photoPath = "static/img/portal.png";
+
+    @Autowired
     private ProfileService profileService;
 
     @Value("${photo.directory:}")
     private String photoDirectory;
-
-    public ProfileController(ProfileService profileService) {
-        this.profileService = profileService;
-    }
 
     @GetMapping("user")
     public String showProfile(Principal principal, Model model) {

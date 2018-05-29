@@ -1,5 +1,6 @@
 package thai.service.impl;
 
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
@@ -16,11 +17,9 @@ import static org.springframework.data.domain.Sort.Direction.DESC;
 @Service
 public class MessageServiceImpl implements MessageService {
     private final static int PAGE_SIZE = 5;
-    private MessageRepository messageRepository;
 
-    public MessageServiceImpl(MessageRepository messageRepository) {
-        this.messageRepository = messageRepository;
-    }
+    @Autowired
+    private MessageRepository messageRepository;
 
     public void save(Message message) {
         messageRepository.save(message);
