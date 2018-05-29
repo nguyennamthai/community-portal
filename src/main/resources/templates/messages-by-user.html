@@ -16,7 +16,7 @@
                     <th style="width: 8em">Action</th>
                 </tr>
                 <tr th:each="message : ${messages}">
-                    <td th:text="${message.content}"></td>
+                    <td th:utext="${message.content}"></td>
                     <td class="text-center align-middle" style="width: 8em" th:text="${#dates.format(message.modified, 'dd MMM yy')}"></td>
                     <td class="text-center align-middle" style="width: 8em">
                         <a th:href="@{/edit-message(id=${message.id})}">Edit</a>

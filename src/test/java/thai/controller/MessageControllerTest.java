@@ -26,6 +26,7 @@ import org.springframework.test.web.servlet.MockMvc;
 import thai.domain.Message;
 import thai.service.MessageService;
 import thai.service.PortalUserService;
+import thai.service.dto.MessageDto;
 
 @RunWith(SpringRunner.class)
 @WebMvcTest(MessageController.class)
@@ -90,9 +91,15 @@ public class MessageControllerTest {
     public void testGetEditMessage() throws Exception {
         Message message = new Message();
         given(messageService.get(anyLong())).willReturn(message);
+
+        MessageDto messageDto = new MessageDto();
+        messageDto.setId(message.getId());
+        messageDto.setContent(message.getContent());
+        messageDto.setModified(message.getModified());
+
         mockMvc.perform(get("/edit-message").param("id", "1"))
                .andExpect(status().isOk())
-               .andExpect(model().attribute("message", message))
+               .andExpect(model().attribute("message", messageDto))
                .andExpect(view().name("edit-message"));
     }
 

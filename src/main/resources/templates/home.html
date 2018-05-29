@@ -9,7 +9,7 @@
 <div class="container">
     <div class="row">
         <div class="col-10 col-sm-8 col-md-6 m-auto">
-            <p class="text-success" th:if="${message != null}" th:text="${message.content}"></p>
+            <p class="text-success" th:if="${message != null}" th:utext="${message.content}"></p>
         </div>
     </div>
 </div>

@@ -10,7 +10,6 @@ import javax.persistence.PrePersist;
 import javax.persistence.PreUpdate;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
-import javax.validation.constraints.Size;
 
 import lombok.Data;
 
@@ -21,7 +20,6 @@ public class Message {
     @GeneratedValue
     private Long id;
 
-    @Size(min = 5, max = 255, message = "Enter between {min} and {max} characters")
     private String content;
 
     @Temporal(TemporalType.TIMESTAMP)

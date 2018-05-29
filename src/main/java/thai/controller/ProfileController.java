@@ -97,8 +97,11 @@ public class ProfileController {
 
         String username = principal.getName();
         Profile profile = profileService.getByUsername(username);
-        String info = JavaScriptUtils.javaScriptEscape(profileDto.getInfo());
-        profile.setInfo(info.replace("\\n", "<br>"));
+
+        String info = profileDto.getInfo();
+        info = info == null ? "" : JavaScriptUtils.javaScriptEscape(info).replace("\\n", "<br>");
+        profile.setInfo(info);
+
         profileService.save(profile);
         return "redirect:user";
     }
