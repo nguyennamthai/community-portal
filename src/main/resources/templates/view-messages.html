@@ -15,7 +15,7 @@
                     <th sec:authorize="hasAuthority('ADMIN')" style="width:10%">Action</th>
                 </tr>
                 <tr th:each="message : ${page.content}">
-                    <td th:utext="${message.content}"></td>
+                    <td th:text="${message.content}"></td>
                     <td style="text-align:center" th:text="${#dates.format(message.modified, 'dd-MM-yy ''at'' HH:mm:ss')}"></td>
                     <td style="text-align:center">
                         <span sec:authorize="hasAuthority('ADMIN')">

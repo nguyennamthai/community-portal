@@ -32,7 +32,6 @@ import org.springframework.web.multipart.MultipartFile;
 
 import lombok.extern.slf4j.Slf4j;
 import net.coobird.thumbnailator.Thumbnails;
-import org.springframework.web.util.JavaScriptUtils;
 import thai.exception.InvalidImageException;
 import thai.domain.Profile;
 import thai.service.dto.ProfileDto;
@@ -97,10 +96,7 @@ public class ProfileController {
 
         String username = principal.getName();
         Profile profile = profileService.getByUsername(username);
-
-        String info = profileDto.getInfo();
-        info = info == null ? "" : JavaScriptUtils.javaScriptEscape(info).replace("\\n", "<br>");
-        profile.setInfo(info);
+        profile.setInfo(profileDto.getInfo());
 
         profileService.save(profile);
         return "redirect:user";

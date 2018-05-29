@@ -15,7 +15,6 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.web.util.JavaScriptUtils;
 import thai.domain.Message;
 import thai.domain.PortalUser;
 import thai.service.MessageService;
@@ -63,11 +62,9 @@ public class MessageController {
         }
 
         PortalUser user = portalUserService.getByUsername(principal.getName());
-        String content = messageDto.getContent();
-        content = content == null ? "" : JavaScriptUtils.javaScriptEscape(content).replace("\\n", "<br>");
 
         Message message = new Message();
-        message.setContent(content);
+        message.setContent(messageDto.getContent());
         message.setModified(messageDto.getModified());
 
         messageService.save(message);
@@ -93,11 +90,8 @@ public class MessageController {
             return "edit-message";
         }
 
-        String content = messageDto.getContent();
-        content = content == null ? "" : JavaScriptUtils.javaScriptEscape(content).replace("\\n", "<br>");
-
         Message message = new Message();
-        message.setContent(content);
+        message.setContent(messageDto.getContent());
         message.setModified(messageDto.getModified());
 
         messageService.save(message);

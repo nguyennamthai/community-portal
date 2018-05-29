@@ -14,7 +14,7 @@
         <div class="col-8 col-md-9">
             <div>
                 <p th:if="${profile.info == null && editable}" th:text="${'Click Edit My Info to add your profile info'}"></p>
-                <p th:if="${profile.info != null}" th:utext="${profile.info}"></p>
+                <p th:if="${profile.info != null}" th:text="${profile.info}"></p>
             </div>
             <a th:if="${editable}" href="/edit-profile">Edit My Info</a>
         </div>
