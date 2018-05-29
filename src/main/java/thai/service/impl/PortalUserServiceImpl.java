@@ -16,11 +16,13 @@ import java.util.List;
 
 @Service
 public class PortalUserServiceImpl implements PortalUserService {
-    @Autowired
     private PortalUserRepository portalUserRepository;
-
-    @Autowired
     private PasswordEncoder passwordEncoder;
+
+    public PortalUserServiceImpl(PortalUserRepository portalUserRepository, PasswordEncoder passwordEncoder) {
+        this.portalUserRepository = portalUserRepository;
+        this.passwordEncoder = passwordEncoder;
+    }
 
     public void save(PortalUser user) {
         user.setPassword(passwordEncoder.encode(user.getPassword()));
