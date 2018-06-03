@@ -89,22 +89,22 @@ public class ProfileControllerTest {
 
     @Test
     @WithMockUser
-    public void testGetProfilePhoto() throws Exception {
+    public void testGetProfileImage() throws Exception {
         given(profileService.getByUsername(anyString())).willReturn(new Profile());
-        mockMvc.perform(get("/profile-photo/johndoe"))
+        mockMvc.perform(get("/profile-image/johndoe"))
                .andExpect(status().isOk())
                .andExpect(content().contentType(MediaType.IMAGE_PNG));
     }
 
     @Test
     @WithMockUser
-    public void testPostProfilePhoto() throws Exception {
+    public void testPostProfileImage() throws Exception {
         Profile profile = new Profile();
         profile.setId(1L);
         given(profileService.getByUsername("user")).willReturn(profile);
 
-        MockMultipartFile file = new MockMultipartFile("file", "photo.png", "image/png", new byte[0]);
-        mockMvc.perform(multipart(new URI("/profile-photo")).file(file).with(csrf()))
+        MockMultipartFile file = new MockMultipartFile("file", "image.png", "image/png", new byte[0]);
+        mockMvc.perform(multipart(new URI("/profile-image")).file(file).with(csrf()))
                .andExpect(status().isUnsupportedMediaType())
                .andExpect(view().name("exception"));
     }

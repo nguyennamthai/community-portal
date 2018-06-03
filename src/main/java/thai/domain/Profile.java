@@ -23,5 +23,5 @@ public class Profile {
     private String info;
 
     @Size(max = 255, message = "The file name is too long")
-    private String photoPath;
+    private String imagePath;
 }

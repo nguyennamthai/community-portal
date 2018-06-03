@@ -10,16 +10,16 @@ public class ProfileTest {
         Long id = 20L;
         PortalUser user = new PortalUser();
         String info = "Basic information";
-        String photoPath = "/images";
+        String imagePath = "/images";
 
         Profile profile = new Profile();
         profile.setId(20L);
         profile.setPortalUser(user);
         profile.setInfo("Basic information");
-        profile.setPhotoPath("/images");
+        profile.setImagePath("/images");
 
         assertThat(profile)
-          .extracting(Profile::getId, Profile::getPortalUser, Profile::getInfo, Profile::getPhotoPath)
-          .containsExactly(id, user, info, photoPath);
+          .extracting(Profile::getId, Profile::getPortalUser, Profile::getInfo, Profile::getImagePath)
+          .containsExactly(id, user, info, imagePath);
     }
 }

@@ -42,15 +42,15 @@ import thai.service.ProfileService;
 public class ProfileController {
     private final int WIDTH = 200;
     private final int HEIGHT = 200;
-    private String photoPath = "static/img/portal.png";
+    private String imagePath = "static/img/portal.png";
     private ProfileService profileService;
 
     public ProfileController(ProfileService profileService) {
         this.profileService = profileService;
     }
 
-    @Value("${photo.directory:}")
-    private String photoDirectory;
+    @Value("${image.directory:}")
+    private String imageDirectory;
 
     @GetMapping("user")
     public String showProfile(Principal principal, Model model) {
@@ -102,32 +102,32 @@ public class ProfileController {
         return "redirect:user";
     }
 
-    @GetMapping("profile-photo/{username}")
-    public ResponseEntity<InputStreamResource> getProfilePhoto(@PathVariable String username) throws IOException {
+    @GetMapping("profile-image/{username}")
+    public ResponseEntity<InputStreamResource> getProfileImage(@PathVariable String username) throws IOException {
         Profile profile = profileService.getByUsername(username);
         InputStream inputStream = null;
 
-        if (profile == null || profile.getPhotoPath() == null || profile.getPhotoPath().equals("")) {
-            Resource classPathResource = new ClassPathResource(photoPath);
+        if (profile == null || profile.getImagePath() == null || profile.getImagePath().equals("")) {
+            Resource classPathResource = new ClassPathResource(imagePath);
             inputStream = classPathResource.getInputStream();
         } else {
-            photoPath = profile.getPhotoPath();
-            inputStream = Files.newInputStream(Paths.get(photoPath));
+            imagePath = profile.getImagePath();
+            inputStream = Files.newInputStream(Paths.get(imagePath));
         }
 
         InputStreamResource resource = new InputStreamResource(inputStream);
-        return ResponseEntity.ok().contentType(MediaType.parseMediaType(URLConnection.guessContentTypeFromName(photoPath))).body(resource);
+        return ResponseEntity.ok().contentType(MediaType.parseMediaType(URLConnection.guessContentTypeFromName(imagePath))).body(resource);
     }
 
-    @PostMapping("profile-photo")
-    public String editPhoto(@RequestParam("file") MultipartFile file) throws IOException {
+    @PostMapping("profile-image")
+    public String editImage(@RequestParam("file") MultipartFile file) throws IOException {
         Authentication auth = SecurityContextHolder.getContext().getAuthentication();
         Profile profile = profileService.getByUsername(auth.getName());
         String prefix = System.currentTimeMillis() + profile.getId() + "-";
 
         String originalName = file.getOriginalFilename();
         String extension = originalName.substring(originalName.lastIndexOf(".") + 1);
-        Path path = Paths.get(photoDirectory, prefix + originalName);
+        Path path = Paths.get(imageDirectory, prefix + originalName);
 
         try (InputStream inputStream = file.getInputStream()) {
             // Validate file type based on the extension
@@ -143,11 +143,11 @@ public class ProfileController {
             ImageIO.write(thumbnail, extension, outputStream);
             outputStream.close();
 
-            String oldPhoto = profile.getPhotoPath();
-            profile.setPhotoPath(path.toString());
+            String imagePath = profile.getImagePath();
+            profile.setImagePath(path.toString());
             profileService.save(profile);
-            if (oldPhoto != null)
-                Files.deleteIfExists(Paths.get(oldPhoto));
+            if (imagePath != null)
+                Files.deleteIfExists(Paths.get(imagePath));
         }
 
         return "redirect:user";
