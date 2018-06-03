@@ -47,7 +47,7 @@ public class MessageRepositoryTest {
         input.setUser(user);
         messageRepository.save(input);
 
-        Message output = messageRepository.findByUser(user).get(0);
+        Message output = messageRepository.findByUserOrderByModifiedDesc(user).get(0);
         assertThat(output).isEqualTo(input);
     }
 

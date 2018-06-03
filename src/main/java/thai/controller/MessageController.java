@@ -67,6 +67,7 @@ public class MessageController {
         Message message = new Message();
         message.setContent(messageDto.getContent());
         message.setModified(messageDto.getModified());
+        message.setUser(user);
 
         messageService.save(message);
         return "redirect:view-messages";
@@ -85,13 +86,17 @@ public class MessageController {
     }
 
     @PostMapping("edit-message")
-    public String editMessage(@Valid @ModelAttribute("message") MessageDto messageDto, BindingResult bindingResult) {
+    public String editMessage(Principal principal, @Valid @ModelAttribute("message") MessageDto messageDto, BindingResult bindingResult) {
         if (bindingResult.hasErrors()) {
             bindingResult.getAllErrors().forEach(e -> log.error(e.getDefaultMessage()));
             return "edit-message";
         }
 
+        PortalUser user = portalUserService.getByUsername(principal.getName());
+
         Message message = new Message();
+        message.setId(messageDto.getId());
+        message.setUser(user);
         message.setContent(messageDto.getContent());
         message.setModified(messageDto.getModified());
 

@@ -37,7 +37,7 @@ public class MessageServiceImpl implements MessageService {
     }
 
     public List<Message> getByUser(PortalUser user) {
-        return messageRepository.findByUser(user);
+        return messageRepository.findByUserOrderByModifiedDesc(user);
     }
 
     public Message get(Long id) {

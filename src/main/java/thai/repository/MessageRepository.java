@@ -10,5 +10,5 @@ import thai.domain.PortalUser;
 public interface MessageRepository extends PagingAndSortingRepository<Message, Long> {
     Message findFirstByOrderByModifiedDesc();
 
-    List<Message> findByUser(PortalUser user);
+    List<Message> findByUserOrderByModifiedDesc(PortalUser user);
 }
