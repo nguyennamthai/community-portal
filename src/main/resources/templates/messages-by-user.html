@@ -12,15 +12,15 @@
             <table class="table table-striped">
                 <tr class="text-center">
                     <th>Message</th>
-                    <th style="width: 8em">Modified</th>
-                    <th style="width: 8em">Action</th>
+                    <th style="width:8em">Modified</th>
+                    <th style="width:8em">Action</th>
                 </tr>
                 <tr th:each="message : ${messages}">
                     <td th:text="${message.content}"></td>
-                    <td class="text-center align-middle" style="width: 8em" th:text="${#dates.format(message.modified, 'dd MMM yy')}"></td>
-                    <td class="text-center align-middle" style="width: 8em">
+                    <td class="text-center align-middle" style="width:8em" th:text="${#dates.format(message.modified, 'dd MMM yy')}"></td>
+                    <td class="text-center align-middle" style="width:8em">
                         <a th:href="@{/edit-message(id=${message.id})}">Edit</a>
-                        <a onclick="return confirm('Do you really want to delete this message?')" th:href="@{/delete(id=${message.id})}">Delete</a>
+                        <a onclick="confirm('Do you really want to delete this message?');" th:href="@{/delete(id=${message.id})}">Delete</a>
                     </td>
                 </tr>
             </table>
