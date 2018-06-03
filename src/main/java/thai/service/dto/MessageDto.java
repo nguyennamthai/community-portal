@@ -13,4 +13,6 @@ public class MessageDto {
     private String content;
 
     private Date modified;
+
+    private boolean editable;
 }

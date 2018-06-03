@@ -22,6 +22,8 @@ import thai.service.MessageService;
 import thai.service.PortalUserService;
 import thai.service.dto.MessageDto;
 
+import static thai.domain.PortalUser.Role.ADMIN;
+
 @Slf4j
 @Controller
 public class MessageController {
@@ -34,9 +36,22 @@ public class MessageController {
     }
 
     @GetMapping("view-messages")
-    public String viewMessages(Model model, @RequestParam(name = "p", defaultValue = "1") int pageNumber) {
+    public String viewMessages(Principal principal, Model model, @RequestParam(name = "p", defaultValue = "1") int pageNumber) {
+        PortalUser user = portalUserService.getByUsername(principal.getName());
+
         Page<Message> page = messageService.getPage(pageNumber);
-        model.addAttribute("page", page);
+        Page<MessageDto> pageDto = page.map(message -> {
+            MessageDto messageDto = new MessageDto();
+            if (user.equals(message.getUser()) || user.getRole() == ADMIN) {
+                messageDto.setEditable(true);
+            }
+            messageDto.setId(message.getId());
+            messageDto.setContent(message.getContent());
+            messageDto.setModified(message.getModified());
+            return messageDto;
+        });
+
+        model.addAttribute("page", pageDto);
         return "view-messages";
     }
 

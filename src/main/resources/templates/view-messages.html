@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html xmlns:th="http://www.thymeleaf.org" xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
+<html xmlns:th="http://www.thymeleaf.org">
 <head th:replace="layout/default :: head(~{::title}, ~{::link})">
     <title>Messages</title>
 </head>
@@ -13,16 +13,16 @@
                 <tr class="text-center">
                     <th>Message</th>
                     <th style="width:8em">Modified</th>
-                    <th sec:authorize="hasAuthority('ADMIN')" style="width:8em">Action</th>
+                    <th style="width:8em">Action</th>
                 </tr>
                 <tr th:each="message : ${page.content}">
                     <td th:text="${message.content}"></td>
-                    <td class="text-center align-middle" style="width:8em" th:text="${#dates.format(message.modified, 'dd MMM yy')}"></td>
+                    <td class="text-center align-middle" style="width:8em"
+                        th:text="${#dates.format(message.modified, 'dd MMM yy')}"></td>
                     <td class="text-center align-middle" style="width:8em">
-                        <span sec:authorize="hasAuthority('ADMIN')">
-                            <a th:href="@{/edit-message(id=${message.id})}">Edit</a>
-                            <a onclick="confirm('Do you really want to delete this message?');" th:href="@{/delete(id=${message.id})}">Delete</a>
-                        </span>
+                        <a th:if="${message.editable}" th:href="@{/edit-message(id=${message.id})}">Edit</a>
+                        <a th:if="${message.editable}" th:href="@{/delete(id=${message.id})}"
+                           onclick="confirm('Do you really want to delete this message?');">Delete</a>
                     </td>
                 </tr>
             </table>
