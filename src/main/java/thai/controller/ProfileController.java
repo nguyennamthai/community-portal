@@ -132,12 +132,14 @@ public class ProfileController {
 
         try (InputStream inputStream = file.getInputStream()) {
             // Validate file type based on the extension
-            if (!file.getContentType().startsWith("image/"))
+            if (!file.getContentType().startsWith("image/")) {
                 throw new InvalidImageException();
+            }
             BufferedImage image = ImageIO.read(inputStream);
             // Validate file type based on the actual content
-            if (image == null)
+            if (image == null) {
                 throw new InvalidImageException();
+            }
 
             BufferedImage thumbnail = Thumbnails.of(image).size(WIDTH, HEIGHT).asBufferedImage();
             OutputStream outputStream = Files.newOutputStream(path);
@@ -147,8 +149,9 @@ public class ProfileController {
             String imagePath = profile.getImagePath();
             profile.setImagePath(path.toString());
             profileService.save(profile);
-            if (imagePath != null)
+            if (imagePath != null) {
                 Files.deleteIfExists(Paths.get(imagePath));
+            }
         }
 
         return "redirect:user";

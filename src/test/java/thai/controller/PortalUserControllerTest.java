@@ -39,7 +39,7 @@ public class PortalUserControllerTest {
         mockMvc.perform(get("/signup"))
                .andExpect(status().isOk())
                .andExpect(view().name("signup"))
-               .andExpect(model().attributeExists("userDto"))
+               .andExpect(model().attributeExists("user"))
                .andExpect(content().string(containsString("Account")));
     }
 

@@ -47,8 +47,9 @@ public class PortalUserServiceImpl implements PortalUserService {
         PortalUser portalUser = portalUserRepository.findByUsername(username);
         if (portalUser == null) {
             portalUser = portalUserRepository.findByEmail(username);
-            if (portalUser == null)
+            if (portalUser == null) {
                 throw new UsernameNotFoundException("The user " + username + " could not be found");
+            }
             username = portalUserRepository.findUsernameByEmail(username);
         }
 
