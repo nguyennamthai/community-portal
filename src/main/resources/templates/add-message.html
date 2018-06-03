@@ -22,7 +22,10 @@
                             </div>
                             <textarea name="text" rows="5" class="form-control" th:field="*{content}"></textarea>
                         </div>
-                        <button type="submit" class="btn btn-primary float-right mt-1">Add Message</button>
+                        <div class="form-group float-right mt-1">
+                            <button type="button" onclick="history.back();" class="btn btn-secondary">Back</button>
+                            <button type="submit" class="btn btn-primary ml-2">Add</button>
+                        </div>
                     </form>
                 </div>
             </div>

@@ -25,6 +25,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -88,7 +89,7 @@ public class ProfileController {
     }
 
     @PostMapping("edit-profile")
-    public String editProfile(Principal principal, @Valid ProfileDto profileDto, BindingResult bindingResult) {
+    public String editProfile(Principal principal, @Valid @ModelAttribute("profile") ProfileDto profileDto, BindingResult bindingResult) {
         if (bindingResult.hasErrors()) {
             bindingResult.getAllErrors().forEach(e -> log.error(e.getDefaultMessage()));
             return "edit-profile";

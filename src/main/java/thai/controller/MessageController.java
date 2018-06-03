@@ -10,6 +10,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -55,7 +56,7 @@ public class MessageController {
     }
 
     @PostMapping("add-message")
-    public String addMessage(Principal principal, @Valid MessageDto messageDto, BindingResult bindingResult) {
+    public String addMessage(Principal principal, @Valid @ModelAttribute("message") MessageDto messageDto, BindingResult bindingResult) {
         if (bindingResult.hasErrors()) {
             bindingResult.getAllErrors().forEach(e -> log.error(e.getDefaultMessage()));
             return "add-message";
@@ -84,7 +85,7 @@ public class MessageController {
     }
 
     @PostMapping("edit-message")
-    public String editMessage(@Valid MessageDto messageDto, BindingResult bindingResult) {
+    public String editMessage(@Valid @ModelAttribute("message") MessageDto messageDto, BindingResult bindingResult) {
         if (bindingResult.hasErrors()) {
             bindingResult.getAllErrors().forEach(e -> log.error(e.getDefaultMessage()));
             return "edit-message";
