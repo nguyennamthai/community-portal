@@ -27,6 +27,7 @@ import org.springframework.test.web.servlet.MockMvc;
 
 import thai.domain.Profile;
 import thai.service.ProfileService;
+import thai.service.dto.mapper.ProfileMapper;
 
 @RunWith(SpringRunner.class)
 @WebMvcTest(ProfileController.class)
@@ -36,6 +37,9 @@ public class ProfileControllerTest {
 
     @MockBean
     private ProfileService profileService;
+
+    @MockBean
+    private ProfileMapper profileMapper;
 
     @Test
     @WithMockUser

@@ -4,7 +4,6 @@ import java.awt.image.BufferedImage;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
-import java.net.URLConnection;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
@@ -17,7 +16,6 @@ import org.springframework.beans.factory.annotation.Value;
 import org.springframework.core.io.ClassPathResource;
 import org.springframework.core.io.InputStreamResource;
 import org.springframework.core.io.Resource;
-import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
@@ -37,17 +35,25 @@ import thai.exception.InvalidImageException;
 import thai.domain.Profile;
 import thai.service.dto.ProfileDto;
 import thai.service.ProfileService;
+import thai.service.dto.mapper.ProfileMapper;
+
+import static java.net.URLConnection.guessContentTypeFromName;
+import static org.springframework.http.MediaType.parseMediaType;
+import static org.springframework.http.ResponseEntity.ok;
+import static org.thymeleaf.util.StringUtils.isEmpty;
 
 @Slf4j
 @Controller
 public class ProfileController {
-    private final int WIDTH = 200;
-    private final int HEIGHT = 200;
-    private String imagePath = "static/img/portal.png";
+    private static final int WIDTH = 200;
+    private static final int HEIGHT = 200;
+    private static final String DEFAULT_IMAGE = "static/img/portal.png";
     private ProfileService profileService;
+    private ProfileMapper profileMapper;
 
-    public ProfileController(ProfileService profileService) {
+    public ProfileController(ProfileService profileService, ProfileMapper profileMapper) {
         this.profileService = profileService;
+        this.profileMapper = profileMapper;
     }
 
     @Value("${image.directory:}")
@@ -70,9 +76,7 @@ public class ProfileController {
 
     private void addAttributes(String username, Model model) {
         Profile profile = profileService.getByUsername(username);
-        ProfileDto profileDto = new ProfileDto();
-        profileDto.setInfo(profile.getInfo());
-
+        ProfileDto profileDto = profileMapper.convertProfileToProfileDto(profile);
         model.addAttribute("username", username);
         model.addAttribute("profile", profileDto);
     }
@@ -81,9 +85,7 @@ public class ProfileController {
     public String editProfile(Principal principal, Model model) {
         String username = principal.getName();
         Profile profile = profileService.getByUsername(username);
-        ProfileDto profileDto = new ProfileDto();
-        profileDto.setInfo(profile.getInfo());
-
+        ProfileDto profileDto = profileMapper.convertProfileToProfileDto(profile);
         model.addAttribute("profile", profileDto);
         return "edit-profile";
     }
@@ -98,7 +100,6 @@ public class ProfileController {
         String username = principal.getName();
         Profile profile = profileService.getByUsername(username);
         profile.setInfo(profileDto.getInfo());
-
         profileService.save(profile);
         return "redirect:user";
     }
@@ -106,54 +107,76 @@ public class ProfileController {
     @GetMapping("profile-image/{username}")
     public ResponseEntity<InputStreamResource> getProfileImage(@PathVariable String username) throws IOException {
         Profile profile = profileService.getByUsername(username);
-        InputStream inputStream = null;
-
-        if (profile == null || profile.getImagePath() == null || profile.getImagePath().equals("")) {
-            Resource classPathResource = new ClassPathResource(imagePath);
-            inputStream = classPathResource.getInputStream();
-        } else {
-            imagePath = profile.getImagePath();
-            inputStream = Files.newInputStream(Paths.get(imagePath));
+        try (InputStream inputStream = openInputStreamOnImagePath(profile)) {
+            InputStreamResource resource = new InputStreamResource(inputStream);
+            String imagePath = isDefaultImage(profile) ? DEFAULT_IMAGE : profile.getImagePath();
+            return ok().contentType(parseMediaType(guessContentTypeFromName(imagePath))).body(resource);
         }
+    }
 
-        InputStreamResource resource = new InputStreamResource(inputStream);
-        return ResponseEntity.ok().contentType(MediaType.parseMediaType(URLConnection.guessContentTypeFromName(imagePath))).body(resource);
+    private InputStream openInputStreamOnImagePath(Profile profile) throws IOException {
+        if (isDefaultImage(profile)) {
+            Resource classPathResource = new ClassPathResource(DEFAULT_IMAGE);
+            return classPathResource.getInputStream();
+        }
+        String imagePath = profile.getImagePath();
+        return Files.newInputStream(Paths.get(imagePath));
+    }
+
+    private boolean isDefaultImage(Profile profile) {
+        return profile == null || isEmpty(profile.getImagePath());
     }
 
     @PostMapping("profile-image")
     public String editImage(@RequestParam("file") MultipartFile file) throws IOException {
+        validateImageFileExtension(file);
         Authentication auth = SecurityContextHolder.getContext().getAuthentication();
         Profile profile = profileService.getByUsername(auth.getName());
-        String prefix = System.currentTimeMillis() + profile.getId() + "-";
-
-        String originalName = file.getOriginalFilename();
-        String extension = originalName.substring(originalName.lastIndexOf(".") + 1);
-        Path path = Paths.get(imageDirectory, prefix + originalName);
 
         try (InputStream inputStream = file.getInputStream()) {
-            // Validate file type based on the extension
-            if (!file.getContentType().startsWith("image/")) {
-                throw new InvalidImageException();
-            }
             BufferedImage image = ImageIO.read(inputStream);
-            // Validate file type based on the actual content
-            if (image == null) {
-                throw new InvalidImageException();
-            }
+            validateImageBinaryContent(image);
 
             BufferedImage thumbnail = Thumbnails.of(image).size(WIDTH, HEIGHT).asBufferedImage();
-            OutputStream outputStream = Files.newOutputStream(path);
-            ImageIO.write(thumbnail, extension, outputStream);
-            outputStream.close();
-
-            String imagePath = profile.getImagePath();
+            Path path = buildLocalImagePath(profile, file);
+            saveImageThumbnail(path, thumbnail);
             profile.setImagePath(path.toString());
-            profileService.save(profile);
-            if (imagePath != null) {
-                Files.deleteIfExists(Paths.get(imagePath));
-            }
         }
 
+        profileService.save(profile);
+        String imagePath = profile.getImagePath();
+        if (imagePath != null) {
+            Files.deleteIfExists(Paths.get(imagePath));
+        }
         return "redirect:user";
+    }
+
+    private void validateImageFileExtension(MultipartFile file) {
+        if (!file.getContentType().startsWith("image/")) {
+            throw new InvalidImageException();
+        }
+    }
+
+    private void validateImageBinaryContent(BufferedImage image) {
+        if (image == null) {
+            throw new InvalidImageException();
+        }
+    }
+
+    private void saveImageThumbnail(Path path, BufferedImage thumbnail) throws IOException {
+        String extension = extractFileExtension(path.getFileName().toString());
+        try (OutputStream outputStream = Files.newOutputStream(path)) {
+            ImageIO.write(thumbnail, extension, outputStream);
+        }
+    }
+
+    private Path buildLocalImagePath(Profile profile, MultipartFile file) {
+        String prefix = System.currentTimeMillis() + profile.getId() + "-";
+        String originalName = file.getOriginalFilename();
+        return Paths.get(imageDirectory, prefix + originalName);
+    }
+
+    private String extractFileExtension(String fileName) {
+        return fileName.substring(fileName.lastIndexOf('.') + 1);
     }
 }

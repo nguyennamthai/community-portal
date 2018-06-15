@@ -21,6 +21,7 @@ import thai.domain.PortalUser;
 import thai.service.MessageService;
 import thai.service.PortalUserService;
 import thai.service.dto.MessageDto;
+import thai.service.dto.mapper.MessageMapper;
 
 import static thai.domain.PortalUser.Role.ADMIN;
 
@@ -29,25 +30,23 @@ import static thai.domain.PortalUser.Role.ADMIN;
 public class MessageController {
     private MessageService messageService;
     private PortalUserService portalUserService;
+    private MessageMapper messageMapper;
 
-    public MessageController(MessageService messageService, PortalUserService portalUserService) {
+    public MessageController(MessageService messageService, PortalUserService portalUserService, MessageMapper messageMapper) {
         this.messageService = messageService;
         this.portalUserService = portalUserService;
+        this.messageMapper = messageMapper;
     }
 
     @GetMapping("view-messages")
     public String viewMessages(Principal principal, Model model, @RequestParam(name = "p", defaultValue = "1") int pageNumber) {
         PortalUser user = portalUserService.getByUsername(principal.getName());
-
         Page<Message> page = messageService.getPage(pageNumber);
         Page<MessageDto> pageDto = page.map(message -> {
-            MessageDto messageDto = new MessageDto();
+            MessageDto messageDto = messageMapper.convertMessageToMessageDto(message);
             if (user.equals(message.getUser()) || user.getRole() == ADMIN) {
                 messageDto.setEditable(true);
             }
-            messageDto.setId(message.getId());
-            messageDto.setContent(message.getContent());
-            messageDto.setModified(message.getModified());
             return messageDto;
         });
 
@@ -78,12 +77,8 @@ public class MessageController {
         }
 
         PortalUser user = portalUserService.getByUsername(principal.getName());
-
-        Message message = new Message();
-        message.setContent(messageDto.getContent());
-        message.setModified(messageDto.getModified());
+        Message message = messageMapper.convertMessageDtoToMessage(messageDto);
         message.setUser(user);
-
         messageService.save(message);
         return "redirect:view-messages";
     }
@@ -91,11 +86,7 @@ public class MessageController {
     @GetMapping("edit-message")
     public String editMessage(Model model, @RequestParam Long id) {
         Message message = messageService.get(id);
-        MessageDto messageDto = new MessageDto();
-        messageDto.setId(message.getId());
-        messageDto.setContent(message.getContent());
-        messageDto.setModified(message.getModified());
-
+        MessageDto messageDto = messageMapper.convertMessageToMessageDto(message);
         model.addAttribute("message", messageDto);
         return "edit-message";
     }
@@ -108,13 +99,8 @@ public class MessageController {
         }
 
         PortalUser user = portalUserService.getByUsername(principal.getName());
-
-        Message message = new Message();
-        message.setId(messageDto.getId());
+        Message message = messageMapper.convertMessageDtoToMessage(messageDto);
         message.setUser(user);
-        message.setContent(messageDto.getContent());
-        message.setModified(messageDto.getModified());
-
         messageService.save(message);
         return "redirect:view-messages";
     }

@@ -11,17 +11,19 @@ import org.springframework.web.bind.annotation.PostMapping;
 
 import lombok.extern.slf4j.Slf4j;
 import thai.domain.PortalUser;
-import thai.domain.Profile;
 import thai.service.dto.UserDto;
 import thai.service.PortalUserService;
+import thai.service.dto.mapper.UserMapper;
 
 @Slf4j
 @Controller
 public class PortalUserController {
     private PortalUserService portalUserService;
+    private UserMapper userMapper;
 
-    public PortalUserController(PortalUserService portalUserService) {
+    public PortalUserController(PortalUserService portalUserService, UserMapper userMapper) {
         this.portalUserService = portalUserService;
+        this.userMapper = userMapper;
     }
 
     @GetMapping("login")
@@ -43,12 +45,7 @@ public class PortalUserController {
             return "signup";
         }
 
-        PortalUser portalUser = new PortalUser();
-        portalUser.setUsername(userDto.getUsername());
-        portalUser.setEmail(userDto.getEmail());
-        portalUser.setPassword(userDto.getPassword());
-        portalUser.setProfile(new Profile());
-
+        PortalUser portalUser = userMapper.convertUserDtoToPortalUser(userDto);
         portalUserService.save(portalUser);
         return "redirect:/";
     }
