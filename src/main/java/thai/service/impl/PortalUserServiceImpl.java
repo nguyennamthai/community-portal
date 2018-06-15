@@ -1,8 +1,6 @@
 package thai.service.impl;
 
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.GrantedAuthority;
-import org.springframework.security.core.authority.AuthorityUtils;
 import org.springframework.security.core.userdetails.User;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
@@ -13,6 +11,8 @@ import thai.repository.PortalUserRepository;
 import thai.service.PortalUserService;
 
 import java.util.List;
+
+import static org.springframework.security.core.authority.AuthorityUtils.createAuthorityList;
 
 @Service
 public class PortalUserServiceImpl implements PortalUserService {
@@ -46,19 +46,15 @@ public class PortalUserServiceImpl implements PortalUserService {
     public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
         PortalUser portalUser = portalUserRepository.findByUsername(username);
         if (portalUser == null) {
-            username = findUsernameByEmail(username);
+            portalUser = portalUserRepository.findByEmail(username);
+            if (portalUser == null) {
+                throw new UsernameNotFoundException("The user " + username + " could not be found");
+            }
+            username = portalUserRepository.findUsernameByEmail(username);
         }
 
-        List<GrantedAuthority> roles = AuthorityUtils.createAuthorityList(portalUser.getRole().name());
+        List<GrantedAuthority> roles = createAuthorityList(portalUser.getRole().name());
         String password = portalUser.getPassword();
         return new User(username, password, roles);
-    }
-
-    private String findUsernameByEmail(String email) {
-        PortalUser portalUser = portalUserRepository.findByEmail(email);
-        if (portalUser == null) {
-            throw new UsernameNotFoundException("The user " + email + " could not be found");
-        }
-        return portalUserRepository.findUsernameByEmail(email);
     }
 }
