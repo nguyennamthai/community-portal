@@ -13,17 +13,16 @@ import lombok.extern.slf4j.Slf4j;
 import thai.domain.PortalUser;
 import thai.service.dto.UserDto;
 import thai.service.PortalUserService;
-import thai.service.dto.mapper.UserMapper;
+
+import static thai.service.dto.mapper.UserMapper.convertUserDtoToPortalUser;
 
 @Slf4j
 @Controller
 public class PortalUserController {
     private PortalUserService portalUserService;
-    private UserMapper userMapper;
 
-    public PortalUserController(PortalUserService portalUserService, UserMapper userMapper) {
+    public PortalUserController(PortalUserService portalUserService) {
         this.portalUserService = portalUserService;
-        this.userMapper = userMapper;
     }
 
     @GetMapping("login")
@@ -45,7 +44,7 @@ public class PortalUserController {
             return "signup";
         }
 
-        PortalUser portalUser = userMapper.convertUserDtoToPortalUser(userDto);
+        PortalUser portalUser = convertUserDtoToPortalUser(userDto);
         portalUserService.save(portalUser);
         return "redirect:/";
     }

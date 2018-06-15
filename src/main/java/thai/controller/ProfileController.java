@@ -35,12 +35,12 @@ import thai.exception.InvalidImageException;
 import thai.domain.Profile;
 import thai.service.dto.ProfileDto;
 import thai.service.ProfileService;
-import thai.service.dto.mapper.ProfileMapper;
 
 import static java.net.URLConnection.guessContentTypeFromName;
 import static org.springframework.http.MediaType.parseMediaType;
 import static org.springframework.http.ResponseEntity.ok;
 import static org.thymeleaf.util.StringUtils.isEmpty;
+import static thai.service.dto.mapper.ProfileMapper.convertProfileToProfileDto;
 
 @Slf4j
 @Controller
@@ -49,11 +49,9 @@ public class ProfileController {
     private static final int HEIGHT = 200;
     private static final String DEFAULT_IMAGE = "static/img/portal.png";
     private ProfileService profileService;
-    private ProfileMapper profileMapper;
 
-    public ProfileController(ProfileService profileService, ProfileMapper profileMapper) {
+    public ProfileController(ProfileService profileService) {
         this.profileService = profileService;
-        this.profileMapper = profileMapper;
     }
 
     @Value("${image.directory:}")
@@ -76,7 +74,7 @@ public class ProfileController {
 
     private void addAttributes(String username, Model model) {
         Profile profile = profileService.getByUsername(username);
-        ProfileDto profileDto = profileMapper.convertProfileToProfileDto(profile);
+        ProfileDto profileDto = convertProfileToProfileDto(profile);
         model.addAttribute("username", username);
         model.addAttribute("profile", profileDto);
     }
@@ -85,7 +83,7 @@ public class ProfileController {
     public String editProfile(Principal principal, Model model) {
         String username = principal.getName();
         Profile profile = profileService.getByUsername(username);
-        ProfileDto profileDto = profileMapper.convertProfileToProfileDto(profile);
+        ProfileDto profileDto = convertProfileToProfileDto(profile);
         model.addAttribute("profile", profileDto);
         return "edit-profile";
     }
@@ -107,11 +105,10 @@ public class ProfileController {
     @GetMapping("profile-image/{username}")
     public ResponseEntity<InputStreamResource> getProfileImage(@PathVariable String username) throws IOException {
         Profile profile = profileService.getByUsername(username);
-        try (InputStream inputStream = openInputStreamOnImagePath(profile)) {
-            InputStreamResource resource = new InputStreamResource(inputStream);
-            String imagePath = isDefaultImage(profile) ? DEFAULT_IMAGE : profile.getImagePath();
-            return ok().contentType(parseMediaType(guessContentTypeFromName(imagePath))).body(resource);
-        }
+        InputStream inputStream = openInputStreamOnImagePath(profile);
+        InputStreamResource resource = new InputStreamResource(inputStream);
+        String imagePath = isDefaultImage(profile) ? DEFAULT_IMAGE : profile.getImagePath();
+        return ok().contentType(parseMediaType(guessContentTypeFromName(imagePath))).body(resource);
     }
 
     private InputStream openInputStreamOnImagePath(Profile profile) throws IOException {

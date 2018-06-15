@@ -23,7 +23,6 @@ import org.springframework.test.web.servlet.MockMvc;
 
 import thai.domain.PortalUser;
 import thai.service.PortalUserService;
-import thai.service.dto.mapper.UserMapper;
 
 @RunWith(SpringRunner.class)
 @WebMvcTest(PortalUserController.class)
@@ -33,9 +32,6 @@ public class PortalUserControllerTest {
 
     @MockBean
     private PortalUserService portalUserService;
-
-    @MockBean
-    private UserMapper userMapper;
 
     @Test
     @WithMockUser

@@ -21,21 +21,20 @@ import thai.domain.PortalUser;
 import thai.service.MessageService;
 import thai.service.PortalUserService;
 import thai.service.dto.MessageDto;
-import thai.service.dto.mapper.MessageMapper;
 
 import static thai.domain.PortalUser.Role.ADMIN;
+import static thai.service.dto.mapper.MessageMapper.convertMessageDtoToMessage;
+import static thai.service.dto.mapper.MessageMapper.convertMessageToMessageDto;
 
 @Slf4j
 @Controller
 public class MessageController {
     private MessageService messageService;
     private PortalUserService portalUserService;
-    private MessageMapper messageMapper;
 
-    public MessageController(MessageService messageService, PortalUserService portalUserService, MessageMapper messageMapper) {
+    public MessageController(MessageService messageService, PortalUserService portalUserService) {
         this.messageService = messageService;
         this.portalUserService = portalUserService;
-        this.messageMapper = messageMapper;
     }
 
     @GetMapping("view-messages")
@@ -43,7 +42,7 @@ public class MessageController {
         PortalUser user = portalUserService.getByUsername(principal.getName());
         Page<Message> page = messageService.getPage(pageNumber);
         Page<MessageDto> pageDto = page.map(message -> {
-            MessageDto messageDto = messageMapper.convertMessageToMessageDto(message);
+            MessageDto messageDto = convertMessageToMessageDto(message);
             if (user.equals(message.getUser()) || user.getRole() == ADMIN) {
                 messageDto.setEditable(true);
             }
@@ -77,7 +76,7 @@ public class MessageController {
         }
 
         PortalUser user = portalUserService.getByUsername(principal.getName());
-        Message message = messageMapper.convertMessageDtoToMessage(messageDto);
+        Message message = convertMessageDtoToMessage(messageDto);
         message.setUser(user);
         messageService.save(message);
         return "redirect:view-messages";
@@ -86,7 +85,7 @@ public class MessageController {
     @GetMapping("edit-message")
     public String editMessage(Model model, @RequestParam Long id) {
         Message message = messageService.get(id);
-        MessageDto messageDto = messageMapper.convertMessageToMessageDto(message);
+        MessageDto messageDto = convertMessageToMessageDto(message);
         model.addAttribute("message", messageDto);
         return "edit-message";
     }
@@ -99,7 +98,7 @@ public class MessageController {
         }
 
         PortalUser user = portalUserService.getByUsername(principal.getName());
-        Message message = messageMapper.convertMessageDtoToMessage(messageDto);
+        Message message = convertMessageDtoToMessage(messageDto);
         message.setUser(user);
         messageService.save(message);
         return "redirect:view-messages";

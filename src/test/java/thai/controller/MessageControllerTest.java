@@ -27,7 +27,6 @@ import thai.domain.Message;
 import thai.service.MessageService;
 import thai.service.PortalUserService;
 import thai.service.dto.MessageDto;
-import thai.service.dto.mapper.MessageMapper;
 
 @RunWith(SpringRunner.class)
 @WebMvcTest(MessageController.class)
@@ -40,9 +39,6 @@ public class MessageControllerTest {
 
     @MockBean
     private PortalUserService portalUserService;
-
-    @MockBean
-    private MessageMapper messageMapper;
 
     @Test
     @WithMockUser
