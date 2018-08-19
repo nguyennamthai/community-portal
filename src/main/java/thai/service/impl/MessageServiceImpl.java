@@ -15,7 +15,7 @@ import static org.springframework.data.domain.Sort.Direction.DESC;
 
 @Service
 public class MessageServiceImpl implements MessageService {
-    private final static int PAGE_SIZE = 5;
+    private static final int PAGE_SIZE = 5;
 
     private MessageRepository messageRepository;
 

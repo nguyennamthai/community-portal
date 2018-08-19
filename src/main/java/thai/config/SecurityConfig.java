@@ -19,16 +19,17 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
 
     @Override
     public void configure(HttpSecurity http) throws Exception {
-        http.authorizeRequests()
-            .antMatchers("/", "/about", "/signup", "/css/*", "/js/*", "/img/*").permitAll()
-            .antMatchers("/users").hasAuthority("ADMIN")
-            .anyRequest().authenticated()
-            .and()
-            .formLogin().loginPage("/login").defaultSuccessUrl("/").permitAll()
-            .and()
-            .logout().logoutSuccessUrl("/login")
-            .and()
-            .exceptionHandling().accessDeniedPage("/403");
+        http
+                .authorizeRequests()
+                .antMatchers("/", "/about", "/signup", "/css/*", "/js/*", "/img/*").permitAll()
+                .antMatchers("/users").hasAuthority("ADMIN")
+                .anyRequest().authenticated()
+                .and()
+                .formLogin().loginPage("/login").defaultSuccessUrl("/").permitAll()
+                .and()
+                .logout().logoutSuccessUrl("/login")
+                .and()
+                .exceptionHandling().accessDeniedPage("/403");
     }
 
     @Override

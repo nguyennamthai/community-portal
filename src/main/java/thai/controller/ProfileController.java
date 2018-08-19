@@ -48,7 +48,8 @@ public class ProfileController {
     private static final int WIDTH = 200;
     private static final int HEIGHT = 200;
     private static final String DEFAULT_IMAGE = "static/img/portal.png";
-    private ProfileService profileService;
+
+    private final ProfileService profileService;
 
     public ProfileController(ProfileService profileService) {
         this.profileService = profileService;

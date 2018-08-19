@@ -19,7 +19,7 @@ import static thai.service.dto.mapper.UserMapper.convertUserDtoToPortalUser;
 @Slf4j
 @Controller
 public class PortalUserController {
-    private PortalUserService portalUserService;
+    private final PortalUserService portalUserService;
 
     public PortalUserController(PortalUserService portalUserService) {
         this.portalUserService = portalUserService;

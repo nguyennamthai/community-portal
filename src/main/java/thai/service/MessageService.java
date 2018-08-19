@@ -7,15 +7,15 @@ import thai.domain.PortalUser;
 import java.util.List;
 
 public interface MessageService {
-    public void save(Message message);
+    void save(Message message);
 
-    public Message getLatest();
+    Message getLatest();
 
-    public Page<Message> getPage(int pageNumber);
+    Page<Message> getPage(int pageNumber);
 
-    public List<Message> getByUser(PortalUser user);
+    List<Message> getByUser(PortalUser user);
 
-    public Message get(Long id);
+    Message get(Long id);
 
-    public void delete(Long id);
+    void delete(Long id);
 }

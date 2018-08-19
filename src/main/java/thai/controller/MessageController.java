@@ -29,8 +29,13 @@ import static thai.service.dto.mapper.MessageMapper.convertMessageToMessageDto;
 @Slf4j
 @Controller
 public class MessageController {
-    private MessageService messageService;
-    private PortalUserService portalUserService;
+    private static final String ADD_MESSAGE = "add-message";
+    private static final String EDIT_MESSAGE = "edit-message";
+    private static final String VIEW_MESSAGES = "view-messages";
+    private static final String REDIRECT_VIEW_MESSAGES = "redirect:view-messages";
+
+    private final MessageService messageService;
+    private final PortalUserService portalUserService;
 
     public MessageController(MessageService messageService, PortalUserService portalUserService) {
         this.messageService = messageService;
@@ -50,7 +55,7 @@ public class MessageController {
         });
 
         model.addAttribute("page", pageDto);
-        return "view-messages";
+        return VIEW_MESSAGES;
     }
 
     @GetMapping("view-messages/{username}")
@@ -65,21 +70,16 @@ public class MessageController {
     public String addMessage(Model model) {
         MessageDto messageDto = new MessageDto();
         model.addAttribute("message", messageDto);
-        return "add-message";
+        return ADD_MESSAGE;
     }
 
     @PostMapping("add-message")
     public String addMessage(Principal principal, @Valid @ModelAttribute("message") MessageDto messageDto, BindingResult bindingResult) {
         if (bindingResult.hasErrors()) {
             bindingResult.getAllErrors().forEach(e -> log.error(e.getDefaultMessage()));
-            return "add-message";
+            return ADD_MESSAGE;
         }
-
-        PortalUser user = portalUserService.getByUsername(principal.getName());
-        Message message = convertMessageDtoToMessage(messageDto);
-        message.setUser(user);
-        messageService.save(message);
-        return "redirect:view-messages";
+        return redirectViewMessages(principal.getName(), messageDto);
     }
 
     @GetMapping("edit-message")
@@ -87,26 +87,29 @@ public class MessageController {
         Message message = messageService.get(id);
         MessageDto messageDto = convertMessageToMessageDto(message);
         model.addAttribute("message", messageDto);
-        return "edit-message";
+        return EDIT_MESSAGE;
     }
 
     @PostMapping("edit-message")
     public String editMessage(Principal principal, @Valid @ModelAttribute("message") MessageDto messageDto, BindingResult bindingResult) {
         if (bindingResult.hasErrors()) {
             bindingResult.getAllErrors().forEach(e -> log.error(e.getDefaultMessage()));
-            return "edit-message";
+            return EDIT_MESSAGE;
         }
-
-        PortalUser user = portalUserService.getByUsername(principal.getName());
-        Message message = convertMessageDtoToMessage(messageDto);
-        message.setUser(user);
-        messageService.save(message);
-        return "redirect:view-messages";
+        return redirectViewMessages(principal.getName(), messageDto);
     }
 
     @GetMapping("delete")
     public String delete(@RequestParam Long id) {
         messageService.delete(id);
-        return "redirect:view-messages";
+        return REDIRECT_VIEW_MESSAGES;
+    }
+
+    private String redirectViewMessages(String name, MessageDto messageDto) {
+        PortalUser user = portalUserService.getByUsername(name);
+        Message message = convertMessageDtoToMessage(messageDto);
+        message.setUser(user);
+        messageService.save(message);
+        return REDIRECT_VIEW_MESSAGES;
     }
 }

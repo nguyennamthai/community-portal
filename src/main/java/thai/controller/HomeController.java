@@ -9,7 +9,7 @@ import thai.service.MessageService;
 
 @Controller
 public class HomeController {
-    private MessageService messageService;
+    private final MessageService messageService;
 
     public HomeController(MessageService messageService) {
         this.messageService = messageService;

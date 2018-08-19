@@ -34,16 +34,12 @@ public class PortalUserServiceImpl implements PortalUserService {
         return portalUserRepository.findByUsername(username);
     }
 
-    public PortalUser getByEmail(String email) {
-        return portalUserRepository.findByEmail(email);
-    }
-
     public Iterable<PortalUser> getAll() {
         return portalUserRepository.findAll();
     }
 
     @Override
-    public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
+    public UserDetails loadUserByUsername(String username) {
         PortalUser portalUser = portalUserRepository.findByUsername(username);
         if (portalUser == null) {
             portalUser = portalUserRepository.findByEmail(username);
